@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>个人博客搭建笔记 | perhapzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="主要参考B站CodeSheep视频
+1. 安装 Hugo # 安装 hugo $ brew install hugo  # 测试是否安装成功 $ hugo version 2. 用 Hugo 生成博客 $ hugo new site Blog 3. 下载并设置主题 我选择的主题是PaperMod，其他主题可以在Hugo Themes中查找
+$ cd Blog/ $ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1 4. 本地启动个人博客 $ hugo server -t PaperMod --buildDrafts 顺利启动了，访问[http://localhost:1313/](http://localhost:1313/)可以看到界面： 5. 写一篇文章 $ hugo new post/blog.md 这样我第一篇文章就生成了，接下来直接在修改blog.md即可～ 6. 将个人博客部署到远端服务器 首先新建一个github仓库，命名一定要{github id}.github.io $ hugo --theme=PaperMod --baseUrl=&#34;https://perhapzz.github.io&#34; --buildDrafts 自动帮我在public中转成html了
+$ cd public  $ git init # Initialized empty Git repository in /Users/hzpan/Blog/public/.">
+<meta name="author" content="">
+<link rel="canonical" href="https://perhapzz.github.io/posts/personalblogsetupnote/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css" integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://perhapzz.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://perhapzz.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://perhapzz.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://perhapzz.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://perhapzz.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="个人博客搭建笔记" />
+<meta property="og:description" content="主要参考B站CodeSheep视频
+1. 安装 Hugo # 安装 hugo $ brew install hugo  # 测试是否安装成功 $ hugo version 2. 用 Hugo 生成博客 $ hugo new site Blog 3. 下载并设置主题 我选择的主题是PaperMod，其他主题可以在Hugo Themes中查找
+$ cd Blog/ $ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1 4. 本地启动个人博客 $ hugo server -t PaperMod --buildDrafts 顺利启动了，访问[http://localhost:1313/](http://localhost:1313/)可以看到界面： 5. 写一篇文章 $ hugo new post/blog.md 这样我第一篇文章就生成了，接下来直接在修改blog.md即可～ 6. 将个人博客部署到远端服务器 首先新建一个github仓库，命名一定要{github id}.github.io $ hugo --theme=PaperMod --baseUrl=&#34;https://perhapzz.github.io&#34; --buildDrafts 自动帮我在public中转成html了
+$ cd public  $ git init # Initialized empty Git repository in /Users/hzpan/Blog/public/." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://perhapzz.github.io/posts/personalblogsetupnote/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-12T12:52:25+08:00" />
+<meta property="article:modified_time" content="2022-12-12T12:52:25+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="个人博客搭建笔记"/>
+<meta name="twitter:description" content="主要参考B站CodeSheep视频
+1. 安装 Hugo # 安装 hugo $ brew install hugo  # 测试是否安装成功 $ hugo version 2. 用 Hugo 生成博客 $ hugo new site Blog 3. 下载并设置主题 我选择的主题是PaperMod，其他主题可以在Hugo Themes中查找
+$ cd Blog/ $ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1 4. 本地启动个人博客 $ hugo server -t PaperMod --buildDrafts 顺利启动了，访问[http://localhost:1313/](http://localhost:1313/)可以看到界面： 5. 写一篇文章 $ hugo new post/blog.md 这样我第一篇文章就生成了，接下来直接在修改blog.md即可～ 6. 将个人博客部署到远端服务器 首先新建一个github仓库，命名一定要{github id}.github.io $ hugo --theme=PaperMod --baseUrl=&#34;https://perhapzz.github.io&#34; --buildDrafts 自动帮我在public中转成html了
+$ cd public  $ git init # Initialized empty Git repository in /Users/hzpan/Blog/public/."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://perhapzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "个人博客搭建笔记",
+      "item": "https://perhapzz.github.io/posts/personalblogsetupnote/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "个人博客搭建笔记",
+  "name": "个人博客搭建笔记",
+  "description": "主要参考B站CodeSheep视频\n1. 安装 Hugo # 安装 hugo $ brew install hugo  # 测试是否安装成功 $ hugo version 2. 用 Hugo 生成博客 $ hugo new site Blog 3. 下载并设置主题 我选择的主题是PaperMod，其他主题可以在Hugo Themes中查找\n$ cd Blog/ $ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1 4. 本地启动个人博客 $ hugo server -t PaperMod --buildDrafts 顺利启动了，访问[http://localhost:1313/](http://localhost:1313/)可以看到界面： 5. 写一篇文章 $ hugo new post/blog.md 这样我第一篇文章就生成了，接下来直接在修改blog.md即可～ 6. 将个人博客部署到远端服务器 首先新建一个github仓库，命名一定要{github id}.github.io $ hugo --theme=PaperMod --baseUrl=\u0026#34;https://perhapzz.github.io\u0026#34; --buildDrafts 自动帮我在public中转成html了\n$ cd public  $ git init # Initialized empty Git repository in /Users/hzpan/Blog/public/.",
+  "keywords": [
+    
+  ],
+  "articleBody": "主要参考B站CodeSheep视频\n1. 安装 Hugo # 安装 hugo $ brew install hugo  # 测试是否安装成功 $ hugo version 2. 用 Hugo 生成博客 $ hugo new site Blog 3. 下载并设置主题 我选择的主题是PaperMod，其他主题可以在Hugo Themes中查找\n$ cd Blog/ $ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1 4. 本地启动个人博客 $ hugo server -t PaperMod --buildDrafts 顺利启动了，访问[http://localhost:1313/](http://localhost:1313/)可以看到界面： 5. 写一篇文章 $ hugo new post/blog.md 这样我第一篇文章就生成了，接下来直接在修改blog.md即可～ 6. 将个人博客部署到远端服务器 首先新建一个github仓库，命名一定要{github id}.github.io $ hugo --theme=PaperMod --baseUrl=\"https://perhapzz.github.io\" --buildDrafts 自动帮我在public中转成html了\n$ cd public  $ git init # Initialized empty Git repository in /Users/hzpan/Blog/public/.git/ $ git add . $ git commit -m \"Initial commit\"  $ git remote add origin https://github.com/perhapzz/perhapzz.github.io.git $ git push -u origin master 项目就提交到master分支上去了，接下来访问https://perhapzz.github.io/，就可以看到我的个人博客啦～\n7. 添加或修改文档后更新 # 在 Blog 目录下运行指令，更新 public $ hugo --theme=PaperMod --baseUrl=\"https://perhapzz.github.io\" --buildDrafts  # 在 public 目录下运行执行，push到仓库 $ git add. $ git commit -m \"commit information\" $ git push -u origin master ",
+  "wordCount" : "131",
+  "inLanguage": "en",
+  "datePublished": "2022-12-12T12:52:25+08:00",
+  "dateModified": "2022-12-12T12:52:25+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://perhapzz.github.io/posts/personalblogsetupnote/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "perhapzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://perhapzz.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://perhapzz.github.io" accesskey="h" title="perhapzz (Alt + H)">perhapzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://perhapzz.github.io/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://perhapzz.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://perhapzz.github.io/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://perhapzz.github.io">Home</a>&nbsp;»&nbsp;<a href="https://perhapzz.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      个人博客搭建笔记
+    </h1>
+    <div class="post-meta"><span title='2022-12-12 12:52:25 +0800 CST'>December 12, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>主要参考<a href="https://www.bilibili.com/video/BV1q4411i7gL/?spm_id_from=333.999.0.0&amp;vd_source=cc49a18ca517cf837375767dd003a4b2">B站CodeSheep视频</a></p>
+<h1 id="1-安装-hugo">1. 安装 Hugo<a hidden class="anchor" aria-hidden="true" href="#1-安装-hugo">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 安装 hugo</span>
+</span></span><span style="display:flex;"><span>$ brew install hugo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 测试是否安装成功</span>
+</span></span><span style="display:flex;"><span>$ hugo version
+</span></span></code></pre></div><h1 id="2-用-hugo-生成博客">2. 用 Hugo 生成博客<a hidden class="anchor" aria-hidden="true" href="#2-用-hugo-生成博客">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ hugo new site Blog
+</span></span></code></pre></div><h1 id="3-下载并设置主题">3. 下载并设置主题<a hidden class="anchor" aria-hidden="true" href="#3-下载并设置主题">#</a></h1>
+<p>我选择的主题是<a href="https://themes.gohugo.io/themes/hugo-papermod/">PaperMod</a>，其他主题可以在<a href="https://themes.gohugo.io/">Hugo Themes</a>中查找</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cd Blog/
+</span></span><span style="display:flex;"><span>$ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h1 id="4-本地启动个人博客">4. 本地启动个人博客<a hidden class="anchor" aria-hidden="true" href="#4-本地启动个人博客">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ hugo server -t PaperMod --buildDrafts
+</span></span></code></pre></div><p>顺利启动了，访问<code>[http://localhost:1313/](http://localhost:1313/)</code>可以看到界面：
+<img loading="lazy" src="https://cdn.nlark.com/yuque/0/2022/png/25639399/1670817085714-7930419d-8fb5-4eac-a989-f07565c6e8e2.png#averageHue=%23f4f4f4&amp;clientId=u2a4dfa34-6a3e-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=943&amp;id=u734952b0&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=1886&amp;originWidth=3840&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=147847&amp;status=done&amp;style=none&amp;taskId=ue1cf34ed-46d0-454c-b49e-8355e83a333&amp;title=&amp;width=1920" alt="image.png"  />
+</p>
+<h1 id="5-写一篇文章">5. 写一篇文章<a hidden class="anchor" aria-hidden="true" href="#5-写一篇文章">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ hugo new post/blog.md
+</span></span></code></pre></div><p>这样我第一篇文章就生成了，接下来直接在修改blog.md即可～
+<img loading="lazy" src="https://cdn.nlark.com/yuque/0/2022/png/25639399/1670817431753-af2c1d8b-0987-4912-8bab-30e18975e51d.png#averageHue=%23f4f4f4&amp;clientId=u2a4dfa34-6a3e-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=946&amp;id=ud33b497a&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=1892&amp;originWidth=3840&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=167849&amp;status=done&amp;style=none&amp;taskId=u95d63116-f6a0-4d3d-85e5-aa0031738f6&amp;title=&amp;width=1920" alt="image.png"  />
+</p>
+<h1 id="6-将个人博客部署到远端服务器">6. 将个人博客部署到远端服务器<a hidden class="anchor" aria-hidden="true" href="#6-将个人博客部署到远端服务器">#</a></h1>
+<p>首先新建一个github仓库，命名一定要{github id}.github.io
+<img loading="lazy" src="https://cdn.nlark.com/yuque/0/2022/png/25639399/1670817629742-757fc961-9e73-41ca-8cae-c4f55d45e510.png#averageHue=%23fdfefb&amp;clientId=u2a4dfa34-6a3e-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=824&amp;id=ue06b3009&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=1648&amp;originWidth=3840&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=896910&amp;status=done&amp;style=none&amp;taskId=u27bcfbe3-0e8a-4fc7-8104-1c7dc0f92e2&amp;title=&amp;width=1920" alt="image.png"  />
+</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ hugo --theme<span style="color:#f92672">=</span>PaperMod --baseUrl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://perhapzz.github.io&#34;</span> --buildDrafts
+</span></span></code></pre></div><p>自动帮我在public中转成html了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cd public
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ git init
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Initialized empty Git repository in /Users/hzpan/Blog/public/.git/</span>
+</span></span><span style="display:flex;"><span>$ git add .
+</span></span><span style="display:flex;"><span>$ git commit -m <span style="color:#e6db74">&#34;Initial commit&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ git remote add origin https://github.com/perhapzz/perhapzz.github.io.git
+</span></span><span style="display:flex;"><span>$ git push -u origin master
+</span></span></code></pre></div><p>项目就提交到master分支上去了，接下来访问<a href="https://perhapzz.github.io/">https://perhapzz.github.io/</a>，就可以看到我的个人博客啦～</p>
+<h1 id="7-添加或修改文档后更新">7. 添加或修改文档后更新<a hidden class="anchor" aria-hidden="true" href="#7-添加或修改文档后更新">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 在 Blog 目录下运行指令，更新 public</span>
+</span></span><span style="display:flex;"><span>$ hugo --theme<span style="color:#f92672">=</span>PaperMod --baseUrl<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://perhapzz.github.io&#34;</span> --buildDrafts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在 public 目录下运行执行，push到仓库</span>
+</span></span><span style="display:flex;"><span>$ git add.
+</span></span><span style="display:flex;"><span>$ git commit -m <span style="color:#e6db74">&#34;commit information&#34;</span>
+</span></span><span style="display:flex;"><span>$ git push -u origin master
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://perhapzz.github.io">perhapzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
