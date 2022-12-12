@@ -31,9 +31,9 @@
       <pubDate>Mon, 12 Dec 2022 12:52:25 +0800</pubDate>
       
       <guid>https://perhapzz.github.io/posts/personalblogsetupnote/</guid>
-      <description>主要参考B站CodeSheep视频
+      <description>基础版： 主要参考B站CodeSheep视频
 1. 安装 Hugo # 安装 hugo $ brew install hugo  # 测试是否安装成功 $ hugo version 2. 用 Hugo 生成博客 $ hugo new site Blog 3. 下载并设置主题 我选择的主题是PaperMod，其他主题可以在Hugo Themes中查找
-$ cd Blog/ $ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1 4. 本地启动个人博客 $ hugo server -t PaperMod --buildDrafts 顺利启动了，访问[http://localhost:1313/](http://localhost:1313/)可以看到界面： 5. 写一篇文章 $ hugo new post/blog.md 这样我第一篇文章就生成了，接下来直接在修改blog.md即可～ 6. 将个人博客部署到远端服务器 首先新建一个github仓库，命名一定要{github id}.github.io $ hugo --theme=PaperMod --baseUrl=&amp;#34;https://perhapzz.github.io&amp;#34; --buildDrafts 自动帮我在public中转成html了
+$ cd Blog/ $ git clone https://github.com/adityatelange/hugo-PaperMod themes/PaperMod --depth=1 4. 本地启动个人博客 $ hugo server -t PaperMod --buildDrafts 顺利启动了，访问[http://localhost:1313/](http://localhost:1313/)可以看到界面： 5. 写一篇文章 $ hugo new post/blog.md 这样我第一篇文章就生成了，接下来直接在修改blog.md即可～ 6. 将个人博客部署到远端服务器 首先新建一个github仓库，命名一定要{github id}.github.io # 生成最终页面 $ hugo --theme=PaperMod --baseUrl=&amp;#34;https://perhapzz.github.io&amp;#34; --buildDrafts 自动帮我在public中转成html了
 $ cd public  $ git init # Initialized empty Git repository in /Users/hzpan/Blog/public/.</description>
     </item>
     
