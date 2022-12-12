@@ -5,6 +5,25 @@
     <link>https://perhapzz.github.io/tags/</link>
     <description>Recent content in Tags on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://perhapzz.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Mon, 12 Dec 2022 12:52:25 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>git</title>
+      <link>https://perhapzz.github.io/tags/git/</link>
+      <pubDate>Mon, 12 Dec 2022 12:52:25 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://perhapzz.github.io/tags/hugo/</link>
+      <pubDate>Mon, 12 Dec 2022 12:52:25 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
