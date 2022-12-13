@@ -2,17 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://perhapzz.github.io/tags/algorithm/</loc>
+    <lastmod>2022-12-13T19:48:31+08:00</lastmod>
+  </url><url>
+    <loc>https://perhapzz.github.io/posts/codetop/</loc>
+    <lastmod>2022-12-13T19:48:31+08:00</lastmod>
+  </url><url>
     <loc>https://perhapzz.github.io/tags/golang/</loc>
-    <lastmod>2022-12-13T10:52:29+08:00</lastmod>
+    <lastmod>2022-12-13T19:48:31+08:00</lastmod>
   </url><url>
     <loc>https://perhapzz.github.io/</loc>
-    <lastmod>2022-12-13T10:52:29+08:00</lastmod>
+    <lastmod>2022-12-13T19:48:31+08:00</lastmod>
   </url><url>
     <loc>https://perhapzz.github.io/posts/</loc>
-    <lastmod>2022-12-13T10:52:29+08:00</lastmod>
+    <lastmod>2022-12-13T19:48:31+08:00</lastmod>
   </url><url>
     <loc>https://perhapzz.github.io/tags/</loc>
-    <lastmod>2022-12-13T10:52:29+08:00</lastmod>
+    <lastmod>2022-12-13T19:48:31+08:00</lastmod>
   </url><url>
     <loc>https://perhapzz.github.io/posts/firststepofrpc/</loc>
     <lastmod>2022-12-13T10:52:29+08:00</lastmod>
