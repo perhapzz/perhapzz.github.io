@@ -6,7 +6,16 @@
     <description>Recent content in Posts on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Dec 2022 12:55:44 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Dec 2022 22:08:44 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GoWechaty</title>
+      <link>https://perhapzz.github.io/posts/gowechaty/</link>
+      <pubDate>Sat, 17 Dec 2022 22:08:44 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/gowechaty/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>深入理解Go RPC</title>
       <link>https://perhapzz.github.io/posts/furtherrpc/</link>
