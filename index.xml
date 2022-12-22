@@ -8,12 +8,13 @@
     <language>en-us</language>
     <lastBuildDate>Sat, 17 Dec 2022 10:04:52 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Git</title>
+      <title>Git学习笔记</title>
       <link>https://perhapzz.github.io/posts/git/</link>
       <pubDate>Sat, 17 Dec 2022 10:04:52 +0800</pubDate>
       
       <guid>https://perhapzz.github.io/posts/git/</guid>
-      <description>git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。
+      <description>git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库
+git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。
 默认情况下，git stash会缓存下列文件：
  添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：
  在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。
