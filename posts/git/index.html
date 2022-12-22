@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Git | perhapzz</title>
-<meta name="keywords" content="">
+<meta name="keywords" content="git">
 <meta name="description" content="git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。
 默认情况下，git stash会缓存下列文件：
  添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：
@@ -117,7 +117,7 @@ git stash list查看现有stash
   "name": "Git",
   "description": "git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。\n默认情况下，git stash会缓存下列文件：\n 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：\n 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。\ngit stash list查看现有stash\n场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作\n# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：\n方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点",
   "keywords": [
-    
+    "git"
   ],
   "articleBody": "git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。\n默认情况下，git stash会缓存下列文件：\n 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：\n 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。\ngit stash list查看现有stash\n场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作\n# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：\n方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点\n# 将代码提交到本地仓库 $ git commit ...  # 从远端拉取最新的代码 $ git pull  # 本地处理可能存在的冲突  # 将处理好的将代码提交到本地仓库 $ git commit ...  # 提交代码 $ git push git commit (切分支改代码，然后回来继续改和提交) git rebase -i head ",
   "wordCount" : "145",
@@ -288,6 +288,7 @@ git rebase -i head
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="https://perhapzz.github.io/tags/git/">git</a></li>
     </ul>
   </footer>
 </article>
