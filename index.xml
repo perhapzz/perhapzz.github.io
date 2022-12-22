@@ -6,7 +6,23 @@
     <description>Recent content on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Dec 2022 12:55:44 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Dec 2022 10:04:52 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git</title>
+      <link>https://perhapzz.github.io/posts/git/</link>
+      <pubDate>Sat, 17 Dec 2022 10:04:52 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/git/</guid>
+      <description>git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。
+默认情况下，git stash会缓存下列文件：
+ 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：
+ 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。
+git stash list查看现有stash
+场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作
+# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：
+方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点</description>
+    </item>
+    
     <item>
       <title>深入理解Go RPC</title>
       <link>https://perhapzz.github.io/posts/furtherrpc/</link>
