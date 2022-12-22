@@ -7,15 +7,8 @@
 <meta name="robots" content="index, follow">
 <title>Git学习笔记 | perhapzz</title>
 <meta name="keywords" content="git">
-<meta name="description" content="git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库
-git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。
-默认情况下，git stash会缓存下列文件：
- 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：
- 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。
-git stash list查看现有stash
-场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作
-# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：
-方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点">
+<meta name="description" content="git快捷指令 安装 oh-my-zsh，可以使用一些常用git命令的简写，参考自 ohmyzsh git
+   简写（Alias） 对应命令 详情     gaa git add &ndash;all 添加当前项目所有文件修改、增删的文件到缓存区   gb git branch 查看分支列表   gc! git commit -v &ndash;amend 修正上次提交，像 reabase 一样操作，每次提交执行一次，覆盖上一次提交，即可保证只有一个 commit   gcb git checkout -b 基于当前分支切换新的分支   gcp git cherry-pick 根据 commitId 拿某一次的提交   gbD git branch -D 删除分支   glods git log &ndash;graph &ndash;date=short 查看提交记录   gpf git push &ndash;force 强制推送，一般用于 reabase 之后    git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库">
 <meta name="author" content="">
 <link rel="canonical" href="https://perhapzz.github.io/posts/git/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2c5d624023ca4f39285dc8ad242509c565a0c0e820fc61724b2a58620dfdafbe.css" integrity="sha256-LF1iQCPKTzkoXcitJCUJxWWgwOgg/GFySypYYg39r74=" rel="preload stylesheet" as="style">
@@ -65,15 +58,8 @@ git stash list查看现有stash
 
     </style>
 </noscript><meta property="og:title" content="Git学习笔记" />
-<meta property="og:description" content="git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库
-git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。
-默认情况下，git stash会缓存下列文件：
- 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：
- 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。
-git stash list查看现有stash
-场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作
-# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：
-方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点" />
+<meta property="og:description" content="git快捷指令 安装 oh-my-zsh，可以使用一些常用git命令的简写，参考自 ohmyzsh git
+   简写（Alias） 对应命令 详情     gaa git add &ndash;all 添加当前项目所有文件修改、增删的文件到缓存区   gb git branch 查看分支列表   gc! git commit -v &ndash;amend 修正上次提交，像 reabase 一样操作，每次提交执行一次，覆盖上一次提交，即可保证只有一个 commit   gcb git checkout -b 基于当前分支切换新的分支   gcp git cherry-pick 根据 commitId 拿某一次的提交   gbD git branch -D 删除分支   glods git log &ndash;graph &ndash;date=short 查看提交记录   gpf git push &ndash;force 强制推送，一般用于 reabase 之后    git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://perhapzz.github.io/posts/git/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-12-17T10:04:52+08:00" />
@@ -81,15 +67,8 @@ git stash list查看现有stash
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Git学习笔记"/>
-<meta name="twitter:description" content="git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库
-git stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。
-默认情况下，git stash会缓存下列文件：
- 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：
- 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。
-git stash list查看现有stash
-场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作
-# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：
-方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点"/>
+<meta name="twitter:description" content="git快捷指令 安装 oh-my-zsh，可以使用一些常用git命令的简写，参考自 ohmyzsh git
+   简写（Alias） 对应命令 详情     gaa git add &ndash;all 添加当前项目所有文件修改、增删的文件到缓存区   gb git branch 查看分支列表   gc! git commit -v &ndash;amend 修正上次提交，像 reabase 一样操作，每次提交执行一次，覆盖上一次提交，即可保证只有一个 commit   gcb git checkout -b 基于当前分支切换新的分支   gcp git cherry-pick 根据 commitId 拿某一次的提交   gbD git branch -D 删除分支   glods git log &ndash;graph &ndash;date=short 查看提交记录   gpf git push &ndash;force 强制推送，一般用于 reabase 之后    git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库"/>
 
 
 <script type="application/ld+json">
@@ -118,12 +97,12 @@ git stash list查看现有stash
   "@type": "BlogPosting",
   "headline": "Git学习笔记",
   "name": "Git学习笔记",
-  "description": "git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库\ngit stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。\n默认情况下，git stash会缓存下列文件：\n 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：\n 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。\ngit stash list查看现有stash\n场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作\n# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：\n方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点",
+  "description": "git快捷指令 安装 oh-my-zsh，可以使用一些常用git命令的简写，参考自 ohmyzsh git\n   简写（Alias） 对应命令 详情     gaa git add \u0026ndash;all 添加当前项目所有文件修改、增删的文件到缓存区   gb git branch 查看分支列表   gc! git commit -v \u0026ndash;amend 修正上次提交，像 reabase 一样操作，每次提交执行一次，覆盖上一次提交，即可保证只有一个 commit   gcb git checkout -b 基于当前分支切换新的分支   gcp git cherry-pick 根据 commitId 拿某一次的提交   gbD git branch -D 删除分支   glods git log \u0026ndash;graph \u0026ndash;date=short 查看提交记录   gpf git push \u0026ndash;force 强制推送，一般用于 reabase 之后    git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库",
   "keywords": [
     "git"
   ],
-  "articleBody": "git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库\ngit stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。\n默认情况下，git stash会缓存下列文件：\n 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：\n 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。\ngit stash list查看现有stash\n场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作\n# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：\n方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点\n# 将代码提交到本地仓库 $ git commit ...  # 从远端拉取最新的代码 $ git pull  # 本地处理可能存在的冲突  # 将处理好的将代码提交到本地仓库 $ git commit ...  # 提交代码 $ git push git merge git rebase ",
-  "wordCount" : "149",
+  "articleBody": "git快捷指令 安装 oh-my-zsh，可以使用一些常用git命令的简写，参考自 ohmyzsh git\n   简写（Alias） 对应命令 详情     gaa git add –all 添加当前项目所有文件修改、增删的文件到缓存区   gb git branch 查看分支列表   gc! git commit -v –amend 修正上次提交，像 reabase 一样操作，每次提交执行一次，覆盖上一次提交，即可保证只有一个 commit   gcb git checkout -b 基于当前分支切换新的分支   gcp git cherry-pick 根据 commitId 拿某一次的提交   gbD git branch -D 删除分支   glods git log –graph –date=short 查看提交记录   gpf git push –force 强制推送，一般用于 reabase 之后    git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库\ngit stash git stash会把所有未提交的修改（包括暂存的和非暂存的）都保存起来，用于后续恢复当前工作目录。\n默认情况下，git stash会缓存下列文件：\n 添加到暂存区的修改（staged changes） Git跟踪的但并未添加到暂存区的修改（unstaged changes）  但不会缓存一下文件：\n 在工作目录中新的文件（untracked files） 被忽略的文件（ignored files）  git stash命令提供了参数用于缓存上面两种类型的文件。使用-u或者--include-untracked可以stash untracked文件。使用-a或者--all命令可以stash当前目录下的所有修改。\ngit stash list查看现有stash\n场景一（主要）： 当前分支为A，我们有个紧急任务在分支B上，那我们可以进行如下操作\n# 将代码存在git栈里保存起来 $ git stash  # 切到B分支，不做git stash无法切过去 $ git checkout B  # 完成分支B上的任务  # 切回A分支 $ git checkout A  # 把分支A中的代码恢复出来 $ git stash pop 场景二： 提交代码之前，准备提交的阶段，为了解决冲突问题：\n方法一： # 将代码存在git栈里保存起来 $ git stash  # 从远端拉取最新的代码 $ git pull  # 把该懂的代码取出来 $ git stash pop  # 本地处理可能存在的冲突  # 提交代码 $ git commit $ git push 方法二： # git pull option # -r 会进行 rebase pull # --autostash 会自动 stash 并自动 stash pop $ git pull origin -r --autostash {分支名}  # 如果有冲突的话需要解决冲突后继续  # 提交代码 $ git commit $ git push 方法三： 不使用stash会增加commit节点\n# 将代码提交到本地仓库 $ git commit ...  # 从远端拉取最新的代码 $ git pull  # 本地处理可能存在的冲突  # 将处理好的将代码提交到本地仓库 $ git commit ...  # 提交代码 $ git push git merge git rebase ",
+  "wordCount" : "204",
   "inLanguage": "en",
   "datePublished": "2022-12-17T10:04:52+08:00",
   "dateModified": "2022-12-17T10:04:52+08:00",
@@ -208,7 +187,60 @@ git stash list查看现有stash
 
 </div>
   </header> 
-  <div class="post-content"><h1 id="git示意图">git示意图<a hidden class="anchor" aria-hidden="true" href="#git示意图">#</a></h1>
+  <div class="post-content"><h1 id="git快捷指令">git快捷指令<a hidden class="anchor" aria-hidden="true" href="#git快捷指令">#</a></h1>
+<p>安装 oh-my-zsh，可以使用一些常用git命令的简写，参考自 <a href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git">ohmyzsh git</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">简写（Alias）</th>
+<th style="text-align:center">对应命令</th>
+<th style="text-align:center">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">gaa</td>
+<td style="text-align:center">git add &ndash;all</td>
+<td style="text-align:center">添加当前项目所有文件修改、增删的文件到缓存区</td>
+</tr>
+<tr>
+<td style="text-align:center">gb</td>
+<td style="text-align:center">git branch</td>
+<td style="text-align:center">查看分支列表</td>
+</tr>
+<tr>
+<td style="text-align:center">gc!</td>
+<td style="text-align:center">git commit -v &ndash;amend</td>
+<td style="text-align:center">修正上次提交，像 reabase 一样操作，每次提交执行一次，覆盖上一次提交，即可保证只有一个 commit</td>
+</tr>
+<tr>
+<td style="text-align:center">gcb</td>
+<td style="text-align:center">git checkout -b</td>
+<td style="text-align:center">基于当前分支切换新的分支</td>
+</tr>
+<tr>
+<td style="text-align:center">gcp</td>
+<td style="text-align:center">git cherry-pick</td>
+<td style="text-align:center">根据 commitId 拿某一次的提交</td>
+</tr>
+<tr>
+<td style="text-align:center">gbD</td>
+<td style="text-align:center">git branch -D</td>
+<td style="text-align:center">删除分支</td>
+</tr>
+<tr>
+<td style="text-align:center">glods</td>
+<td style="text-align:center">git log &ndash;graph &ndash;date=short</td>
+<td style="text-align:center">查看提交记录</td>
+</tr>
+<tr>
+<td style="text-align:center">gpf</td>
+<td style="text-align:center">git push &ndash;force</td>
+<td style="text-align:center">强制推送，一般用于 reabase 之后</td>
+</tr>
+</tbody>
+</table>
+<h1 id="git示意图">git示意图<a hidden class="anchor" aria-hidden="true" href="#git示意图">#</a></h1>
 <p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202212222116076.png" alt="git示意图"  />
 </p>
 <p><strong>Workspace</strong>：工作区
