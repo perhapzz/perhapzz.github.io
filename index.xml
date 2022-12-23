@@ -8,13 +8,12 @@
     <language>en-us</language>
     <lastBuildDate>Sat, 17 Dec 2022 10:04:52 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Git学习笔记</title>
+      <title>纸上谈Git</title>
       <link>https://perhapzz.github.io/posts/git/</link>
       <pubDate>Sat, 17 Dec 2022 10:04:52 +0800</pubDate>
       
       <guid>https://perhapzz.github.io/posts/git/</guid>
-      <description>git快捷指令 安装 oh-my-zsh，可以使用一些常用git命令的简写，参考自 ohmyzsh git
-   简写（Alias） 对应命令 详情     gaa git add &amp;ndash;all 添加当前项目所有文件修改、增删的文件到缓存区   gcmsg git commit -m 将暂存区内容添加到本地仓库中，并添加备注信息   gcam git commit -a -m 不需要执行 git add 命令，直接来提交   gp git push 从将本地的分支版本上传到远程并合并，提前使用过git push -u ..   gb git branch 查看分支列表   gc! git commit -v &amp;ndash;amend 修正上次提交，像 reabase 一样操作，每次提交执行一次，覆盖上一次提交，即可保证只有一个 commit   gcb git checkout -b 基于当前分支切换新的分支   gcp git cherry-pick 根据 commitId 拿某一次的提交   gbD git branch -D 删除分支   glods git log &amp;ndash;graph &amp;ndash;date=short 查看提交记录   gpf git push &amp;ndash;force 强制推送，一般用于 reabase 之后    git示意图 Workspace：工作区 Index / Stage：暂存区 Repository：仓库区（或本地仓库） Remote：远程仓库</description>
+      <description>Git学习笔记</description>
     </item>
     
     <item>
