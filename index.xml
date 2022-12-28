@@ -6,7 +6,16 @@
     <description>Recent content on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 17 Dec 2022 10:04:52 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 24 Dec 2022 22:31:05 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>计算机基础</title>
+      <link>https://perhapzz.github.io/posts/basics/</link>
+      <pubDate>Sat, 24 Dec 2022 22:31:05 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/basics/</guid>
+      <description>学习计算机基础笔记，目前只到计算机网络</description>
+    </item>
+    
     <item>
       <title>纸上谈Git</title>
       <link>https://perhapzz.github.io/posts/git/</link>
