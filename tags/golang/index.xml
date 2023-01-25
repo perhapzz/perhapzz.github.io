@@ -6,7 +6,22 @@
     <description>Recent content in golang on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Dec 2022 19:48:31 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 Jan 2023 00:24:03 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>gorm-gen 学习笔记</title>
+      <link>https://perhapzz.github.io/posts/gorm-gen/</link>
+      <pubDate>Thu, 26 Jan 2023 00:24:03 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/gorm-gen/</guid>
+      <description>问题 SQL 注入 Object Relational Mapping 的定位就是帮助开发者减轻心智负担，你不用再去思考业务 object 和 数据表 relation 之间的对应，ORM 框架来帮你完成。我们只需要简单的在 object 上加上 tag，剩下怎么拼 SQL，怎么 Scan 数据后写入 object 就交给 ORM 来完成。业务开发者不需要操心这个。
+问题就在这里，这样的定位势必导致 ORM 被反射和 interface{} 满天飞，你既然要通用，按照 Golang 目前的能力，就势必要在运行时做类型转换，用各种反射黑科技。但是，反射顶多能告诉你当前是什么，不能来校验。因为 ORM 是不感知业务的。要求它来校验输入数据的类型，格式，合法性是不现实的。使用方法十分灵活的查询接口很容易造成研发对接口的误用，从而导致 SQL 注入。
+复杂 SQL GORM 作为 ORM 框架并没有提供任何辅助代码开发的功能，导致面对较为复杂的数据库表查询场景时，开发者需逐条手写数据表中的列与对应结构体的成员变量，单调且重复的查询功能也需要手动复制，稍不注意就会造成不易察觉的拼写错误。
+其实在 Golang 泛型比较弱的情况下，使用代码生成依然是解决个性化场景的经典方案，这样绕开了 interface{}，我们就可以做更多校验，也省去了断言。GORM 其实也是基于这个思路，推出了自己的代码生成工具：Gen。
+总结 gen 对自己的定位就是通过代码生成，让 GORM 更加友好（针对复杂SQL场景也能处理），也更加安全（增加类型校验）。
+从真正使用上来说，我觉得最核心的 feature 在于：
+ 字段类型校验，过滤参数错误，为数字、字符串、布尔类型、时间类型硬编码制定差异化类型安全的表达式方法，杜绝了 SQL 注入的风险，能跑就安全； 映射数据库表像，DB 里面有数据表就能生成对应的 Golang 结构体； 用注释的形式描述查询的逻辑后，一键即可生成对应的安全可靠查询API。  此外还有一个好处是，我们用 GORM 来 Find 数据时，总还是要先声明结果，然后把指针传入 API，由 GORM 进行填充，而有了 Gen 之后，直接返回对应的数据结构，免于提前实例化数据后在注入API的繁琐。</description>
+    </item>
+    
     <item>
       <title>CodeTop刷题笔记</title>
       <link>https://perhapzz.github.io/posts/codetop/</link>
