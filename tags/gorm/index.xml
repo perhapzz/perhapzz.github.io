@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>perhapzz</title>
-    <link>https://perhapzz.github.io/</link>
-    <description>Recent content on perhapzz</description>
+    <title>gorm on perhapzz</title>
+    <link>https://perhapzz.github.io/tags/gorm/</link>
+    <description>Recent content in gorm on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Jan 2023 00:24:03 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 Jan 2023 00:24:03 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/gorm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Gorm Gen</title>
       <link>https://perhapzz.github.io/posts/gorm-gen/</link>
@@ -21,61 +21,6 @@
 从真正使用上来说，我觉得最核心的 feature 在于：
  字段类型校验，过滤参数错误，为数字、字符串、布尔类型、时间类型硬编码制定差异化类型安全的表达式方法，杜绝了 SQL 注入的风险，能跑就安全； 映射数据库表像，DB 里面有数据表就能生成对应的 Golang 结构体； 用注释的形式描述查询的逻辑后，一键即可生成对应的安全可靠查询API。  此外还有一个好处是，我们用 GORM 来 Find 数据时，总还是要先声明结果，然后把指针传入 API，由 GORM 进行填充，而有了 Gen 之后，直接返回对应的数据结构，免于提前实例化数据后在注入API的繁琐。</description>
     </item>
-    
-    <item>
-      <title>计算机基础</title>
-      <link>https://perhapzz.github.io/posts/basics/</link>
-      <pubDate>Sat, 24 Dec 2022 22:31:05 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/basics/</guid>
-      <description>学习计算机基础笔记，目前只到计算机网络</description>
-    </item>
-    
-    <item>
-      <title>纸上谈Git</title>
-      <link>https://perhapzz.github.io/posts/git/</link>
-      <pubDate>Sat, 17 Dec 2022 10:04:52 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/git/</guid>
-      <description>Git学习笔记</description>
-    </item>
-    
-    <item>
-      <title>深入理解Go RPC</title>
-      <link>https://perhapzz.github.io/posts/furtherrpc/</link>
-      <pubDate>Fri, 16 Dec 2022 12:55:44 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/furtherrpc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CodeTop刷题笔记</title>
-      <link>https://perhapzz.github.io/posts/codetop/</link>
-      <pubDate>Tue, 13 Dec 2022 19:48:31 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/codetop/</guid>
-      <description>使用golang刷codetop</description>
-    </item>
-    
-    <item>
-      <title>迈出Go RPC的一小步</title>
-      <link>https://perhapzz.github.io/posts/firststepofrpc/</link>
-      <pubDate>Tue, 13 Dec 2022 10:52:29 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/firststepofrpc/</guid>
-      <description>记Go语言远程过程调用RPC学习过程</description>
-    </item>
-    
-    <item>
-      <title>个人博客搭建笔记</title>
-      <link>https://perhapzz.github.io/posts/personalblogsetupnote/</link>
-      <pubDate>Mon, 12 Dec 2022 12:52:25 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/personalblogsetupnote/</guid>
-      <description>记用hugo搭建个人博客的全过程</description>
-    </item>
-    
     
   </channel>
 </rss>
