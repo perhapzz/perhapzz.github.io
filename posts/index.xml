@@ -23,6 +23,15 @@
     </item>
     
     <item>
+      <title>WSL 实操笔记</title>
+      <link>https://perhapzz.github.io/posts/wsl/</link>
+      <pubDate>Fri, 20 Jan 2023 00:39:18 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/wsl/</guid>
+      <description>Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统</description>
+    </item>
+    
+    <item>
       <title>计算机基础</title>
       <link>https://perhapzz.github.io/posts/basics/</link>
       <pubDate>Sat, 24 Dec 2022 22:31:05 +0800</pubDate>

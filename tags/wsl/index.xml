@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>WSL on perhapzz</title>
+    <link>https://perhapzz.github.io/tags/wsl/</link>
+    <description>Recent content in WSL on perhapzz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 Jan 2023 00:39:18 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/wsl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WSL 实操笔记</title>
+      <link>https://perhapzz.github.io/posts/wsl/</link>
+      <pubDate>Fri, 20 Jan 2023 00:39:18 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/wsl/</guid>
+      <description>Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统</description>
+    </item>
+    
+  </channel>
+</rss>

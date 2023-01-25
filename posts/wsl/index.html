@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>WSL 实操笔记 | perhapzz</title>
+<meta name="keywords" content="WSL, windows">
+<meta name="description" content="Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统">
+<meta name="author" content="">
+<link rel="canonical" href="https://perhapzz.github.io/posts/wsl/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2c5d624023ca4f39285dc8ad242509c565a0c0e820fc61724b2a58620dfdafbe.css" integrity="sha256-LF1iQCPKTzkoXcitJCUJxWWgwOgg/GFySypYYg39r74=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://perhapzz.github.io/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://perhapzz.github.io/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://perhapzz.github.io/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://perhapzz.github.io/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://perhapzz.github.io/favicon/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="WSL 实操笔记" />
+<meta property="og:description" content="Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://perhapzz.github.io/posts/wsl/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-20T00:39:18+08:00" />
+<meta property="article:modified_time" content="2023-01-20T00:39:18+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="WSL 实操笔记"/>
+<meta name="twitter:description" content="Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://perhapzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "WSL 实操笔记",
+      "item": "https://perhapzz.github.io/posts/wsl/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "WSL 实操笔记",
+  "name": "WSL 实操笔记",
+  "description": "Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统",
+  "keywords": [
+    "WSL", "windows"
+  ],
+  "articleBody": "什么是WSL？ WSL 是 Windows Subsystem for Linux 的缩写，意思是 linux 版的 window 子系统。\n简单的说就是，Linux 的 Windows 子系统让开发人员无需虚拟机就可以直接在 Windows 上运行 Linux 环境，包括大多数命令行工具、程序和应用。\n使用 WSL 的好处是：\n 与在虚拟机下使用 Linux 相比，WSL 占用资源更少，更加流畅； WSL 可以对 Windows 文件系统下的文件直接进行读写，文件传输更方便； 剪贴板互通，可以直接在 Windows 下其它地方复制文本内容，粘贴到 WSL；  开搞 1. 开启 WSL 支持 使用管理员权限的 Shell 才能安装 WSL。\n在 Windows PowerShell (管理员) 中复制执行命令。\n$ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux 以上命令会激活 WSL 服务，然后需要重启系统。\n2. 安装 WSL 发行版 在 Windows 应用商店搜索 ubuntu ，选择自己喜欢的版本，安装即可。\n这里我选择的是 Ubuntu 20.04 LTS，之后的所有内容也是基于 WSL Ubuntu 编写。\n下载，安装之后，打开直接报错。\n尝试用指令下载：\n$ wsl.exe --install Ubuntu-20.04 还是一样的报错。（一样的效果再做一遍当然还是报错）\n看了很多文档，说的都是虚拟化技术没开巴拉巴拉，问题是我都开了，最后还是有一句中肯的，要先用WSL 1，执行下面这个指令，把 WSL 版本改为1。\n$ wsl --set-default-version 1 然后设置下用户名和密码，我这尝试了一下，密码不能为空。\n到这里， WSL 就安装好了，但我想要配 docker 还是跑不起来，错误码还是0x80370102。\n查看自己系统的体系结构：\n$ uname -a # Linux LAPTOP-N7JGIRHR 5.15.79.1-microsoft-standard-WSL2 #1 SMP Wed Nov 23 01:01:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux 3. 升级到 WSL2 这里碰了很多壁，不知道看了多少文档，可能里面有几句命令是有效的，可惜并没有立刻展现出效果（我隐约感觉是我以前安装了安卓模拟器改了我的系统配置的原因），在我走投无路之际我重启了电脑，最后居然成功了！！\n如果实在不知道怎么办，尝试运行下面这两行代码：\n# 以管理员身份运行 $ bcdedit /set hypervisorlaunchtype off $ bcdedit /set hypervisorlaunchtype auto 升级 WSL2\n# 先看看有哪些 WSL $ wsl -l -v # NAME STATE VERSION #* Ubuntu-20.04 Stopped 1  $ wsl --set-version Ubuntu-20.04 2 4. apt 换源 更换为清华大学 TUNA 的软件源镜像\n 执行下面命令，备份 apt 安装源：  $ sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak  vim 编辑 sources.list ：  $ sudo vim /etc/apt/sources.list 将 sources.list 中的内容替换如下 ：\n# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse # 预发布软件源，不建议启用 # deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse  更新软件  $ sudo apt-get update $ sudo apt-get upgrade 5. 配置 SSH 服务器 WSL 上的 SSH 服务器没有自动配置，需要手动重新安装，首先可以运行以下命令来安装：\n$ sudo apt install openssh-server 报错，经查阅相关资料，需要 openssh-client=1:8.2p1-4ubuntu0.5 这么个玩意。\n$ sudo apt-get install openssh-client=1:8.2p1-4ubuntu0.5 # 一顿下载后... $ sudo apt install openssh-server 然后配置 /etc/ssh/sshd_config。\n$ sudo vim /etc/ssh/sshd_config 修改如下三个关键字：\nPort 22 PermitRootLogin yes PasswordAuthentication yes 重启 ssh 服务：\n$ sudo service ssh restart $ sudo service ssh status 设置 root 账户密码：\n$ sudo passwd root 这样就可以顺利 ssh 连上了。\n然后配置公钥：\n$ mkdir .ssh $ vim ~/.ssh/authorized_keys 把自己的公钥放上去就行了。\n6. 网络配置 我的终极目标是使用同一局域网下的 macbook 连接 WSL 操作，同时我也希望我在局域网中所有的设备（Windows、WSL、macbook）都可以互联。\n先配置 WSL 2 访问 Windows 网络的 SOCKS5 代理。首先需要使用主机的 IP 地址进行访问，使用以下命令获取主机 IP 地址：\n$ cat /etc/resolv.conf | grep -oP '(?# 172.20.144.1 以在 WSL 2 (Ubuntu 20.04) 中使用 Windows 网络代理（此处为 socks5 代理）为例，向 ~/.bashrc 中写入以下内容：\nexport hostip=$(cat /etc/resolv.conf | grep -oP '(?)  alias proxy=' export https_proxy=\"socks5://${hostip}:10808\"; export http_proxy=\"socks5://${hostip}:10808\"; export all_proxy=\"socks5://${hostip}:10808\"; echo -e \"Acquire::http::Proxy \\\"socks5h://${hostip}:10808\\\";\" | sudo tee -a /etc/apt/apt.conf.d/proxy.conf  /dev/null; echo -e \"Acquire::https::Proxy \\\"socks5h://${hostip}:10808\\\";\" | sudo tee -a /etc/apt/apt.conf.d/proxy.conf  /dev/null; '  alias unproxy=' unset https_proxy; unset http_proxy; unset all_proxy; sudo sed -i -e \"/Acquire::http::Proxy/d\" /etc/apt/apt.conf.d/proxy.conf; sudo sed -i -e \"/Acquire::https::Proxy/d\" /etc/apt/apt.conf.d/proxy.conf; ' 在 bash 中运行 proxy 可设置 bash、apt 走代理，运行 unproxy 则关闭代理。\n6.1. Windows 访问 WSL 2 在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。记得 WSL 上要启动 sshd 服务哦~\n6.2. WSL 2 访问 Windows Windows 想要被访问，要保证安装了 OpenSSH 服务器。运行指令如下：\n# 检查 SSH 服务器和客户端是否处于活动状态 $ Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*' # 在我的例子中，客户端已安装，但 OpenSSH 服务器未安装。 # 安装 OpenSSH 服务器 $ Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 启动 OpenSSH 服务器服务：\n# 将服务标记为自动启动 $ Set-Service -Name sshd -StartupType 'Automatic'  # 启动 OpenSSH 服务器服务 $ Start-Service sshd  # 在防火墙中配置 SSH $ if (!(Get-NetFirewallRule -Name \"OpenSSH-Server-In-TCP\" -ErrorAction SilentlyContinue | Select-Object Name, Enabled)) { Write-Output \"Firewall Rule 'OpenSSH-Server-In-TCP' does not exist, creating it...\" New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 } else { Write-Output \"Firewall rule 'OpenSSH-Server-In-TCP' has been created and exists.\" } 尝试 ssh 连局域网 ip 能通，密码是微软账户密码，注意这里 WSL 连 Windows 用 localhost 是不行的，会报密码错误，但可能能解决。\n6.3. mac 访问 Windows 和 WSL 但是同一局域网下的 mac 还是不能互相 ssh 通。究竟是为何呢？？\nwindows 端：\nmac 端：\n不知道是什么原因，总之此处留个坑吧，希望以后学明白计网再来填上。\n7. WSL 的文件路径 我们使用 WSL 的过程中，不免需要一些文件的传输，在资源管理器中输入 \\\\wsl$ 即可进入 WSL文件位置\n8. 配置 Go 语言环境 安装包下载地址为：https://golang.org/dl/，根据我的需求，我应该下载 go1.19.5.linux-amd64.tar.gz 这个包，然后解压到 /usr/local/ 目录。\n$ sudo tar -C /usr/local -xzf go1.19.5.linux-amd64.tar.gz 将 /usr/local/go/bin 目录添加至 PATH 环境变量\n$ export PATH=$PATH:/usr/local/go/bin 编辑 /etc/profile ，添加上面这段指令，保证永久生效。添加后需要执行：\n$ source /etc/profile 这样 Go 语言环境就安装好啦。\n另外配一下go mod proxy：\n# Go 1.13 及以上（推荐） $ go env -w GO111MODULE=on $ go env -w GOPROXY=https://goproxy.cn,direct 确保 GOPATH 环境变量已经被正确地定义（例如 export GOPATH=~/go）并且将$GOPATH/bin添加到 PATH 环境变量之中（例如 export PATH=$GOPATH/bin:$PATH）；请勿将 GOPATH 设置为当前用户没有读写权限的目录\n9. Docker 如果遇到这样的报错 Docker in WSL2: Cannot connect to the Docker daemon at tcp://localhost:2375.ls the docker daemon running? \n 命令行输入 wsl -l -v ，检查 WSL distro 是不是 v2。 docker desktop 设置中 Enable integration with additional distros 中勾选对应的 WSL 。  export DOCKER_HOST=unix:///var/run/docker.sock 试试这段命令是否有效，然后加入 .bashrc，不要加入.bash_profile和.profile  参考\n",
+  "wordCount" : "716",
+  "inLanguage": "en",
+  "datePublished": "2023-01-20T00:39:18+08:00",
+  "dateModified": "2023-01-20T00:39:18+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://perhapzz.github.io/posts/wsl/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "perhapzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://perhapzz.github.io/favicon/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://perhapzz.github.io" accesskey="h" title="perhapzz (Alt + H)">perhapzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://perhapzz.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://perhapzz.github.io/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://perhapzz.github.io">Home</a>&nbsp;»&nbsp;<a href="https://perhapzz.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      WSL 实操笔记
+    </h1>
+    <div class="post-description">
+      Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统
+    </div>
+    <div class="post-meta"><span title='2023-01-20 00:39:18 +0800 CST'>January 20, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="什么是wsl">什么是WSL？<a hidden class="anchor" aria-hidden="true" href="#什么是wsl">#</a></h1>
+<p>WSL 是 Windows Subsystem for Linux 的缩写，意思是 linux 版的 window 子系统。</p>
+<p>简单的说就是，Linux 的 Windows 子系统让开发人员<strong>无需虚拟机</strong>就可以直接在 Windows 上运行 Linux 环境，包括大多数命令行工具、程序和应用。</p>
+<p>使用 WSL 的好处是：</p>
+<ol>
+<li>与在虚拟机下使用 Linux 相比，WSL 占用资源更少，更加流畅；</li>
+<li>WSL 可以对 Windows 文件系统下的文件直接进行读写，文件传输更方便；</li>
+<li>剪贴板互通，可以直接在 Windows 下其它地方复制文本内容，粘贴到 WSL；</li>
+</ol>
+<h1 id="开搞">开搞<a hidden class="anchor" aria-hidden="true" href="#开搞">#</a></h1>
+<h2 id="1-开启-wsl-支持">1. 开启 WSL 支持<a hidden class="anchor" aria-hidden="true" href="#1-开启-wsl-支持">#</a></h2>
+<p>使用管理员权限的 Shell 才能安装 WSL。</p>
+<p>在 Windows PowerShell (管理员) 中复制执行命令。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+</span></span></code></pre></div><p>以上命令会激活 WSL 服务，然后需要重启系统。</p>
+<h2 id="2-安装-wsl-发行版">2. 安装 WSL 发行版<a hidden class="anchor" aria-hidden="true" href="#2-安装-wsl-发行版">#</a></h2>
+<p>在 Windows 应用商店搜索 <code>ubuntu</code> ，选择自己喜欢的版本，安装即可。</p>
+<p>这里我选择的是 <code>Ubuntu 20.04 LTS</code>，之后的所有内容也是基于 WSL Ubuntu 编写。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301202208872.png" alt="image-20230120220817309"  />
+</p>
+<p>下载，安装之后，打开直接报错。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301202311036.png" alt="image-20230120231112601"  />
+</p>
+<p>尝试用指令下载：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ wsl.exe --install Ubuntu-20.04
+</span></span></code></pre></div><p>还是一样的报错。（一样的效果再做一遍当然还是报错）</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301202322848.png" alt="image-20230120232225328"  />
+</p>
+<p>看了很多文档，说的都是虚拟化技术没开巴拉巴拉，问题是我都开了，最后还是有一句中肯的，要先用WSL 1，执行下面这个指令，把 WSL 版本改为1。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ wsl --set-default-version <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>然后设置下用户名和密码，我这尝试了一下，密码不能为空。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301202346274.png" alt="image-20230120234627036"  />
+</p>
+<p>到这里， WSL 就安装好了，但我想要配 docker 还是跑不起来，错误码还是0x80370102。</p>
+<p>查看自己系统的<strong>体系结构</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ uname -a
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Linux LAPTOP-N7JGIRHR 5.15.79.1-microsoft-standard-WSL2 #1 SMP Wed Nov 23 01:01:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span>
+</span></span></code></pre></div><h2 id="3-升级到-wsl2">3. 升级到 WSL2<a hidden class="anchor" aria-hidden="true" href="#3-升级到-wsl2">#</a></h2>
+<p>这里碰了很多壁，不知道看了多少文档，可能里面有几句命令是有效的，可惜并没有立刻展现出效果（我隐约感觉是我以前安装了安卓模拟器改了我的系统配置的原因），在我走投无路之际我重启了电脑，最后居然成功了！！</p>
+<p>如果实在不知道怎么办，尝试运行下面这两行代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 以管理员身份运行</span>
+</span></span><span style="display:flex;"><span>$ bcdedit /set hypervisorlaunchtype off
+</span></span><span style="display:flex;"><span>$ bcdedit /set hypervisorlaunchtype auto
+</span></span></code></pre></div><p>升级 WSL2</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 先看看有哪些 WSL</span>
+</span></span><span style="display:flex;"><span>$ wsl -l -v
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  NAME            STATE           VERSION</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#* Ubuntu-20.04    Stopped         1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ wsl --set-version Ubuntu-20.04 <span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><h2 id="4-apt-换源">4. apt 换源<a hidden class="anchor" aria-hidden="true" href="#4-apt-换源">#</a></h2>
+<p>更换为清华大学 TUNA 的软件源镜像</p>
+<ul>
+<li><strong>执行下面命令，备份 apt 安装源：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+</span></span></code></pre></div><ul>
+<li><strong>vim 编辑 sources.list ：</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo vim /etc/apt/sources.list 
+</span></span></code></pre></div><p>将 sources.list 中的内容替换如下 ：</p>
+<pre tabindex="0"><code># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+
+# 预发布软件源，不建议启用
+# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-proposed main restricted universe multiverse
+</code></pre><ul>
+<li><strong>更新软件</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo apt-get update
+</span></span><span style="display:flex;"><span>$ sudo apt-get upgrade
+</span></span></code></pre></div><h2 id="5-配置-ssh-服务器">5. 配置 SSH 服务器<a hidden class="anchor" aria-hidden="true" href="#5-配置-ssh-服务器">#</a></h2>
+<p>WSL 上的 SSH 服务器没有自动配置，需要手动重新安装，首先可以运行以下命令来安装：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo apt install openssh-server
+</span></span></code></pre></div><p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301220019976.png" alt="image-20230121001110928"  />
+</p>
+<p>报错，经查阅相关资料，需要 openssh-client=1:8.2p1-4ubuntu0.5 这么个玩意。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo apt-get install openssh-client<span style="color:#f92672">=</span>1:8.2p1-4ubuntu0.5
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 一顿下载后...</span>
+</span></span><span style="display:flex;"><span>$ sudo apt install openssh-server
+</span></span></code></pre></div><p>然后配置 <code>/etc/ssh/sshd_config</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo vim /etc/ssh/sshd_config
+</span></span></code></pre></div><p>修改如下三个关键字：</p>
+<pre tabindex="0"><code>Port 22
+PermitRootLogin yes
+PasswordAuthentication yes
+</code></pre><p>重启 ssh 服务：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo service ssh restart
+</span></span><span style="display:flex;"><span>$ sudo service ssh status
+</span></span></code></pre></div><p>设置 root 账户密码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo passwd root
+</span></span></code></pre></div><p>这样就可以顺利 ssh 连上了。</p>
+<p>然后<strong>配置公钥</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ mkdir .ssh
+</span></span><span style="display:flex;"><span>$ vim ~/.ssh/authorized_keys
+</span></span></code></pre></div><p>把自己的公钥放上去就行了。</p>
+<h2 id="6-网络配置">6. 网络配置<a hidden class="anchor" aria-hidden="true" href="#6-网络配置">#</a></h2>
+<p>我的终极目标是使用同一局域网下的 macbook 连接 WSL 操作，同时我也希望我在局域网中所有的设备（Windows、WSL、macbook）都可以互联。</p>
+<p>先配置 WSL 2 访问 Windows 网络的 SOCKS5 代理。首先需要使用主机的 IP 地址进行访问，使用以下命令获取主机 IP 地址：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat /etc/resolv.conf | grep -oP <span style="color:#e6db74">&#39;(?&lt;=nameserver\ ).*&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 172.20.144.1</span>
+</span></span></code></pre></div><p>以在 WSL 2 (Ubuntu 20.04) 中使用 Windows 网络代理（此处为 socks5 代理）为例，向 <code>~/.bashrc</code> 中写入以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export hostip<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat /etc/resolv.conf | grep -oP <span style="color:#e6db74">&#39;(?&lt;=nameserver\ ).*&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>alias proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  export https_proxy=&#34;socks5://${hostip}:10808&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  export http_proxy=&#34;socks5://${hostip}:10808&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  export all_proxy=&#34;socks5://${hostip}:10808&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  echo -e &#34;Acquire::http::Proxy \&#34;socks5h://${hostip}:10808\&#34;;&#34; | sudo tee -a /etc/apt/apt.conf.d/proxy.conf &gt; /dev/null;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  echo -e &#34;Acquire::https::Proxy \&#34;socks5h://${hostip}:10808\&#34;;&#34; | sudo tee -a /etc/apt/apt.conf.d/proxy.conf &gt; /dev/null;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>alias unproxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  unset https_proxy;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  unset http_proxy;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  unset all_proxy;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  sudo sed -i -e &#34;/Acquire::http::Proxy/d&#34; /etc/apt/apt.conf.d/proxy.conf;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  sudo sed -i -e &#34;/Acquire::https::Proxy/d&#34; /etc/apt/apt.conf.d/proxy.conf;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;</span>
+</span></span></code></pre></div><p>在 bash 中运行 <code>proxy</code> 可设置 bash、apt 走代理，运行 <code>unproxy</code> 则关闭代理。</p>
+<h3 id="61-windows-访问-wsl-2">6.1. Windows 访问 WSL 2<a hidden class="anchor" aria-hidden="true" href="#61-windows-访问-wsl-2">#</a></h3>
+<p>在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。记得 WSL 上要启动 sshd 服务哦~</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301212127804.png" alt="image-202301212127804"  />
+</p>
+<h3 id="62-wsl-2-访问-windows">6.2. WSL 2 访问 Windows<a hidden class="anchor" aria-hidden="true" href="#62-wsl-2-访问-windows">#</a></h3>
+<p>Windows 想要被访问，要保证安装了 OpenSSH 服务器。运行指令如下：</p>
+<pre tabindex="0"><code># 检查 SSH 服务器和客户端是否处于活动状态
+$ Get-WindowsCapability -Online | Where-Object Name -like &#39;OpenSSH*&#39;
+# 在我的例子中，客户端已安装，但 OpenSSH 服务器未安装。
+
+# 安装 OpenSSH 服务器
+$ Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+</code></pre><p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301212231325.png" alt="image-202301212231325"  />
+</p>
+<p>启动 OpenSSH 服务器服务：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 将服务标记为自动启动</span>
+</span></span><span style="display:flex;"><span>$ Set-Service -Name sshd -StartupType <span style="color:#e6db74">&#39;Automatic&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动 OpenSSH 服务器服务</span>
+</span></span><span style="display:flex;"><span>$ Start-Service sshd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在防火墙中配置 SSH</span>
+</span></span><span style="display:flex;"><span>$ <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>!<span style="color:#f92672">(</span>Get-NetFirewallRule -Name <span style="color:#e6db74">&#34;OpenSSH-Server-In-TCP&#34;</span> -ErrorAction SilentlyContinue | Select-Object Name, Enabled<span style="color:#f92672">))</span> <span style="color:#f92672">{</span> Write-Output <span style="color:#e6db74">&#34;Firewall Rule &#39;OpenSSH-Server-In-TCP&#39; does not exist, creating it...&#34;</span> New-NetFirewallRule -Name <span style="color:#e6db74">&#39;OpenSSH-Server-In-TCP&#39;</span> -DisplayName <span style="color:#e6db74">&#39;OpenSSH Server (sshd)&#39;</span> -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort <span style="color:#ae81ff">22</span> <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span> Write-Output <span style="color:#e6db74">&#34;Firewall rule &#39;OpenSSH-Server-In-TCP&#39; has been created and exists.&#34;</span> <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301212233709.png" alt="image-202301212233709"  />
+</p>
+<p>尝试 ssh 连局域网 ip 能通，密码是微软账户密码，注意这里 WSL 连 Windows 用 localhost 是不行的，会报密码错误，但可能能解决。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301220023365.png" alt="image-20230122002326784"  />
+</p>
+<h3 id="63-mac-访问-windows-和-wsl">6.3. mac 访问 Windows 和 WSL<a hidden class="anchor" aria-hidden="true" href="#63-mac-访问-windows-和-wsl">#</a></h3>
+<p>但是同一局域网下的 mac 还是不能互相 ssh 通。究竟是为何呢？？</p>
+<p>windows 端：</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301220236074.png" alt="image-20230122014622432"  />
+</p>
+<p>mac 端：</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301220236831.jpg" alt="img"  />
+</p>
+<p>不知道是什么原因，总之此处留个坑吧，希望以后学明白计网再来填上。</p>
+<h2 id="7-wsl-的文件路径">7. WSL 的文件路径<a hidden class="anchor" aria-hidden="true" href="#7-wsl-的文件路径">#</a></h2>
+<p>我们使用 WSL 的过程中，不免需要一些文件的传输，在资源管理器中输入 <code>\\wsl$</code> 即可进入 WSL文件位置</p>
+<p><img loading="lazy" src="C:/Users/hzpan/AppData/Roaming/Typora/typora-user-images/image-20230122125224630.png" alt="image-20230122125224630"  />
+</p>
+<h2 id="8-配置-go-语言环境">8. 配置 Go 语言环境<a hidden class="anchor" aria-hidden="true" href="#8-配置-go-语言环境">#</a></h2>
+<p>安装包下载地址为：https://golang.org/dl/，根据我的需求，我应该下载 <code>go1.19.5.linux-amd64.tar.gz</code> 这个包，然后解压到 <code>/usr/local/</code> 目录。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo tar -C /usr/local -xzf go1.19.5.linux-amd64.tar.gz
+</span></span></code></pre></div><p>将 /usr/local/go/bin 目录添加至 PATH 环境变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/go/bin
+</span></span></code></pre></div><p>编辑 <code>/etc/profile</code> ，添加上面这段指令，保证永久生效。添加后需要执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ source /etc/profile
+</span></span></code></pre></div><p>这样 Go 语言环境就安装好啦。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301221305734.png" alt="image-20230122130528782"  />
+</p>
+<p>另外配一下go mod proxy：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># Go 1.13 及以上（推荐）</span>
+</span></span><span style="display:flex;"><span>$ go env -w GO111MODULE<span style="color:#f92672">=</span>on
+</span></span><span style="display:flex;"><span>$ go env -w GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn,direct
+</span></span></code></pre></div><p>确保 <code>GOPATH</code> 环境变量已经被正确地定义（例如 <code>export GOPATH=~/go</code>）并且将<code>$GOPATH/bin</code>添加到 <code>PATH</code> 环境变量之中（例如 <code>export PATH=$GOPATH/bin:$PATH</code>）；请勿将 <code>GOPATH</code> 设置为当前用户没有读写权限的目录</p>
+<h2 id="9-docker">9. Docker<a hidden class="anchor" aria-hidden="true" href="#9-docker">#</a></h2>
+<p>如果遇到这样的报错 <code>Docker in WSL2: Cannot connect to the Docker daemon at tcp://localhost:2375.ls the docker daemon running? </code></p>
+<ol>
+<li>命令行输入 <code>wsl -l -v</code> ，检查 WSL distro 是不是 v2。</li>
+<li>docker desktop 设置中 Enable integration with additional distros 中勾选对应的 WSL 。</li>
+</ol>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202301252003067.png" alt="image-20230125200022362"  />
+</p>
+<ol start="3">
+<li><code>export DOCKER_HOST=unix:///var/run/docker.sock</code> 试试这段命令是否有效，然后加入 <code>.bashrc</code>，不要加入<code>.bash_profile</code>和<code>.profile</code></li>
+</ol>
+<p>参考</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://perhapzz.github.io/tags/wsl/">WSL</a></li>
+      <li><a href="https://perhapzz.github.io/tags/windows/">windows</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://perhapzz.github.io">perhapzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
