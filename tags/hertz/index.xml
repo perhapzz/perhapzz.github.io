@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>hertz on perhapzz</title>
+    <link>https://perhapzz.github.io/tags/hertz/</link>
+    <description>Recent content in hertz on perhapzz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 24 Jan 2023 00:46:44 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/hertz/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JWT 学习笔记</title>
+      <link>https://perhapzz.github.io/posts/jwt/</link>
+      <pubDate>Tue, 24 Jan 2023 00:46:44 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/jwt/</guid>
+      <description>JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息</description>
+    </item>
+    
+  </channel>
+</rss>

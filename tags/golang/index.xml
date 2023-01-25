@@ -23,6 +23,15 @@
     </item>
     
     <item>
+      <title>JWT 学习笔记</title>
+      <link>https://perhapzz.github.io/posts/jwt/</link>
+      <pubDate>Tue, 24 Jan 2023 00:46:44 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/jwt/</guid>
+      <description>JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息</description>
+    </item>
+    
+    <item>
       <title>CodeTop刷题笔记</title>
       <link>https://perhapzz.github.io/posts/codetop/</link>
       <pubDate>Tue, 13 Dec 2022 19:48:31 +0800</pubDate>

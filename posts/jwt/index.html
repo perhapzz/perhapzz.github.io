@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>JWT 学习笔记 | perhapzz</title>
+<meta name="keywords" content="golang, hertz">
+<meta name="description" content="JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息">
+<meta name="author" content="">
+<link rel="canonical" href="https://perhapzz.github.io/posts/jwt/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2c5d624023ca4f39285dc8ad242509c565a0c0e820fc61724b2a58620dfdafbe.css" integrity="sha256-LF1iQCPKTzkoXcitJCUJxWWgwOgg/GFySypYYg39r74=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://perhapzz.github.io/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://perhapzz.github.io/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://perhapzz.github.io/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://perhapzz.github.io/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://perhapzz.github.io/favicon/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="JWT 学习笔记" />
+<meta property="og:description" content="JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://perhapzz.github.io/posts/jwt/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-24T00:46:44+08:00" />
+<meta property="article:modified_time" content="2023-01-24T00:46:44+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="JWT 学习笔记"/>
+<meta name="twitter:description" content="JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://perhapzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "JWT 学习笔记",
+      "item": "https://perhapzz.github.io/posts/jwt/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "JWT 学习笔记",
+  "name": "JWT 学习笔记",
+  "description": "JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息",
+  "keywords": [
+    "golang", "hertz"
+  ],
+  "articleBody": "JWT 是什么 JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息。其本质是一个 token ，是一种紧凑的 URL 安全方法，用于在网络通信的双方之间传递。 Hertz 也提供了 jwt 的实现 ，参考了 gin 的实现 。\n示例代码 package main  import (  \"context\"  \"fmt\"  \"log\"  \"time\"   \"github.com/cloudwego/hertz/pkg/app\"  \"github.com/cloudwego/hertz/pkg/app/server\"  \"github.com/cloudwego/hertz/pkg/common/utils\"  \"github.com/hertz-contrib/jwt\" )  type login struct {  Username string `form:\"username,required\" json:\"username,required\"`  Password string `form:\"password,required\" json:\"password,required\"` }  var identityKey = \"id\"  func PingHandler(c context.Context, ctx *app.RequestContext) {  user, _ := ctx.Get(identityKey)  ctx.JSON(200, utils.H{  \"message\": fmt.Sprintf(\"username:%v\", user.(*User).UserName),  }) }  // User demo type User struct {  UserName string  FirstName string  LastName string }  func main() {  h := server.Default()   // the jwt middleware  authMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  Realm: \"test zone\",  Key: []byte(\"secret key\"),  Timeout: time.Hour,  MaxRefresh: time.Hour,  IdentityKey: identityKey,  PayloadFunc: func(data interface{}) jwt.MapClaims {  if v, ok := data.(*User); ok {  return jwt.MapClaims{  identityKey: v.UserName,  }  }  return jwt.MapClaims{}  },  IdentityHandler: func(ctx context.Context, c *app.RequestContext) interface{} {  claims := jwt.ExtractClaims(ctx, c)  return \u0026User{  UserName: claims[identityKey].(string),  }  },  Authenticator: func(ctx context.Context, c *app.RequestContext) (interface{}, error) {  var loginVals login  if err := c.BindAndValidate(\u0026loginVals); err != nil {  return \"\", jwt.ErrMissingLoginValues  }  userID := loginVals.Username  password := loginVals.Password   if (userID == \"admin\" \u0026\u0026 password == \"admin\") || (userID == \"test\" \u0026\u0026 password == \"test\") {  return \u0026User{  UserName: userID,  LastName: \"Hertz\",  FirstName: \"CloudWeGo\",  }, nil  }   return nil, jwt.ErrFailedAuthentication  },  Authorizator: func(data interface{}, ctx context.Context, c *app.RequestContext) bool {  if v, ok := data.(*User); ok \u0026\u0026 v.UserName == \"admin\" {  return true  }   return false  },  Unauthorized: func(ctx context.Context, c *app.RequestContext, code int, message string) {  c.JSON(code, map[string]interface{}{  \"code\": code,  \"message\": message,  })  },  })  if err != nil {  log.Fatal(\"JWT Error:\" + err.Error())  }   // When you use jwt.New(), the function is already automatically called for checking,  // which means you don't need to call it again.  errInit := authMiddleware.MiddlewareInit()   if errInit != nil {  log.Fatal(\"authMiddleware.MiddlewareInit() Error:\" + errInit.Error())  }   h.POST(\"/login\", authMiddleware.LoginHandler)   h.NoRoute(authMiddleware.MiddlewareFunc(), func(ctx context.Context, c *app.RequestContext) {  claims := jwt.ExtractClaims(ctx, c)  log.Printf(\"NoRoute claims: %#v\\n\", claims)  c.JSON(404, map[string]string{\"code\": \"PAGE_NOT_FOUND\", \"message\": \"Page not found\"})  })   auth := h.Group(\"/auth\")  // Refresh time can be longer than token timeout  auth.GET(\"/refresh_token\", authMiddleware.RefreshHandler)  auth.Use(authMiddleware.MiddlewareFunc())  {  auth.GET(\"/ping\", PingHandler)  }   h.Spin() } 因为 JWT 的核心是认证与授权，所以在使用 Hertz 的 jwt 扩展时，不仅需要为 /login 接口绑定认证逻辑 authMiddleware.LoginHandler。\n还要以中间件的方式，为需要授权访问的路由组注入授权逻辑 authMiddleware.MiddlewareFunc()。\n配置 Hertz 通过使用中间件，为路由请求提供了 jwt 的校验功能。其中 HertzJWTMiddleware 结构定义了 jwt 配置信息，并提供了默认配置，用户也可以依据业务场景进行定制。\n上述示例代码中，只传入了两项必要的自定义的配置。关于 HertzJWTMiddleware 的更多常用配置如下：\n   参数 介绍     Realm 用于设置所属领域名称，默认为 hertz jwt   SigningAlgorithm 用于设置签名算法，可以是 HS256、HS384、HS512、RS256、RS384 或者 RS512等，默认为 HS256   Key 用于设置签名密钥（必要配置）   KeyFunc 用于设置获取签名密钥的回调函数，设置后 token 解析时将从 KeyFunc 获取 jwt 签名密钥   Timeout 用于设置 token 过期时间，默认为一小时   MaxRefresh 用于设置最大 token 刷新时间，允许客户端在 TokenTime + MaxRefresh 内刷新 token 的有效时间，追加一个 Timeout 的时长   Authenticator 用于设置登录时认证用户信息的函数（必要配置）   Authorizator 用于设置授权已认证的用户路由访问权限的函数   PayloadFunc 用于设置登陆成功后为向 token 中添加自定义负载信息的函数   Unauthorized 用于设置 jwt 验证流程失败的响应函数   LoginResponse 用于设置登录的响应函数   LogoutResponse 用于设置登出的响应函数   RefreshResponse 用于设置 token 有效时长刷新后的响应函数   IdentityHandler 用于设置获取身份信息的函数，默认与 IdentityKey 配合使用   IdentityKey 用于设置检索身份的键，默认为 identity   TokenLookup 用于设置 token 的获取源，可以选择 header、query、cookie、param，默认为 header:Authorization   TokenHeadName 用于设置从 header 中获取 token 时的前缀，默认为 Bearer   WithoutDefaultTokenHeadName 用于设置 TokenHeadName 为空，默认为 false   TimeFunc 用于设置获取当前时间的函数，默认为 time.Now()   HTTPStatusMessageFunc 用于设置 jwt 校验流程发生错误时响应所包含的错误信息   SendCookie 用于设置 token 将同时以 cookie 的形式返回，下列 cookie 相关配置生效的前提是该值为 true，默认为 false   CookieMaxAge 用于设置 cookie 的有效期，默认为 Timeout 定义的一小时   SecureCookie 用于设置允许不通过 HTTPS 传递 cookie 信息，默认为 false   CookieHTTPOnly 用于设置允许客户端访问 cookie 以进行开发，默认为 false   CookieDomain 用于设置 cookie 所属的域，默认为空   SendAuthorization 用于设置为所有请求的响应头添加授权的 token 信息，默认为 false   DisabledAbort 用于设置在 jwt 验证流程出错时，禁止请求上下文调用 abort()，默认为 false   CookieName 用于设置 cookie 的 name 值   CookieSameSite 用于设置使用 protocol.CookieSameSite 声明的参数设置 cookie 的 SameSite 属性值   ParseOptions 用于设置使用 jwt.ParserOption 声明的函数选项式参数配置 jwt.Parser 的属性值    后面主要介绍在简易版抖音后端可能使用到的配置。\nKey 用于设置 token 的签名密钥。\n示例代码：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  Key: []byte(\"secret key\"), }) KeyFunc 程序执行时 KeyFunc 作为 jwt.Parse() 的参数，负责为 token 解析提供签名密钥，通过自定义 KeyFunc 的逻辑，可以在解析 token 之前完成一些自定义的操作，如：校验签名方法的有效性、选择对应的签名密钥、将 token 存入请求上下文等。\n函数签名：\nfunc(t *jwt.Token) (interface{}, error) 默认处理逻辑如下：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  KeyFunc: func(t *jwt.Token) (interface{}, error) {  if jwt.GetSigningMethod(mw.SigningAlgorithm) != t.Method {  return nil, ErrInvalidSigningAlgorithm  }  if mw.usingPublicKeyAlgo() {  return mw.pubKey, nil  }   // save token string if valid  c.Set(\"JWT_TOKEN\", token)   return mw.Key, nil  }, }) Authenticator（验证） 配合 HertzJWTMiddleware.LoginHandler 使用，登录时触发，用于认证用户的登录信息。\n函数签名：\nfunc(ctx context.Context, c *app.RequestContext) (interface{}, error) 示例代码：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  Authenticator: func(ctx context.Context, c *app.RequestContext) (interface{}, error) {  var loginVals login  if err := c.BindAndValidate(\u0026loginVals); err != nil {  return \"\", jwt.ErrMissingLoginValues  }  userID := loginVals.Username  password := loginVals.Password   if (userID == \"admin\" \u0026\u0026 password == \"admin\") || (userID == \"test\" \u0026\u0026 password == \"test\") {  return \u0026User{  UserName: userID,  LastName: \"Hertz\",  FirstName: \"CloudWeGo\",  }, nil  }   return nil, jwt.ErrFailedAuthentication  }, }) Unauthorized 用于设置 jwt 授权失败后的响应函数，如下函数将参数列表中的错误码和错误信息封装成 json 响应返回。\n函数签名：\nfunc(ctx context.Context, c *app.RequestContext, code int, message string) 默认处理逻辑如下：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  Unauthorized: func(ctx context.Context, c *app.RequestContext, code int, message string) {  c.JSON(code, map[string]interface{}{  \"code\": code,  \"message\": message,  })  } }) Authorizator（授权） 用于设置已认证的用户路由访问权限的函数，如下函数通过验证用户名是否为 admin，从而判断是否有访问路由的权限。\n如果没有访问权限，则会触发 Unauthorized 参数中声明的 jwt 流程验证失败的响应函数。\n函数签名：\nfunc(data interface{}, ctx context.Context, c *app.RequestContext) bool 示例代码：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  Authorizator: func(data interface{}, ctx context.Context, c *app.RequestContext) bool {  if v, ok := data.(*User); ok \u0026\u0026 v.UserName == \"admin\" {  return true  }   return false  } }) PayloadFunc（定义负载信息） 用于设置登录时为 token 添加自定义负载信息的函数，如果不传入这个参数，则 token 的 payload 部分默认存储 token 的过期时间和创建时间，如下则额外存储了用户名信息。\n函数签名：\nfunc(data interface{}) jwt.MapClaims 示例代码：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  PayloadFunc: func(data interface{}) jwt.MapClaims {  if v, ok := data.(*User); ok {  return jwt.MapClaims{  identityKey: v.UserName,  }  }  return jwt.MapClaims{}  }, }) LoginResponse 用于设置登录的响应函数，作为 LoginHandler 的响应结果。\n函数签名：\nfunc(ctx context.Context, c *app.RequestContext, code int, token string, expire time.Time) 默认处理逻辑如下：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  LoginResponse: func(ctx context.Context, c *app.RequestContext, code int, token string, expire time.Time) {  c.JSON(http.StatusOK, map[string]interface{}{  \"code\": http.StatusOK,  \"token\": token,  \"expire\": expire.Format(time.RFC3339),  })  } }) // 在 LoginHandler 内调用 h.POST(\"/login\", authMiddleware.LoginHandler) HTTPStatusMessageFunc 一旦 jwt 校验流程产生错误，如 jwt 认证失败、token 鉴权失败、刷新 token 有效时长失败等，对应 error 将以参数的形式传递给 HTTPStatusMessageFunc，由其提取出需要响应的错误信息，最终以 string 参数形式传递给 Unauthorized 声明的 jwt 验证流程失败的响应函数返回。\n函数签名：\nfunc(e error, ctx context.Context, c *app.RequestContext) string 默认处理逻辑如下：\nauthMiddleware, err := jwt.New(\u0026jwt.HertzJWTMiddleware{  HTTPStatusMessageFunc: func(e error, ctx context.Context, c *app.RequestContext) string {  return e.Error()  } }) 参考\nHertz中间件 JWT\n",
+  "wordCount" : "894",
+  "inLanguage": "en",
+  "datePublished": "2023-01-24T00:46:44+08:00",
+  "dateModified": "2023-01-24T00:46:44+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://perhapzz.github.io/posts/jwt/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "perhapzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://perhapzz.github.io/favicon/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://perhapzz.github.io" accesskey="h" title="perhapzz (Alt + H)">perhapzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://perhapzz.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://perhapzz.github.io/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://perhapzz.github.io">Home</a>&nbsp;»&nbsp;<a href="https://perhapzz.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      JWT 学习笔记
+    </h1>
+    <div class="post-description">
+      JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息
+    </div>
+    <div class="post-meta"><span title='2023-01-24 00:46:44 +0800 CST'>January 24, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="jwt-是什么">JWT 是什么<a hidden class="anchor" aria-hidden="true" href="#jwt-是什么">#</a></h1>
+<p>JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息。其本质是一个 token ，是一种紧凑的 URL 安全方法，用于在网络通信的双方之间传递。 Hertz 也提供了 jwt 的<a href="https://github.com/hertz-contrib/jwt">实现</a> ，参考了 gin 的<a href="https://github.com/appleboy/gin-jwt">实现</a> 。</p>
+<h1 id="示例代码">示例代码<a hidden class="anchor" aria-hidden="true" href="#示例代码">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/cloudwego/hertz/pkg/app&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/cloudwego/hertz/pkg/app/server&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/cloudwego/hertz/pkg/common/utils&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.com/hertz-contrib/jwt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">login</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Username</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`form:&#34;username,required&#34; json:&#34;username,required&#34;`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`form:&#34;password,required&#34; json:&#34;password,required&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">identityKey</span> = <span style="color:#e6db74">&#34;id&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">PingHandler</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">identityKey</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">200</span>, <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">H</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;username:%v&#34;</span>, <span style="color:#a6e22e">user</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>).<span style="color:#a6e22e">UserName</span>),
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// User demo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">UserName</span>  <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">FirstName</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LastName</span>  <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Default</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// the jwt middleware
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Realm</span>:       <span style="color:#e6db74">&#34;test zone&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Key</span>:         []byte(<span style="color:#e6db74">&#34;secret key&#34;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Timeout</span>:     <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Hour</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">MaxRefresh</span>:  <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Hour</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">IdentityKey</span>: <span style="color:#a6e22e">identityKey</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">PayloadFunc</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">data</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>{
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">identityKey</span>: <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">UserName</span>,
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>{}
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">IdentityHandler</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) <span style="color:#66d9ef">interface</span>{} {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">claims</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">ExtractClaims</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">UserName</span>: <span style="color:#a6e22e">claims</span>[<span style="color:#a6e22e">identityKey</span>].(<span style="color:#66d9ef">string</span>),
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Authenticator</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">loginVals</span> <span style="color:#a6e22e">login</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">BindAndValidate</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">loginVals</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">ErrMissingLoginValues</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">userID</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loginVals</span>.<span style="color:#a6e22e">Username</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">password</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loginVals</span>.<span style="color:#a6e22e">Password</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">userID</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;admin&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">password</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;admin&#34;</span>) <span style="color:#f92672">||</span> (<span style="color:#a6e22e">userID</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;test&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">password</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;test&#34;</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">UserName</span>:  <span style="color:#a6e22e">userID</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">LastName</span>:  <span style="color:#e6db74">&#34;Hertz&#34;</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">FirstName</span>: <span style="color:#e6db74">&#34;CloudWeGo&#34;</span>,
+</span></span><span style="display:flex;"><span>                }, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">ErrFailedAuthentication</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Authorizator</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">data</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>); <span style="color:#a6e22e">ok</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">UserName</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;admin&#34;</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Unauthorized</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>, <span style="color:#a6e22e">code</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">code</span>, <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}{
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;code&#34;</span>:    <span style="color:#a6e22e">code</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#a6e22e">message</span>,
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#e6db74">&#34;JWT Error:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// When you use jwt.New(), the function is already automatically called for checking,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// which means you don&#39;t need to call it again.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">errInit</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">authMiddleware</span>.<span style="color:#a6e22e">MiddlewareInit</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">errInit</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#e6db74">&#34;authMiddleware.MiddlewareInit() Error:&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">errInit</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/login&#34;</span>, <span style="color:#a6e22e">authMiddleware</span>.<span style="color:#a6e22e">LoginHandler</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">NoRoute</span>(<span style="color:#a6e22e">authMiddleware</span>.<span style="color:#a6e22e">MiddlewareFunc</span>(), <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">claims</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">ExtractClaims</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;NoRoute claims: %#v\n&#34;</span>, <span style="color:#a6e22e">claims</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#ae81ff">404</span>, <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;code&#34;</span>: <span style="color:#e6db74">&#34;PAGE_NOT_FOUND&#34;</span>, <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Page not found&#34;</span>})
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">auth</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Group</span>(<span style="color:#e6db74">&#34;/auth&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Refresh time can be longer than token timeout
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">auth</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/refresh_token&#34;</span>, <span style="color:#a6e22e">authMiddleware</span>.<span style="color:#a6e22e">RefreshHandler</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">auth</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">authMiddleware</span>.<span style="color:#a6e22e">MiddlewareFunc</span>())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">auth</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/ping&#34;</span>, <span style="color:#a6e22e">PingHandler</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">Spin</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因为 JWT 的核心是<strong>认证</strong>与<strong>授权</strong>，所以在使用 Hertz 的 jwt 扩展时，不仅需要为 <code>/login</code> 接口绑定认证逻辑 <code>authMiddleware.LoginHandler</code>。</p>
+<p>还要以中间件的方式，为需要授权访问的路由组注入授权逻辑 <code>authMiddleware.MiddlewareFunc()</code>。</p>
+<h1 id="配置">配置<a hidden class="anchor" aria-hidden="true" href="#配置">#</a></h1>
+<p>Hertz 通过使用中间件，为路由请求提供了 <code>jwt</code> 的校验功能。其中 <code>HertzJWTMiddleware</code> 结构定义了 <code>jwt</code> 配置信息，并提供了默认配置，用户也可以依据业务场景进行定制。</p>
+<p>上述<strong>示例代码</strong>中，只传入了<strong>两项必要的</strong>自定义的配置。关于 <code>HertzJWTMiddleware</code> 的更多常用配置如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>Realm</code></td>
+<td style="text-align:left">用于设置所属领域名称，默认为 <code>hertz jwt</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SigningAlgorithm</code></td>
+<td style="text-align:left">用于设置签名算法，可以是 HS256、HS384、HS512、RS256、RS384 或者 RS512等，默认为 <code>HS256</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Key</code></td>
+<td style="text-align:left">用于设置签名密钥（必要配置）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>KeyFunc</code></td>
+<td style="text-align:left">用于设置获取签名密钥的回调函数，设置后 token 解析时将从 <code>KeyFunc</code> 获取 <code>jwt</code> 签名密钥</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Timeout</code></td>
+<td style="text-align:left">用于设置 token 过期时间，默认为一小时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>MaxRefresh</code></td>
+<td style="text-align:left">用于设置最大 token 刷新时间，允许客户端在 <code>TokenTime</code> + <code>MaxRefresh</code> 内刷新 token 的有效时间，追加一个 <code>Timeout</code> 的时长</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Authenticator</code></td>
+<td style="text-align:left">用于设置登录时认证用户信息的函数（必要配置）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Authorizator</code></td>
+<td style="text-align:left">用于设置授权已认证的用户路由访问权限的函数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>PayloadFunc</code></td>
+<td style="text-align:left">用于设置登陆成功后为向 token 中添加自定义负载信息的函数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Unauthorized</code></td>
+<td style="text-align:left">用于设置 jwt 验证流程失败的响应函数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>LoginResponse</code></td>
+<td style="text-align:left">用于设置登录的响应函数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>LogoutResponse</code></td>
+<td style="text-align:left">用于设置登出的响应函数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>RefreshResponse</code></td>
+<td style="text-align:left">用于设置 token 有效时长刷新后的响应函数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>IdentityHandler</code></td>
+<td style="text-align:left">用于设置获取身份信息的函数，默认与 <code>IdentityKey</code> 配合使用</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>IdentityKey</code></td>
+<td style="text-align:left">用于设置检索身份的键，默认为 <code>identity</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TokenLookup</code></td>
+<td style="text-align:left">用于设置 token 的获取源，可以选择 <code>header</code>、<code>query</code>、<code>cookie</code>、<code>param</code>，默认为 <code>header:Authorization</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TokenHeadName</code></td>
+<td style="text-align:left">用于设置从 header 中获取 token 时的前缀，默认为 <code>Bearer</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>WithoutDefaultTokenHeadName</code></td>
+<td style="text-align:left">用于设置 <code>TokenHeadName</code> 为空，默认为 <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TimeFunc</code></td>
+<td style="text-align:left">用于设置获取当前时间的函数，默认为 <code>time.Now()</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>HTTPStatusMessageFunc</code></td>
+<td style="text-align:left">用于设置 jwt 校验流程发生错误时响应所包含的错误信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SendCookie</code></td>
+<td style="text-align:left">用于设置 token 将同时以 cookie 的形式返回，下列 cookie 相关配置生效的前提是该值为 <code>true</code>，默认为 <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CookieMaxAge</code></td>
+<td style="text-align:left">用于设置 cookie 的有效期，默认为 <code>Timeout</code> 定义的一小时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SecureCookie</code></td>
+<td style="text-align:left">用于设置允许不通过 HTTPS 传递 cookie 信息，默认为 <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CookieHTTPOnly</code></td>
+<td style="text-align:left">用于设置允许客户端访问 cookie 以进行开发，默认为 <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CookieDomain</code></td>
+<td style="text-align:left">用于设置 cookie 所属的域，默认为空</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SendAuthorization</code></td>
+<td style="text-align:left">用于设置为所有请求的响应头添加授权的 token 信息，默认为 <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DisabledAbort</code></td>
+<td style="text-align:left">用于设置在 jwt 验证流程出错时，禁止请求上下文调用 <code>abort()</code>，默认为 <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CookieName</code></td>
+<td style="text-align:left">用于设置 cookie 的 name 值</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CookieSameSite</code></td>
+<td style="text-align:left">用于设置使用 <code>protocol.CookieSameSite</code> 声明的参数设置 cookie 的 SameSite 属性值</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ParseOptions</code></td>
+<td style="text-align:left">用于设置使用 <code>jwt.ParserOption</code> 声明的函数选项式参数配置 <code>jwt.Parser</code> 的属性值</td>
+</tr>
+</tbody>
+</table>
+<p>后面主要介绍在<strong>简易版抖音后端</strong>可能使用到的配置。</p>
+<h2 id="key">Key<a hidden class="anchor" aria-hidden="true" href="#key">#</a></h2>
+<p>用于设置 <code>token</code> 的签名密钥。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Key</span>: []byte(<span style="color:#e6db74">&#34;secret key&#34;</span>),
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h2 id="keyfunc">KeyFunc<a hidden class="anchor" aria-hidden="true" href="#keyfunc">#</a></h2>
+<p>程序执行时 <code>KeyFunc</code> 作为 <code>jwt.Parse()</code> 的参数，负责为 token 解析提供签名密钥，通过自定义 <code>KeyFunc</code> 的逻辑，可以在解析 token 之前完成一些自定义的操作，如：校验签名方法的有效性、选择对应的签名密钥、将 token 存入请求上下文等。</p>
+<p>函数签名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">Token</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>)
+</span></span></code></pre></div><p>默认处理逻辑如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">KeyFunc</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">Token</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">GetSigningMethod</span>(<span style="color:#a6e22e">mw</span>.<span style="color:#a6e22e">SigningAlgorithm</span>) <span style="color:#f92672">!=</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Method</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">ErrInvalidSigningAlgorithm</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">mw</span>.<span style="color:#a6e22e">usingPublicKeyAlgo</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">mw</span>.<span style="color:#a6e22e">pubKey</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// save token string if valid
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;JWT_TOKEN&#34;</span>, <span style="color:#a6e22e">token</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">mw</span>.<span style="color:#a6e22e">Key</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h2 id="authenticator验证">Authenticator（验证）<a hidden class="anchor" aria-hidden="true" href="#authenticator验证">#</a></h2>
+<p>配合 <code>HertzJWTMiddleware.LoginHandler</code> 使用，登录时触发，用于认证用户的登录信息。</p>
+<p>函数签名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>)
+</span></span></code></pre></div><p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Authenticator</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">loginVals</span> <span style="color:#a6e22e">login</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">BindAndValidate</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">loginVals</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">ErrMissingLoginValues</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">userID</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loginVals</span>.<span style="color:#a6e22e">Username</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">password</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loginVals</span>.<span style="color:#a6e22e">Password</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">userID</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;admin&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">password</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;admin&#34;</span>) <span style="color:#f92672">||</span> (<span style="color:#a6e22e">userID</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;test&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">password</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;test&#34;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">UserName</span>:  <span style="color:#a6e22e">userID</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">LastName</span>:  <span style="color:#e6db74">&#34;Hertz&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">FirstName</span>: <span style="color:#e6db74">&#34;CloudWeGo&#34;</span>,
+</span></span><span style="display:flex;"><span>            }, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">ErrFailedAuthentication</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h2 id="unauthorized">Unauthorized<a hidden class="anchor" aria-hidden="true" href="#unauthorized">#</a></h2>
+<p>用于设置 jwt 授权失败后的响应函数，如下函数将参数列表中的错误码和错误信息封装成 json 响应返回。</p>
+<p>函数签名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>, <span style="color:#a6e22e">code</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>)
+</span></span></code></pre></div><p>默认处理逻辑如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Unauthorized</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>, <span style="color:#a6e22e">code</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">message</span> <span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">code</span>, <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}{
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;code&#34;</span>:    <span style="color:#a6e22e">code</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#a6e22e">message</span>,
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h2 id="authorizator授权">Authorizator（授权）<a hidden class="anchor" aria-hidden="true" href="#authorizator授权">#</a></h2>
+<p>用于设置已认证的用户路由访问权限的函数，如下函数通过验证用户名是否为 <code>admin</code>，从而判断是否有访问路由的权限。</p>
+<p>如果没有访问权限，则会触发 <code>Unauthorized</code> 参数中声明的 jwt 流程验证失败的响应函数。</p>
+<p>函数签名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) <span style="color:#66d9ef">bool</span>
+</span></span></code></pre></div><p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Authorizator</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">interface</span>{}, <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">data</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>); <span style="color:#a6e22e">ok</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">UserName</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;admin&#34;</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h2 id="payloadfunc定义负载信息">PayloadFunc（定义负载信息）<a hidden class="anchor" aria-hidden="true" href="#payloadfunc定义负载信息">#</a></h2>
+<p>用于设置登录时为 <code>token</code> 添加自定义负载信息的函数，如果不传入这个参数，则 <code>token</code> 的 <code>payload</code> 部分默认存储 <code>token</code> 的过期时间和创建时间，如下则额外存储了用户名信息。</p>
+<p>函数签名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>
+</span></span></code></pre></div><p>示例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">PayloadFunc</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">data</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">data</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>); <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">identityKey</span>: <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">UserName</span>,
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">MapClaims</span>{}
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h2 id="loginresponse">LoginResponse<a hidden class="anchor" aria-hidden="true" href="#loginresponse">#</a></h2>
+<p>用于设置登录的响应函数，作为 <code>LoginHandler</code> 的响应结果。</p>
+<p>函数签名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>, <span style="color:#a6e22e">code</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">token</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">expire</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>)
+</span></span></code></pre></div><p>默认处理逻辑如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LoginResponse</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>, <span style="color:#a6e22e">code</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">token</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">expire</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Time</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">JSON</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>, <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}{
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;code&#34;</span>:   <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;token&#34;</span>:  <span style="color:#a6e22e">token</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;expire&#34;</span>: <span style="color:#a6e22e">expire</span>.<span style="color:#a6e22e">Format</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">RFC3339</span>),
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 在 LoginHandler 内调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/login&#34;</span>, <span style="color:#a6e22e">authMiddleware</span>.<span style="color:#a6e22e">LoginHandler</span>)
+</span></span></code></pre></div><h2 id="httpstatusmessagefunc">HTTPStatusMessageFunc<a hidden class="anchor" aria-hidden="true" href="#httpstatusmessagefunc">#</a></h2>
+<p>一旦 jwt 校验流程产生错误，如 jwt 认证失败、token 鉴权失败、刷新 token 有效时长失败等，对应 error 将以参数的形式传递给 <code>HTTPStatusMessageFunc</code>，由其提取出需要响应的错误信息，最终以 string 参数形式传递给 <code>Unauthorized</code> 声明的 jwt 验证流程失败的响应函数返回。</p>
+<p>函数签名：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">e</span> <span style="color:#66d9ef">error</span>, <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) <span style="color:#66d9ef">string</span>
+</span></span></code></pre></div><p>默认处理逻辑如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">authMiddleware</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">New</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">HertzJWTMiddleware</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">HTTPStatusMessageFunc</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">e</span> <span style="color:#66d9ef">error</span>, <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">RequestContext</span>) <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">Error</span>()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p><strong>参考</strong></p>
+<p><a href="https://www.cloudwego.io/zh/docs/hertz/tutorials/basic-feature/middleware/jwt/">Hertz中间件 JWT</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://perhapzz.github.io/tags/golang/">golang</a></li>
+      <li><a href="https://perhapzz.github.io/tags/hertz/">hertz</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://perhapzz.github.io">perhapzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
