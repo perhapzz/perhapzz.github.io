@@ -6,7 +6,16 @@
     <description>Recent content on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Jan 2023 00:24:03 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 16 Feb 2023 22:58:06 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>青训营项目复盘</title>
+      <link>https://perhapzz.github.io/posts/centrareview/</link>
+      <pubDate>Thu, 16 Feb 2023 22:58:06 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/centrareview/</guid>
+      <description>第五届字节跳动青训营简易抖音大项目复盘总结</description>
+    </item>
+    
     <item>
       <title>gorm-gen 学习笔记</title>
       <link>https://perhapzz.github.io/posts/gorm-gen/</link>
@@ -79,15 +88,6 @@
       <description>记用hugo搭建个人博客的全过程</description>
     </item>
     
-    
-    <item>
-      <title>青训营大项目复盘</title>
-      <link>https://perhapzz.github.io/posts/canteraprojectreview/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/canteraprojectreview/</guid>
-      <description>第五届字节跳动青训营简易抖音大项目复盘总结</description>
-    </item>
     
   </channel>
 </rss>
