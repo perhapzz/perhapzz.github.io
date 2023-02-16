@@ -8,12 +8,12 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 13 Dec 2022 19:48:31 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CodeTop刷题笔记</title>
+      <title>CodeTop 刷题笔记</title>
       <link>https://perhapzz.github.io/posts/codetop/</link>
       <pubDate>Tue, 13 Dec 2022 19:48:31 +0800</pubDate>
       
       <guid>https://perhapzz.github.io/posts/codetop/</guid>
-      <description>使用golang刷codetop</description>
+      <description>用 golang 刷 codetop</description>
     </item>
     
   </channel>
