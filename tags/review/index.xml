@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>review on perhapzz</title>
+    <link>https://perhapzz.github.io/tags/review/</link>
+    <description>Recent content in review on perhapzz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://perhapzz.github.io/tags/review/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>青训营大项目复盘</title>
+      <link>https://perhapzz.github.io/posts/canteraprojectreview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/canteraprojectreview/</guid>
+      <description>第五届字节跳动青训营简易抖音大项目复盘总结</description>
+    </item>
+    
+  </channel>
+</rss>
