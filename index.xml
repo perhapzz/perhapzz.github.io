@@ -6,7 +6,25 @@
     <description>Recent content on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 16 Feb 2023 22:58:06 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Feb 2023 20:59:17 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>操作系统笔记</title>
+      <link>https://perhapzz.github.io/posts/operatingsystem/</link>
+      <pubDate>Sat, 18 Feb 2023 20:59:17 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/operatingsystem/</guid>
+      <description>操作系统 内核 内核作为应用连接硬件设备的桥梁，一般会提供 4 个基本能力：
+ 管理进程、线程，决定哪个进程、线程使用 CPU，也就是进程调度的能力； 管理内存，决定内存的分配和回收，也就是内存管理的能力； 管理硬件设备，为进程与硬件设备之间提供通信能力，也就是硬件通信能力； 提供系统调用，如果应用程序要运行更高权限运行的服务，那么就需要有系统调用，它是用户程序与操作系统之间的接口。  大多数操作系统，把内存分成了两个区域：
+ 内核空间，这个内存空间只有内核程序可以访问； 用户空间，这个内存空间专门给应用程序使用；  应用程序如果需要进入内核空间，就需要通过系统调用，下面来看看系统调用的过程：
+内核程序执行在内核态，用户程序执行在用户态。当应用程序使用系统调用时，会产生一个中断。发生中断后， CPU 会中断当前在执行的用户程序，转而跳转到中断处理程序，也就是开始执行内核程序。内核处理完后，主动触发中断，把 CPU 执行权限交回给用户程序，回到用户态继续工作。
+Linux 的设计 Linux 内核设计的理念主要有这几个点：
+ MultiTask，多任务 SMP，对称多处理 ELF，可执行文件链接格式 Monolithic Kernel，宏内核  MultiTask MultiTask 的意思是多任务，代表着 Linux 是一个多任务的操作系统。
+多任务意味着可以有多个任务同时执行，这里的「同时」可以是并发或并行：
+ 对于单核 CPU 时，可以让每个任务执行一小段时间，时间到就切换另外一个任务，从宏观角度看，一段时间内执行了多个任务，这被称为并发。 对于多核 CPU 时，多个任务可以同时被不同核心的 CPU 同时执行，这被称为并行。  SMP SMP 的意思是对称多处理，代表着每个 CPU 的地位是相等的，对资源的使用权限也是相同的，多个 CPU 共享同一个内存，每个 CPU 都可以访问完整的内存和硬件资源。
+这个特点决定了 Linux 操作系统不会有某个 CPU 单独服务应用程序或内核程序，而是每个程序都可以被分配到任意一个 CPU 上被执行。
+ELF ELF 的意思是可执行文件链接格式，它是 Linux 操作系统中可执行文件的存储格式，你可以从下图看到它的结构：</description>
+    </item>
+    
     <item>
       <title>青训营项目复盘</title>
       <link>https://perhapzz.github.io/posts/centrareview/</link>
@@ -44,12 +62,21 @@
     </item>
     
     <item>
-      <title>计算机基础</title>
-      <link>https://perhapzz.github.io/posts/basics/</link>
+      <title>计算机网络笔记</title>
+      <link>https://perhapzz.github.io/posts/computernetwork/</link>
       <pubDate>Sat, 24 Dec 2022 22:31:05 +0800</pubDate>
       
-      <guid>https://perhapzz.github.io/posts/basics/</guid>
-      <description>学习计算机基础笔记，目前只到计算机网络</description>
+      <guid>https://perhapzz.github.io/posts/computernetwork/</guid>
+      <description>计算机网络 基础篇 1. TCP/IP 网络模型有哪几层？ 应用层 我们电脑或手机使用的应用软件都是在应用层实现。那么，当两个不同设备的应用需要通信的时候，应用就把应用数据传给下一层，也就是传输层。
+应用层只需要专注于为用户提供应用功能，比如 HTTP、FTP、Telnet、DNS、SMTP等（什么东东..）。
+传输层 给应用层提供网络支持的。
+有两个传输协议，分别是 TCP 和 UDP。
+TCP 的全称叫传输控制协议（Transmission Control Protocol），大部分应用使用的正是 TCP 传输层协议，比如 HTTP 应用层协议。TCP 相比 UDP 多了很多特性，比如流量控制、超时重传、拥塞控制等，这些都是为了保证数据包能可靠地传输给对方。
+UDP 相对来说就很简单，简单到只负责发送数据包，不保证数据包是否能抵达对方，但它实时性相对更好，传输效率也高。当然，UDP 也可以实现可靠传输，把 TCP 的特性在应用层上实现就可以，不过要实现一个商用的可靠 UDP 传输协议，也不是一件简单的事情。（那为什么不直接用TCP呢？）
+网络层 传输层协议只需要服务好应用即可，让其作为应用间数据传输的媒介，帮助实现应用到应用的通信，而实际的传输功能就交给下一层，也就是网络层（Internet Layer）。
+网络层最常使用的是 IP 协议（Internet Protocol），IP 协议会将传输层的报文作为数据部分，再加上 IP 包头组装成 IP 报文，如果 IP 报文大小超过 MTU（以太网中一般为 1500 字节）就会再次进行分片，得到一个即将发送到网络的 IP 报文。
+  寻址   我们一般用 IP 地址给设备进行编号，对于 IPv4 协议， IP 地址共 32 位，分成了四段（比如，192.168.100.1），每段是 8 位。
+因此，需要将 IP 地址分成两种意义：</description>
     </item>
     
     <item>

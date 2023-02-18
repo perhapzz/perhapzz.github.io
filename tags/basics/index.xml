@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Posts on perhapzz</title>
-    <link>https://perhapzz.github.io/posts/</link>
-    <description>Recent content in Posts on perhapzz</description>
+    <title>basics on perhapzz</title>
+    <link>https://perhapzz.github.io/tags/basics/</link>
+    <description>Recent content in basics on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Feb 2023 20:59:17 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Feb 2023 20:59:17 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/tags/basics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>操作系统笔记</title>
       <link>https://perhapzz.github.io/posts/operatingsystem/</link>
@@ -26,42 +26,6 @@ ELF ELF 的意思是可执行文件链接格式，它是 Linux 操作系统中�
     </item>
     
     <item>
-      <title>青训营项目复盘</title>
-      <link>https://perhapzz.github.io/posts/centrareview/</link>
-      <pubDate>Thu, 16 Feb 2023 22:58:06 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/centrareview/</guid>
-      <description>第五届字节跳动青训营简易抖音大项目复盘总结</description>
-    </item>
-    
-    <item>
-      <title>gorm-gen 学习笔记</title>
-      <link>https://perhapzz.github.io/posts/gorm-gen/</link>
-      <pubDate>Thu, 26 Jan 2023 00:24:03 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/gorm-gen/</guid>
-      <description>gen 通过代码生成，让 GORM 更加友好（针对复杂SQL场景也能处理），也更加安全（增加类型校验）</description>
-    </item>
-    
-    <item>
-      <title>JWT 学习笔记</title>
-      <link>https://perhapzz.github.io/posts/jwt/</link>
-      <pubDate>Tue, 24 Jan 2023 00:46:44 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/jwt/</guid>
-      <description>JSON Web Token（JWT）是一个轻量级的认证规范，这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息</description>
-    </item>
-    
-    <item>
-      <title>WSL 实操笔记</title>
-      <link>https://perhapzz.github.io/posts/wsl/</link>
-      <pubDate>Fri, 20 Jan 2023 00:39:18 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/wsl/</guid>
-      <description>Windows Subsystem for Linux（简称WSL）是适用于Windows的Linux子系统</description>
-    </item>
-    
-    <item>
       <title>计算机网络笔记</title>
       <link>https://perhapzz.github.io/posts/computernetwork/</link>
       <pubDate>Sat, 24 Dec 2022 22:31:05 +0800</pubDate>
@@ -77,42 +41,6 @@ UDP 相对来说就很简单，简单到只负责发送数据包，不保证数�
 网络层最常使用的是 IP 协议（Internet Protocol），IP 协议会将传输层的报文作为数据部分，再加上 IP 包头组装成 IP 报文，如果 IP 报文大小超过 MTU（以太网中一般为 1500 字节）就会再次进行分片，得到一个即将发送到网络的 IP 报文。
   寻址   我们一般用 IP 地址给设备进行编号，对于 IPv4 协议， IP 地址共 32 位，分成了四段（比如，192.168.100.1），每段是 8 位。
 因此，需要将 IP 地址分成两种意义：</description>
-    </item>
-    
-    <item>
-      <title>纸上谈Git</title>
-      <link>https://perhapzz.github.io/posts/git/</link>
-      <pubDate>Sat, 17 Dec 2022 10:04:52 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/git/</guid>
-      <description>Git学习笔记</description>
-    </item>
-    
-    <item>
-      <title>CodeTop 刷题笔记</title>
-      <link>https://perhapzz.github.io/posts/codetop/</link>
-      <pubDate>Tue, 13 Dec 2022 19:48:31 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/codetop/</guid>
-      <description>用 golang 刷 codetop</description>
-    </item>
-    
-    <item>
-      <title>迈出Go RPC的一小步</title>
-      <link>https://perhapzz.github.io/posts/firststepofrpc/</link>
-      <pubDate>Tue, 13 Dec 2022 10:52:29 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/firststepofrpc/</guid>
-      <description>记Go语言远程过程调用RPC学习过程</description>
-    </item>
-    
-    <item>
-      <title>个人博客搭建笔记</title>
-      <link>https://perhapzz.github.io/posts/personalblogsetupnote/</link>
-      <pubDate>Mon, 12 Dec 2022 12:52:25 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/personalblogsetupnote/</guid>
-      <description>记用hugo搭建个人博客的全过程</description>
     </item>
     
   </channel>
