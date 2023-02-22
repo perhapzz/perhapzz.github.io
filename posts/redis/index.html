@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Redis学习笔记 | perhapzz</title>
+<title>Redis 笔记 | perhapzz</title>
 <meta name="keywords" content="basics">
 <meta name="description" content="Redis Redis 是一种基于内存的数据库，对数据的读写操作都是在内存中完成，因此读写速度非常快，常用于缓存，消息队列、分布式锁等场景。
 Redis 提供了多种数据类型来支持不同的业务场景，比如 String(字符串)、Hash(哈希)、 List (列表)、Set(集合)、Zset(有序集合)、Bitmaps（位图）、HyperLogLog（基数统计）、GEO（地理信息）、Stream（流），并且对数据类型的操作都是原子性的，因为执行命令由单线程负责的，不存在并发竞争的问题。
@@ -66,7 +66,7 @@ Redis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持
         }
 
     </style>
-</noscript><meta property="og:title" content="Redis学习笔记" />
+</noscript><meta property="og:title" content="Redis 笔记" />
 <meta property="og:description" content="Redis Redis 是一种基于内存的数据库，对数据的读写操作都是在内存中完成，因此读写速度非常快，常用于缓存，消息队列、分布式锁等场景。
 Redis 提供了多种数据类型来支持不同的业务场景，比如 String(字符串)、Hash(哈希)、 List (列表)、Set(集合)、Zset(有序集合)、Bitmaps（位图）、HyperLogLog（基数统计）、GEO（地理信息）、Stream（流），并且对数据类型的操作都是原子性的，因为执行命令由单线程负责的，不存在并发竞争的问题。
 除此之外，Redis 还支持事务 、持久化、Lua 脚本、多种集群方案（主从复制模式、哨兵模式、切片机群模式）、发布/订阅模式，内存淘汰机制、过期删除机制等等。
@@ -84,7 +84,7 @@ Redis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持
 <meta property="article:modified_time" content="2022-12-25T22:21:20+08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Redis学习笔记"/>
+<meta name="twitter:title" content="Redis 笔记"/>
 <meta name="twitter:description" content="Redis Redis 是一种基于内存的数据库，对数据的读写操作都是在内存中完成，因此读写速度非常快，常用于缓存，消息队列、分布式锁等场景。
 Redis 提供了多种数据类型来支持不同的业务场景，比如 String(字符串)、Hash(哈希)、 List (列表)、Set(集合)、Zset(有序集合)、Bitmaps（位图）、HyperLogLog（基数统计）、GEO（地理信息）、Stream（流），并且对数据类型的操作都是原子性的，因为执行命令由单线程负责的，不存在并发竞争的问题。
 除此之外，Redis 还支持事务 、持久化、Lua 脚本、多种集群方案（主从复制模式、哨兵模式、切片机群模式）、发布/订阅模式，内存淘汰机制、过期删除机制等等。
@@ -112,7 +112,7 @@ Redis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "Redis学习笔记",
+      "name": "Redis 笔记",
       "item": "https://perhapzz.github.io/posts/redis/"
     }
   ]
@@ -122,8 +122,8 @@ Redis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Redis学习笔记",
-  "name": "Redis学习笔记",
+  "headline": "Redis 笔记",
+  "name": "Redis 笔记",
   "description": "Redis Redis 是一种基于内存的数据库，对数据的读写操作都是在内存中完成，因此读写速度非常快，常用于缓存，消息队列、分布式锁等场景。\nRedis 提供了多种数据类型来支持不同的业务场景，比如 String(字符串)、Hash(哈希)、 List (列表)、Set(集合)、Zset(有序集合)、Bitmaps（位图）、HyperLogLog（基数统计）、GEO（地理信息）、Stream（流），并且对数据类型的操作都是原子性的，因为执行命令由单线程负责的，不存在并发竞争的问题。\n除此之外，Redis 还支持事务 、持久化、Lua 脚本、多种集群方案（主从复制模式、哨兵模式、切片机群模式）、发布/订阅模式，内存淘汰机制、过期删除机制等等。\n为什么用 Redis 作为 MySQL 的缓存？ 主要是因为 Redis 具备「高性能」和「高并发」两种特性。\n1、Redis 具备高性能\n假如用户第一次访问 MySQL 中的某些数据。这个过程会比较慢，因为是从硬盘上读取的。将该用户访问的数据缓存在 Redis 中，这样下一次再访问这些数据的时候就可以直接从缓存中获取了，操作 Redis 缓存就是直接操作内存，所以速度相当快。\n如果 MySQL 中的对应数据改变的之后，同步改变 Redis 缓存中相应的数据即可，不过这里会有 Redis 和 MySQL 双写一致性的问题，后面我们会提到。\n2、 Redis 具备高并发\n单台设备的 Redis 的 QPS（Query Per Second，每秒钟处理完请求的次数） 是 MySQL 的 10 倍，Redis 单机的 QPS 能轻松破 10w，而 MySQL 单机的 QPS 很难破 1w。\n所以，直接访问 Redis 能够承受的请求是远远大于直接访问 MySQL 的，所以我们可以考虑把数据库中的部分数据转移到缓存中去，这样用户的一部分请求会直接到缓存这里而不用经过数据库。\nRedis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持久化的方式：",
   "keywords": [
     "basics"
@@ -208,7 +208,7 @@ Redis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://perhapzz.github.io">Home</a>&nbsp;»&nbsp;<a href="https://perhapzz.github.io/posts/">Posts</a></div>
     <h1 class="post-title">
-      Redis学习笔记
+      Redis 笔记
     </h1>
     <div class="post-meta"><span title='2022-12-25 22:21:20 +0800 CST'>December 25, 2022</span>
 
