@@ -663,7 +663,7 @@ UDP 相对来说就很简单，简单到只负责发送数据包，不保证数�
 <p>第一种：请求头部中的 <code>If-Modified-Since</code> 字段与响应头部中的 <code>Last-Modified</code> 字段实现，这两个字段的意思是：</p>
 <ul>
 <li>响应头部中的 <code>Last-Modified</code>：标示这个响应资源的最后修改时间；</li>
-<li>请求头部中的 <code>If-Modified-Since</code>：当资源过期了，发现响应头中具有 Last-Modified 声明，则再次发起请求的时候带上 Last-Modified 的时间，服务器收到请求后发现有 If-Modified-Since 则与被请求资源的最后修改时间进行对比（Last-Modified），如果最后修改时间较新（大），说明资源又被改过，则返回最新资源，HTTP 200 OK；如果最后修改时间较旧（小），说明资源无新修改，响应 HTTP 304 走缓存。</li>
+<li>请求头部中的 <code>If-Modified-Since</code>：当资源过期了，发现响应头中具有 <code>Last-Modified</code> 声明，则再次发起请求的时候带上 <code>Last-Modified</code> 的时间，服务器收到请求后发现有 <code>If-Modified-Since</code> 则与被请求资源的最后修改时间进行对比（<code>Last-Modified</code>），如果最后修改时间较新（大），说明资源又被改过，则返回最新资源，HTTP 200 OK；如果最后修改时间较旧（小），说明资源无新修改，响应 HTTP 304 走缓存。</li>
 </ul>
 <p>第二种：请求头部中的 <code>If-None-Match</code> 字段与响应头部中的 <code>ETag</code> 字段，这两个字段的意思是：</p>
 <ul>
