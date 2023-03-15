@@ -37,6 +37,15 @@ ELF ELF 的意思是可执行文件链接格式，它是 Linux 操作系统中�
     </item>
     
     <item>
+      <title>面试笔记</title>
+      <link>https://perhapzz.github.io/posts/interview/</link>
+      <pubDate>Sat, 18 Feb 2023 20:59:17 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/interview/</guid>
+      <description>记录一下自己的面试经历</description>
+    </item>
+    
+    <item>
       <title>Redis 笔记</title>
       <link>https://perhapzz.github.io/posts/redis/</link>
       <pubDate>Sun, 25 Dec 2022 22:21:20 +0800</pubDate>
