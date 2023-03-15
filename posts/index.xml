@@ -175,5 +175,23 @@ Why ELK 　日志主要包括系统日志、应用程序日志和安全日志。
 Kubernetes </description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://perhapzz.github.io/posts/%E9%9D%A2%E8%AF%95%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/%E9%9D%A2%E8%AF%95%E5%B0%8F%E8%AE%B0/</guid>
+      <description>Golang 相关   new make的区别
+  GMP模型
+  使用golang中遇见的坑（说了map并发读写 问sync.Map的具体实现）
+  数组与slice的区别
+  Go Slice底层原理
+  逃逸分析
+  RPC 框架  RPC与HTTP 说到pb协议，为什么pb协议快，JSON不快 然后HTTP/2与HTTP的区别 HTTP与HTTPS的区别 gRPC底层用的协议 设计一个 RPC 框架要注意什么  用什么编码格式    ​	网络协议
+​	传输格式
+​	五大指标
+MySQL  存储引擎、各个存储引擎之间的区别 事务特性与隔离级别实现的基本原理  Redis  Redis为什么这么快 Redis Multi实现原理 Redis AOF和RDB的实现原理 Redis常用的数据结构及原理 ZSET底层 Redis的网络模型 Redis的主要使用场景  服务器  Linux常用的命令 查看CPU的命令 排查CPU占用率特别高 排查内存占用率高（GC -&amp;gt; 各种资源的close问题）  做题 洗牌算法（rand包下的api忘完了） 字符串数组的公共前缀</description>
+    </item>
+    
   </channel>
 </rss>
