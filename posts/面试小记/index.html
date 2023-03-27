@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>perhapzz</title>
+<meta name="keywords" content="">
+<meta name="description" content="Golang 相关   new make的区别
+  GMP模型
+  使用golang中遇见的坑（说了map并发读写 问sync.Map的具体实现）
+  数组与slice的区别
+  Go Slice底层原理
+  逃逸分析
+  RPC 框架  RPC与HTTP 说到pb协议，为什么pb协议快，JSON不快 然后HTTP/2与HTTP的区别 HTTP与HTTPS的区别 gRPC底层用的协议 设计一个 RPC 框架要注意什么  用什么编码格式    ​	网络协议
+​	传输格式
+​	五大指标
+MySQL  存储引擎、各个存储引擎之间的区别 事务特性与隔离级别实现的基本原理  Redis  Redis为什么这么快 Redis Multi实现原理 Redis AOF和RDB的实现原理 Redis常用的数据结构及原理 ZSET底层 Redis的网络模型 Redis的主要使用场景  服务器  Linux常用的命令 查看CPU的命令 排查CPU占用率特别高 排查内存占用率高（GC -&gt; 各种资源的close问题）  做题 洗牌算法（rand包下的api忘完了） 字符串数组的公共前缀">
+<meta name="author" content="">
+<link rel="canonical" href="https://perhapzz.github.io/posts/%E9%9D%A2%E8%AF%95%E5%B0%8F%E8%AE%B0/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2c5d624023ca4f39285dc8ad242509c565a0c0e820fc61724b2a58620dfdafbe.css" integrity="sha256-LF1iQCPKTzkoXcitJCUJxWWgwOgg/GFySypYYg39r74=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://perhapzz.github.io/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://perhapzz.github.io/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://perhapzz.github.io/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://perhapzz.github.io/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://perhapzz.github.io/favicon/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="" />
+<meta property="og:description" content="Golang 相关   new make的区别
+  GMP模型
+  使用golang中遇见的坑（说了map并发读写 问sync.Map的具体实现）
+  数组与slice的区别
+  Go Slice底层原理
+  逃逸分析
+  RPC 框架  RPC与HTTP 说到pb协议，为什么pb协议快，JSON不快 然后HTTP/2与HTTP的区别 HTTP与HTTPS的区别 gRPC底层用的协议 设计一个 RPC 框架要注意什么  用什么编码格式    ​	网络协议
+​	传输格式
+​	五大指标
+MySQL  存储引擎、各个存储引擎之间的区别 事务特性与隔离级别实现的基本原理  Redis  Redis为什么这么快 Redis Multi实现原理 Redis AOF和RDB的实现原理 Redis常用的数据结构及原理 ZSET底层 Redis的网络模型 Redis的主要使用场景  服务器  Linux常用的命令 查看CPU的命令 排查CPU占用率特别高 排查内存占用率高（GC -&gt; 各种资源的close问题）  做题 洗牌算法（rand包下的api忘完了） 字符串数组的公共前缀" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://perhapzz.github.io/posts/%E9%9D%A2%E8%AF%95%E5%B0%8F%E8%AE%B0/" /><meta property="article:section" content="posts" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Golang 相关   new make的区别
+  GMP模型
+  使用golang中遇见的坑（说了map并发读写 问sync.Map的具体实现）
+  数组与slice的区别
+  Go Slice底层原理
+  逃逸分析
+  RPC 框架  RPC与HTTP 说到pb协议，为什么pb协议快，JSON不快 然后HTTP/2与HTTP的区别 HTTP与HTTPS的区别 gRPC底层用的协议 设计一个 RPC 框架要注意什么  用什么编码格式    ​	网络协议
+​	传输格式
+​	五大指标
+MySQL  存储引擎、各个存储引擎之间的区别 事务特性与隔离级别实现的基本原理  Redis  Redis为什么这么快 Redis Multi实现原理 Redis AOF和RDB的实现原理 Redis常用的数据结构及原理 ZSET底层 Redis的网络模型 Redis的主要使用场景  服务器  Linux常用的命令 查看CPU的命令 排查CPU占用率特别高 排查内存占用率高（GC -&gt; 各种资源的close问题）  做题 洗牌算法（rand包下的api忘完了） 字符串数组的公共前缀"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://perhapzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "",
+      "item": "https://perhapzz.github.io/posts/%E9%9D%A2%E8%AF%95%E5%B0%8F%E8%AE%B0/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "name": "",
+  "description": "Golang 相关   new make的区别\n  GMP模型\n  使用golang中遇见的坑（说了map并发读写 问sync.Map的具体实现）\n  数组与slice的区别\n  Go Slice底层原理\n  逃逸分析\n  RPC 框架  RPC与HTTP 说到pb协议，为什么pb协议快，JSON不快 然后HTTP/2与HTTP的区别 HTTP与HTTPS的区别 gRPC底层用的协议 设计一个 RPC 框架要注意什么  用什么编码格式    ​\t网络协议\n​\t传输格式\n​\t五大指标\nMySQL  存储引擎、各个存储引擎之间的区别 事务特性与隔离级别实现的基本原理  Redis  Redis为什么这么快 Redis Multi实现原理 Redis AOF和RDB的实现原理 Redis常用的数据结构及原理 ZSET底层 Redis的网络模型 Redis的主要使用场景  服务器  Linux常用的命令 查看CPU的命令 排查CPU占用率特别高 排查内存占用率高（GC -\u0026gt; 各种资源的close问题）  做题 洗牌算法（rand包下的api忘完了） 字符串数组的公共前缀",
+  "keywords": [
+    
+  ],
+  "articleBody": "Golang 相关   new make的区别\n  GMP模型\n  使用golang中遇见的坑（说了map并发读写 问sync.Map的具体实现）\n  数组与slice的区别\n  Go Slice底层原理\n  逃逸分析\n  RPC 框架  RPC与HTTP 说到pb协议，为什么pb协议快，JSON不快 然后HTTP/2与HTTP的区别 HTTP与HTTPS的区别 gRPC底层用的协议 设计一个 RPC 框架要注意什么  用什么编码格式    ​\t网络协议\n​\t传输格式\n​\t五大指标\nMySQL  存储引擎、各个存储引擎之间的区别 事务特性与隔离级别实现的基本原理  Redis  Redis为什么这么快 Redis Multi实现原理 Redis AOF和RDB的实现原理 Redis常用的数据结构及原理 ZSET底层 Redis的网络模型 Redis的主要使用场景  服务器  Linux常用的命令 查看CPU的命令 排查CPU占用率特别高 排查内存占用率高（GC - 各种资源的close问题）  做题 洗牌算法（rand包下的api忘完了） 字符串数组的公共前缀\n说一下项目中比较有技术含量的部分 说了实现分布式websocket服务器的方式 RabbitMQ，消息队列的选型 这时候谈到服务器资源，kafka占用内存特别高，面试官保持怀疑\n操作系统  进程和线程的区别  进程是资源分配的基本单位，线程是调度的基本单位。\n进程拥有操作系统分配给他的所有资源包括堆、页表等，线程只有自己独有的寄存器和栈。\n进程与进程之间上下文切换速度慢，而同一进程下的线程上下文切换很快。\n 协程与线程的区别   协程是通过用户程序来控制的微小线程，上下文切换比线程更快\n并发和并行  并发和并行都能表示一段时间内有多个任务共同执行，但是单一时间点，并发只能有一个任务在执行，而并行有多个任务在同时执行。\n 进程与线程切换流程   进程切换分两步：\n1. 切换页表以使用新的地址空间，一旦去切换上下文，处理器中所有已缓存的内存地址一瞬间都作废了 1. 切换内核栈和硬件上下文   为什么虚拟地址空间切换会比较耗时   把虚拟地址转换成物理地址需要查找页表，很慢。通常使用cache来缓存常用的地址映射，加速页表查找，这个cache就是tlb。当进程切换，后台页表也要切换，页表切换后tlb就失效了，虚拟地址转换为物理地址就会变慢。\n进程间通信的方式  管道（匿名管道：利用内存，用过即弃；命名管道：要在磁盘中建立文件，有输入输出端口）\n信号：类似进程暂停、进程结束等信号。\n信号量，是一个计数器，当使用的时候-1，如果为0，那么可以使用，如果为负，则挂起等待唤醒，使用结束+1，如果为负数，则唤醒一个进程。\n消息队列：保存在内核中的消息链表\n共享内存：映射一段能被其他进程访问的内存\nsocket：可以实现不同机器内存之间的通信\n进程间同步的方式  临界区：加锁\n信号量：\n 线程同步的方式\n  线程的分类\n  内核级线程：能访问内核进程中所有的资源，包括内核资源\n用户级线程：只能访问该用户进程中的资源，无法访问内核资源，内核无法感知这类线程的存在，由应用进程来管理。\n临界区，如何解决冲突  临界区就是访问共享资源的代码片段，一定不能给多线程同时执行。\n解决冲突的办法是加锁：有共享锁、读写锁、悲观锁、乐观锁等方式\n死锁，死锁产生条件  死锁就是两个或两个以上的进程互相等待对方的锁释放，产生的卡死局面。\n产生的条件：\n互斥：一个资源只能被一个进程使用\n保持：请求资源时对已有资源保持不放\n不剥夺：获取资源，在未完全使用完前，不能强行剥夺\n循环：申请的空间相互依赖、构成循环\n解决方法：\n检测死锁并恢复\n每个资源确定申请的顺序，\n画图避免死锁\n进程调度策略有哪几种  先来先服务\n最短先服务\n优先级高先服务\n时间片轮训服务\n优先队列轮训服务\n进程有哪些状态  创建、就绪、阻塞、运行、结束、挂起（阻塞状态先换出到硬盘，等待运行，阻塞挂起、就绪挂起）\n分页  为了减少内存碎片的出现，将物理内存分成大小相同的页，将数据分配在各个页上。\n分段  满足程序员的逻辑需求（数据共享、数据保护、动态链接等），将数据以段的形式保存，记录段号和段内地址，每个段内部都是从0开始编址。用分段表将物理内存分配给各个资源，可能出现内存碎片、内存黑洞。\n分页和分段的区别  分页和分段都是内存分配的方式，分页是将数据分成大小相同的页来存储，分段是使用连续的空间来存储。分页对于程序员是透明的，分段是程序员显式划分。分页主要用于实现虚拟内存，从而获得更大的地址空间；分段主要是为了使程序和数据可以被划分为逻辑上独立的地址空间并且有助于共享和保护。\n页面置换算法  最少置换算法\nlru\nlfu\n旋转指针\n缓冲区溢出 虚拟内存  虚拟内存是在用于管理物理内存的内存分配技术，进程需要访问内存时，访问的是虚拟内存的空间，虚拟内存再根据分页分段的表来查实际的物理内存。\n主要的好处是：1.可以局部性原理，将还未使用的数据暂时保存在磁盘中，只有当要使用的时候才调出来，达到超出实际物理内存的效果 2. 虚拟内存还可以筛查内存访问请求，保证内存的安全性 3.\n项目相关 抖音后端 netpoll 和 net Netpoll 是由 字节跳动 开发的高性能 NIO(Non-blocking I/O) 网络库，专注于 RPC 场景。\nRPC 通常有较重的处理逻辑，因此无法串行处理 I/O。而 Go 的标准库 net 设计了 BIO(Blocking I/O) 模式的 API，使得 RPC 框架设计上只能为每个连接都分配一个 goroutine。\nhertz 和 gin **高性能：**使用 netpoll 自研高性能网络库\n**扩展性：**hertz-contrib 提供了扩展仓库，提供中间件、tracer、websocket 等能力\nkitex 和 go-kit / go-zero **高性能：**适用 netpoll\n**代码生成：**内置代码生成工具，支持生成 thrift、protobuf 代码\n**扩展性：**提供很多扩展接口，支持服务注册/发现、链路追踪等治理模块\n在消息协议中，rpc消息协议支持 thrift、kitex protobuf，kitex protobuf 是 kitex 自定义的protobuf消息协议，协议格式类似 thrift\njson/ thrift/ protobuf  速度：在序列化和反序列化数据方面，Protobuf 比 JSON 快得多。由于格式是二进制的，json是文本格式，Protobuf 中读写结构化数据所需的时间比在JSON 中要短。 大小：Protobuf 比 json 小得多，在网络带宽有限的情况下，由于二进制数据流的紧凑性，存储和传输Protobuf 信息所占用的空间比JSON 信息要少。 数据类型：Protobuf 支持更复杂的数据类型，如枚举和map 平台兼容性：由于Protobuf 是一种开源格式，语言和平台独立的，它可以在多个平台上使用而没有困难或兼容性问题。  gorm 和 xorm/ ent etcd 和 zookeeper / consul consul 以服务发现和配置作为主要功能，附带提供了 kv 存储，更适合服务注册和发现\n如果系统存在其他分布式一致性协作需求，选择 etcd 和 zookeeper 可能更好。又因为 zookeeper 适用 java 写的，而 etcd 是用 go 写的，可能最后还是用 etcd 了。\ndevlake ",
+  "wordCount" : "230",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://perhapzz.github.io/posts/%E9%9D%A2%E8%AF%95%E5%B0%8F%E8%AE%B0/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "perhapzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://perhapzz.github.io/favicon/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://perhapzz.github.io" accesskey="h" title="perhapzz (Alt + H)">perhapzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://perhapzz.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://perhapzz.github.io/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://perhapzz.github.io">Home</a>&nbsp;»&nbsp;<a href="https://perhapzz.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      
+    </h1>
+    <div class="post-meta">
+
+</div>
+  </header> 
+  <div class="post-content"><h3 id="golang-相关">Golang 相关<a hidden class="anchor" aria-hidden="true" href="#golang-相关">#</a></h3>
+<ol>
+<li>
+<p>new make的区别</p>
+</li>
+<li>
+<p>GMP模型</p>
+</li>
+<li>
+<p>使用golang中遇见的坑（说了map并发读写 问sync.Map的具体实现）</p>
+</li>
+<li>
+<p>数组与slice的区别</p>
+</li>
+<li>
+<p>Go Slice底层原理</p>
+</li>
+<li>
+<p>逃逸分析</p>
+</li>
+</ol>
+<h3 id="rpc-框架">RPC 框架<a hidden class="anchor" aria-hidden="true" href="#rpc-框架">#</a></h3>
+<ol>
+<li>RPC与HTTP</li>
+<li>说到pb协议，为什么pb协议快，JSON不快</li>
+<li>然后HTTP/2与HTTP的区别</li>
+<li>HTTP与HTTPS的区别</li>
+<li>gRPC底层用的协议</li>
+<li>设计一个 RPC 框架要注意什么
+<ol>
+<li>用什么编码格式</li>
+</ol>
+</li>
+</ol>
+<p><img loading="lazy" src="C:%5cUsers%5chzpan%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20230208114737281.png" alt="image-20230208114737281"  />
+</p>
+<p><img loading="lazy" src="C:%5cUsers%5chzpan%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20230208114801172.png" alt="image-20230208114801172"  />
+</p>
+<p>​		网络协议</p>
+<p><img loading="lazy" src="C:%5cUsers%5chzpan%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20230208114936355.png" alt="image-20230208114936355"  />
+</p>
+<p>​		传输格式</p>
+<p>​		五大指标</p>
+<h3 id="mysql">MySQL<a hidden class="anchor" aria-hidden="true" href="#mysql">#</a></h3>
+<ol>
+<li>存储引擎、各个存储引擎之间的区别</li>
+<li>事务特性与隔离级别实现的基本原理</li>
+</ol>
+<h3 id="redis">Redis<a hidden class="anchor" aria-hidden="true" href="#redis">#</a></h3>
+<ol>
+<li>Redis为什么这么快</li>
+<li>Redis Multi实现原理</li>
+<li>Redis AOF和RDB的实现原理</li>
+<li>Redis常用的数据结构及原理</li>
+<li>ZSET底层</li>
+<li>Redis的网络模型</li>
+<li>Redis的主要使用场景</li>
+</ol>
+<h3 id="服务器">服务器<a hidden class="anchor" aria-hidden="true" href="#服务器">#</a></h3>
+<ol>
+<li>Linux常用的命令</li>
+<li>查看CPU的命令</li>
+<li>排查CPU占用率特别高</li>
+<li>排查内存占用率高（GC -&gt; 各种资源的close问题）</li>
+</ol>
+<p>做题
+洗牌算法（rand包下的api忘完了）
+字符串数组的公共前缀</p>
+<p>说一下项目中比较有技术含量的部分
+说了实现分布式websocket服务器的方式
+RabbitMQ，消息队列的选型
+这时候谈到服务器资源，kafka占用内存特别高，面试官保持怀疑</p>
+<h3 id="操作系统">操作系统<a hidden class="anchor" aria-hidden="true" href="#操作系统">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202302211704283.webp" alt="img"  />
+</p>
+<ol>
+<li>进程和线程的区别</li>
+</ol>
+<p>进程是资源分配的基本单位，线程是调度的基本单位。</p>
+<p>进程拥有操作系统分配给他的所有资源包括堆、页表等，线程只有自己独有的寄存器和栈。</p>
+<p>进程与进程之间上下文切换速度慢，而同一进程下的线程上下文切换很快。</p>
+<ol start="2">
+<li>
+<h4 id="协程与线程的区别">协程与线程的区别<a hidden class="anchor" aria-hidden="true" href="#协程与线程的区别">#</a></h4>
+</li>
+</ol>
+<p>协程是通过用户程序来控制的微小线程，上下文切换比线程更快</p>
+<ol start="3">
+<li>并发和并行</li>
+</ol>
+<p>并发和并行都能表示一段时间内有多个任务共同执行，但是单一时间点，并发只能有一个任务在执行，而并行有多个任务在同时执行。</p>
+<ol start="4">
+<li>
+<h4 id="进程与线程切换流程">进程与线程切换流程<a hidden class="anchor" aria-hidden="true" href="#进程与线程切换流程">#</a></h4>
+</li>
+</ol>
+<p>进程切换分两步：</p>
+<pre><code>1. 切换页表以使用新的地址空间，一旦去切换上下文，处理器中所有已缓存的内存地址一瞬间都作废了
+1. 切换内核栈和硬件上下文
+</code></pre>
+<ol start="5">
+<li>
+<h4 id="为什么虚拟地址空间切换会比较耗时">为什么虚拟地址空间切换会比较耗时<a hidden class="anchor" aria-hidden="true" href="#为什么虚拟地址空间切换会比较耗时">#</a></h4>
+</li>
+</ol>
+<p>把虚拟地址转换成物理地址需要查找页表，很慢。通常使用cache来缓存常用的地址映射，加速页表查找，这个cache就是tlb。当进程切换，后台页表也要切换，页表切换后tlb就失效了，虚拟地址转换为物理地址就会变慢。</p>
+<ol start="6">
+<li>进程间通信的方式</li>
+</ol>
+<p>管道（匿名管道：利用内存，用过即弃；命名管道：要在磁盘中建立文件，有输入输出端口）</p>
+<p>信号：类似进程暂停、进程结束等信号。</p>
+<p>信号量，是一个计数器，当使用的时候-1，如果为0，那么可以使用，如果为负，则挂起等待唤醒，使用结束+1，如果为负数，则唤醒一个进程。</p>
+<p>消息队列：保存在内核中的消息链表</p>
+<p>共享内存：映射一段能被其他进程访问的内存</p>
+<p>socket：可以实现不同机器内存之间的通信</p>
+<ol start="7">
+<li>进程间同步的方式</li>
+</ol>
+<p>临界区：加锁</p>
+<p>信号量：</p>
+<ol start="8">
+<li>
+<p>线程同步的方式</p>
+</li>
+<li>
+<p>线程的分类</p>
+</li>
+</ol>
+<p>内核级线程：能访问内核进程中所有的资源，包括内核资源</p>
+<p>用户级线程：只能访问该用户进程中的资源，无法访问内核资源，内核无法感知这类线程的存在，由应用进程来管理。</p>
+<ol start="10">
+<li>临界区，如何解决冲突</li>
+</ol>
+<p>临界区就是访问共享资源的代码片段，一定不能给多线程同时执行。</p>
+<p>解决冲突的办法是加锁：有共享锁、读写锁、悲观锁、乐观锁等方式</p>
+<ol start="11">
+<li>死锁，死锁产生条件</li>
+</ol>
+<p>死锁就是两个或两个以上的进程互相等待对方的锁释放，产生的卡死局面。</p>
+<p>产生的条件：</p>
+<p>互斥：一个资源只能被一个进程使用</p>
+<p>保持：请求资源时对已有资源保持不放</p>
+<p>不剥夺：获取资源，在未完全使用完前，不能强行剥夺</p>
+<p>循环：申请的空间相互依赖、构成循环</p>
+<p>解决方法：</p>
+<p>检测死锁并恢复</p>
+<p>每个资源确定申请的顺序，</p>
+<p>画图避免死锁</p>
+<ol start="12">
+<li>进程调度策略有哪几种</li>
+</ol>
+<p>先来先服务</p>
+<p>最短先服务</p>
+<p>优先级高先服务</p>
+<p>时间片轮训服务</p>
+<p>优先队列轮训服务</p>
+<ol start="13">
+<li>进程有哪些状态</li>
+</ol>
+<p>创建、就绪、阻塞、运行、结束、挂起（阻塞状态先换出到硬盘，等待运行，阻塞挂起、就绪挂起）</p>
+<ol start="14">
+<li>分页</li>
+</ol>
+<p>为了减少内存碎片的出现，将物理内存分成大小相同的页，将数据分配在各个页上。</p>
+<ol start="15">
+<li>分段</li>
+</ol>
+<p>满足程序员的逻辑需求（数据共享、数据保护、动态链接等），将数据以段的形式保存，记录段号和段内地址，每个段内部都是从0开始编址。用分段表将物理内存分配给各个资源，可能出现内存碎片、内存黑洞。</p>
+<ol start="16">
+<li>分页和分段的区别</li>
+</ol>
+<p>分页和分段都是内存分配的方式，分页是将数据分成大小相同的页来存储，分段是使用连续的空间来存储。分页对于程序员是透明的，分段是程序员显式划分。分页主要用于实现虚拟内存，从而获得更大的地址空间；分段主要是为了使程序和数据可以被划分为逻辑上独立的地址空间并且有助于共享和保护。</p>
+<ol start="17">
+<li>页面置换算法</li>
+</ol>
+<p>最少置换算法</p>
+<p>lru</p>
+<p>lfu</p>
+<p>旋转指针</p>
+<ol start="18">
+<li>缓冲区溢出</li>
+<li>虚拟内存</li>
+</ol>
+<p>虚拟内存是在用于管理物理内存的内存分配技术，进程需要访问内存时，访问的是虚拟内存的空间，虚拟内存再根据分页分段的表来查实际的物理内存。</p>
+<p>主要的好处是：1.可以局部性原理，将还未使用的数据暂时保存在磁盘中，只有当要使用的时候才调出来，达到超出实际物理内存的效果 2. 虚拟内存还可以筛查内存访问请求，保证内存的安全性 3.</p>
+<h2 id="项目相关">项目相关<a hidden class="anchor" aria-hidden="true" href="#项目相关">#</a></h2>
+<h3 id="抖音后端">抖音后端<a hidden class="anchor" aria-hidden="true" href="#抖音后端">#</a></h3>
+<h4 id="netpoll-和-net">netpoll 和 net<a hidden class="anchor" aria-hidden="true" href="#netpoll-和-net">#</a></h4>
+<p><a href="https://github.com/cloudwego/netpoll">Netpoll</a> 是由 <a href="https://www.bytedance.com/">字节跳动</a> 开发的高性能 NIO(Non-blocking I/O) 网络库，专注于 RPC 场景。</p>
+<p>RPC 通常有较重的处理逻辑，因此无法串行处理 I/O。而 Go 的标准库 <a href="https://github.com/golang/go/tree/master/src/net">net</a> 设计了 BIO(Blocking I/O) 模式的 API，使得 RPC 框架设计上只能为每个连接都分配一个 goroutine。</p>
+<h4 id="hertz-和-gin">hertz 和 gin<a hidden class="anchor" aria-hidden="true" href="#hertz-和-gin">#</a></h4>
+<p>**高性能：**使用 netpoll 自研高性能网络库</p>
+<p>**扩展性：**hertz-contrib 提供了扩展仓库，提供中间件、tracer、websocket 等能力</p>
+<h4 id="kitex-和-go-kit--go-zero">kitex 和 go-kit / go-zero<a hidden class="anchor" aria-hidden="true" href="#kitex-和-go-kit--go-zero">#</a></h4>
+<p>**高性能：**适用 netpoll</p>
+<p>**代码生成：**内置代码生成工具，支持生成 thrift、protobuf 代码</p>
+<p>**扩展性：**提供很多扩展接口，支持服务注册/发现、链路追踪等治理模块</p>
+<p>在消息协议中，rpc消息协议支持 thrift、kitex protobuf，kitex protobuf 是 kitex 自定义的protobuf消息协议，协议格式类似 thrift</p>
+<h4 id="json-thrift-protobuf">json/ thrift/ protobuf<a hidden class="anchor" aria-hidden="true" href="#json-thrift-protobuf">#</a></h4>
+<ul>
+<li><strong>速度</strong>：在序列化和反序列化数据方面，Protobuf 比 JSON 快得多。由于格式是二进制的，json是文本格式，Protobuf 中读写结构化数据所需的时间比在JSON 中要短。</li>
+<li><strong>大小</strong>：Protobuf 比 json 小得多，在网络带宽有限的情况下，由于二进制数据流的紧凑性，存储和传输Protobuf 信息所占用的空间比JSON 信息要少。</li>
+<li><strong>数据类型</strong>：Protobuf 支持更复杂的数据类型，如枚举和map</li>
+<li><strong>平台兼容性</strong>：由于Protobuf 是一种开源格式，语言和平台独立的，它可以在多个平台上使用而没有困难或兼容性问题。</li>
+</ul>
+<h4 id="gorm-和-xorm-ent">gorm 和 xorm/ ent<a hidden class="anchor" aria-hidden="true" href="#gorm-和-xorm-ent">#</a></h4>
+<h4 id="etcd-和-zookeeper--consul">etcd 和 zookeeper / consul<a hidden class="anchor" aria-hidden="true" href="#etcd-和-zookeeper--consul">#</a></h4>
+<p>consul 以服务发现和配置作为主要功能，附带提供了 kv 存储，更适合服务注册和发现</p>
+<p>如果系统存在其他分布式一致性协作需求，选择 etcd 和 zookeeper 可能更好。又因为 zookeeper 适用 java 写的，而 etcd 是用 go 写的，可能最后还是用 etcd 了。</p>
+<h3 id="devlake">devlake<a hidden class="anchor" aria-hidden="true" href="#devlake">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/perhapzz/ImageBed/main/blog-images/202303092308063.jpg" alt="流程图 (1)"  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://perhapzz.github.io">perhapzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

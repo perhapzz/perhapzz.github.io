@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://perhapzz.github.io/tags/basics/</loc>
-    <lastmod>2023-02-22T16:00:51+08:00</lastmod>
-  </url><url>
     <loc>https://perhapzz.github.io/</loc>
-    <lastmod>2023-02-22T16:00:51+08:00</lastmod>
+    <lastmod>2023-03-22T21:19:02+08:00</lastmod>
   </url><url>
     <loc>https://perhapzz.github.io/posts/</loc>
+    <lastmod>2023-03-22T21:19:02+08:00</lastmod>
+  </url><url>
+    <loc>https://perhapzz.github.io/posts/medicalimage/</loc>
+    <lastmod>2023-03-22T21:19:02+08:00</lastmod>
+  </url><url>
+    <loc>https://perhapzz.github.io/tags/basics/</loc>
     <lastmod>2023-02-22T16:00:51+08:00</lastmod>
   </url><url>
     <loc>https://perhapzz.github.io/tags/</loc>
@@ -20,10 +23,10 @@
     <loc>https://perhapzz.github.io/tags/interview/</loc>
     <lastmod>2023-02-18T20:59:17+08:00</lastmod>
   </url><url>
-    <loc>https://perhapzz.github.io/posts/operatingsystem/</loc>
+    <loc>https://perhapzz.github.io/posts/interview/</loc>
     <lastmod>2023-02-18T20:59:17+08:00</lastmod>
   </url><url>
-    <loc>https://perhapzz.github.io/posts/interview/</loc>
+    <loc>https://perhapzz.github.io/posts/operatingsystem/</loc>
     <lastmod>2023-02-18T20:59:17+08:00</lastmod>
   </url><url>
     <loc>https://perhapzz.github.io/tags/review/</loc>

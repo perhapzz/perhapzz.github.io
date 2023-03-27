@@ -6,7 +6,19 @@
     <description>Recent content on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Feb 2023 16:00:51 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 22 Mar 2023 21:19:02 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>医疗影像网络架构学习</title>
+      <link>https://perhapzz.github.io/posts/medicalimage/</link>
+      <pubDate>Wed, 22 Mar 2023 21:19:02 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/medicalimage/</guid>
+      <description>ViT Title: An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale Paper: arXiv:2010.11929
+ 把最重要的说在最前面，ViT原论文中最核心的结论是，当拥有足够多的数据进行预训练的时候，ViT的表现就会超过CNN，突破transformer缺少归纳偏置的限制，可以在下游任务中获得较好的迁移效果。
+ViT 结构 按照上面的流程图，一个 ViT block 可以分为以下几个步骤:
+ patch embedding：例如输入图片大小为 224x224，将图片分为固定大小的 patch，patch 大小为 16x16，则每张图像会生成 224x224/16x16=196 个 patch，即输入序列长度为 196，每个patch维度 16x16x3=768，线性投射层的维度为 768xN (N=768)，因此输入通过线性投射层之后的维度依然为 196x768，即一共有 196 个 token，每个 token 的维度是 768。这里还需要加上一个特殊字符 cls（类似 BERT），因此最终的维度是 197x768。到目前为止，已经通过 patch embedding 将一个视觉问题转化为了一个 seq2seq 问题。 positional encoding（standard learnable 1D position embeddings）：ViT 同样需要加入位置编码，位置编码可以理解为一张表，表一共有 N 行，N 的大小和输入序列长度相同，每一行代表一个向量，向量的维度和输入序列 embedding 的维度相同（768）。注意位置编码的操作是 sum，而不是 concat。加入位置编码信息之后，维度依然是 197x768。 LN/multi-head attention/LN：LN输出维度依然是 197x768。多头自注意力时，先将输入映射到 q，k，v，如果只有一个头，qkv 的维度都是197x768，如果有 12 个头（768/12=64），则 qkv 的维度是 197x64，一共有 12 组 qkv，最后再将 12 组 qkv 的输出拼接起来，输出维度是 197x768，然后在过一层 LN，维度依然是197x768。 MLP：将维度放大再缩小回去，197x768 放大为 197x3072，再缩小变为 197x768。  一个 block 之后维度依然和输入相同，都是 197x768，因此可以堆叠多个 block。最后会将特殊字符 cls 对应的输出 $Z_L^0$ 作为 encoder 的最终输出 ，代表最终的 image presentation（另一种做法是不加cls字符，对所有的tokens的输出做一个平均），如下公式(4)，后面接一个MLP进行图片分类： $$ \begin{aligned} \mathbf{z}{0} &amp;amp; =\left[\mathbf{x}{\text {class }} ; \mathbf{x}{p}^{1} \mathbf{E} ; \mathbf{x}{p}^{2} \mathbf{E} ; \cdots ; \mathbf{x}{p}^{N} \mathbf{E}\right]+\mathbf{E}{\text {pos }}, &amp;amp; &amp;amp; \mathbf{E} \in \mathbb{R}^{\left(P^{2} \cdot C\right) \times D}, \mathbf{E}{\text {pos }} \in \mathbb{R}^{(N+1) \times D} \ \mathbf{z}{\ell}^{\prime} &amp;amp; =\operatorname{MSA}\left(\mathrm{LN}\left(\mathbf{z}{\ell-1}\right)\right)+\mathbf{z}{\ell-1}, &amp;amp; &amp;amp; \ell=1 \ldots L \ \mathbf{z}{\ell} &amp;amp; =\operatorname{MLP}\left(\mathrm{LN}\left(\mathbf{z}{\ell}^{\prime}\right)\right)+\mathbf{z}{\ell}^{\prime}, &amp;amp; &amp;amp; \ell=1 \ldots L \ \mathbf{y} &amp;amp; =\operatorname{LN}\left(\mathbf{z}{L}^{0}\right) &amp;amp; &amp;amp; \end{aligned} $$ 其中输入 image $\mathbf{x} \in \mathbb{R}^{H \times W \times C}$ ，2D patches $\mathbf{x}_{p} \in \mathbb{R}^{N \times\left(P^{2} \cdot C\right)}$ ， $C$ 是通道数，$P$ 是 patch 大小，一共有 $N$ 个 patches，$N = HW/P^2$ 。</description>
+    </item>
+    
     <item>
       <title>数据库笔记</title>
       <link>https://perhapzz.github.io/posts/mysql/</link>
@@ -16,6 +28,30 @@
       <description>数据库 MySQL 一条指令是怎么执行的？ MySQL 的架构共分为两层：Server 层和存储引擎层：
  Server 层负责建立连接、分析和执行 SQL。MySQL 大多数的核心功能模块都在这实现，主要包括连接器，查询缓存、解析器、预处理器、优化器、执行器等。另外，所有的内置函数（如日期、时间、数学和加密函数等）和所有跨存储引擎的功能（如存储过程、触发器、视图等。）都在 Server 层实现。 存储引擎层负责数据的存储和提取。支持 InnoDB、MyISAM、Memory 等多个存储引擎，不同的存储引擎共用一个 Server 层。现在最常用的存储引擎是 InnoDB，从 MySQL 5.5 版本开始， InnoDB 成为了 MySQL 的默认存储引擎。我们常说的索引数据结构，就是由存储引擎层实现的，不同的存储引擎支持的索引类型也不相同，比如 InnoDB 支持索引类型是 B+树 ，且是默认使用，也就是说在数据表中创建的主键索引和二级索引默认使用的是 B+ 树索引。  各个模块的作用：
 1. 连接器  与客户端进行 TCP 三次握手建立连接； 校验客户端的用户名和密码，如果用户名或密码不对，则会报错； 如果用户名和密码都对了，会读取该用户的权限，然后后面的权限逻辑判断都基于此时读取到的权限；  2. 查询缓存  如果查询的语句命中查询缓存，那么就会直接返回 value 给客户端。如果查询的语句没有命中查询缓存中，那么就要往下继续执行，等执行完后，查询的结果就会被存入查询缓存中。 MySQL 8.0 版本直接将查询缓存删掉了，也就是说 MySQL 8.0 开始，执行一条 SQL 查询语句，不会再走到查询缓存这个阶段了。  3. 解析 SQL  词法分析。MySQL 会根据你输入的字符串识别出关键字出来，构建出 SQL 语法树，这样方便后面模块获取 SQL 类型、表名、字段名、 where 条件等等。 语法分析。根据词法分析的结果，语法解析器会根据语法规则，判断你输入的这个 SQL 语句是否满足 MySQL 语法。 如果我们输入的 SQL 语句语法不对，就会在解析器这个阶段报错。  4.</description>
+    </item>
+    
+    <item>
+      <title>实习那些事儿</title>
+      <link>https://perhapzz.github.io/posts/interview/</link>
+      <pubDate>Sat, 18 Feb 2023 20:59:17 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/interview/</guid>
+      <description>2023.2 - 2023.3 日常实习面试笔记 赛舵 - OC 一面 数据库索引何时该加、何时不该加
+1G的文本如何压缩
+linux 查端口号命令 (netstat, ss, lsof)，查两个文件差别命令 (diff)
+redis 怎么加分布式锁
+二面 算法 字符串转数字（考虑异常：如越界、空值、小数点等）
+小红书 - 凉 一面 基础 go语言 map和slice是并发安全的吗？
+项目相关 hertz 和 gin 的区别？
+json 和 protobuf 以及 thrift 的区别？
+项目里如何使用 hertz 和 kitex 的？
+算法 青蛙跳台阶
+七牛 - 凉 一面 go new 和 make 的区别（new 返回指针，可以用在任何变量上；make 返回引用，只能用在 slice/map 之类的上（另外还有make会初始化，new不会，没说出来））
+数组和 slice 的区别（数组是定长，slice 包含数组，但有长度和容量，可以扩容（当切片和数组作为参数在函数（func）中传递时，数组传递的是值，而切片传递的是指针。因此当传入的切片在函数中被改变时，函数外的切片也会同时改变。相同的情况，函数外的数组则不会发生任何变化。））
+defer 运行顺序（后进先出）
+面向对象的理解（继承：go用package包装，小写字母开头的从外部访问不到、封装：struct可以继承、多态：不用类型有不同的操作方法（多态是面试官提醒的，我后来瞎说了一下，不知道对不对））
+go routine 使用的外部变量发生变化怎么办（重新申明一次这个变量（面试官补充：把变量以参数形式传入，或者在协程开始时申明新变量，这个问题描述的不清楚））
+interface 是实现全部方法，还是实现部分方法就行了？（全部吧？这个我觉得没什么问题，面试官好像有点疑惑）</description>
     </item>
     
     <item>
@@ -34,15 +70,6 @@ Linux 的设计 Linux 内核设计的理念主要有这几个点：
  对于单核 CPU 时，可以让每个任务执行一小段时间，时间到就切换另外一个任务，从宏观角度看，一段时间内执行了多个任务，这被称为并发。 对于多核 CPU 时，多个任务可以同时被不同核心的 CPU 同时执行，这被称为并行。  SMP SMP 的意思是对称多处理，代表着每个 CPU 的地位是相等的，对资源的使用权限也是相同的，多个 CPU 共享同一个内存，每个 CPU 都可以访问完整的内存和硬件资源。
 这个特点决定了 Linux 操作系统不会有某个 CPU 单独服务应用程序或内核程序，而是每个程序都可以被分配到任意一个 CPU 上被执行。
 ELF ELF 的意思是可执行文件链接格式，它是 Linux 操作系统中可执行文件的存储格式，你可以从下图看到它的结构：</description>
-    </item>
-    
-    <item>
-      <title>面试笔记</title>
-      <link>https://perhapzz.github.io/posts/interview/</link>
-      <pubDate>Sat, 18 Feb 2023 20:59:17 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/interview/</guid>
-      <description>记录一下自己的面试经历</description>
     </item>
     
     <item>
@@ -107,7 +134,7 @@ Redis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持
       
       <guid>https://perhapzz.github.io/posts/computernetwork/</guid>
       <description>计算机网络 基础篇 1. TCP/IP 网络模型有哪几层？ 应用层 我们电脑或手机使用的应用软件都是在应用层实现。那么，当两个不同设备的应用需要通信的时候，应用就把应用数据传给下一层，也就是传输层。
-应用层只需要专注于为用户提供应用功能，比如 HTTP、FTP、Telnet、DNS、SMTP等（什么东东..）。
+应用层只需要专注于为用户提供应用功能，比如 HTTP、FTP、Telnet、DNS、SMTP 等（什么东东..）。
 传输层 给应用层提供网络支持的。
 有两个传输协议，分别是 TCP 和 UDP。
 TCP 的全称叫传输控制协议（Transmission Control Protocol），大部分应用使用的正是 TCP 传输层协议，比如 HTTP 应用层协议。TCP 相比 UDP 多了很多特性，比如流量控制、超时重传、拥塞控制等，这些都是为了保证数据包能可靠地传输给对方。

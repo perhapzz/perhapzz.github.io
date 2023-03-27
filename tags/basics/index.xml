@@ -19,6 +19,30 @@
     </item>
     
     <item>
+      <title>实习那些事儿</title>
+      <link>https://perhapzz.github.io/posts/interview/</link>
+      <pubDate>Sat, 18 Feb 2023 20:59:17 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/interview/</guid>
+      <description>2023.2 - 2023.3 日常实习面试笔记 赛舵 - OC 一面 数据库索引何时该加、何时不该加
+1G的文本如何压缩
+linux 查端口号命令 (netstat, ss, lsof)，查两个文件差别命令 (diff)
+redis 怎么加分布式锁
+二面 算法 字符串转数字（考虑异常：如越界、空值、小数点等）
+小红书 - 凉 一面 基础 go语言 map和slice是并发安全的吗？
+项目相关 hertz 和 gin 的区别？
+json 和 protobuf 以及 thrift 的区别？
+项目里如何使用 hertz 和 kitex 的？
+算法 青蛙跳台阶
+七牛 - 凉 一面 go new 和 make 的区别（new 返回指针，可以用在任何变量上；make 返回引用，只能用在 slice/map 之类的上（另外还有make会初始化，new不会，没说出来））
+数组和 slice 的区别（数组是定长，slice 包含数组，但有长度和容量，可以扩容（当切片和数组作为参数在函数（func）中传递时，数组传递的是值，而切片传递的是指针。因此当传入的切片在函数中被改变时，函数外的切片也会同时改变。相同的情况，函数外的数组则不会发生任何变化。））
+defer 运行顺序（后进先出）
+面向对象的理解（继承：go用package包装，小写字母开头的从外部访问不到、封装：struct可以继承、多态：不用类型有不同的操作方法（多态是面试官提醒的，我后来瞎说了一下，不知道对不对））
+go routine 使用的外部变量发生变化怎么办（重新申明一次这个变量（面试官补充：把变量以参数形式传入，或者在协程开始时申明新变量，这个问题描述的不清楚））
+interface 是实现全部方法，还是实现部分方法就行了？（全部吧？这个我觉得没什么问题，面试官好像有点疑惑）</description>
+    </item>
+    
+    <item>
       <title>操作系统笔记</title>
       <link>https://perhapzz.github.io/posts/operatingsystem/</link>
       <pubDate>Sat, 18 Feb 2023 20:59:17 +0800</pubDate>
@@ -34,15 +58,6 @@ Linux 的设计 Linux 内核设计的理念主要有这几个点：
  对于单核 CPU 时，可以让每个任务执行一小段时间，时间到就切换另外一个任务，从宏观角度看，一段时间内执行了多个任务，这被称为并发。 对于多核 CPU 时，多个任务可以同时被不同核心的 CPU 同时执行，这被称为并行。  SMP SMP 的意思是对称多处理，代表着每个 CPU 的地位是相等的，对资源的使用权限也是相同的，多个 CPU 共享同一个内存，每个 CPU 都可以访问完整的内存和硬件资源。
 这个特点决定了 Linux 操作系统不会有某个 CPU 单独服务应用程序或内核程序，而是每个程序都可以被分配到任意一个 CPU 上被执行。
 ELF ELF 的意思是可执行文件链接格式，它是 Linux 操作系统中可执行文件的存储格式，你可以从下图看到它的结构：</description>
-    </item>
-    
-    <item>
-      <title>面试笔记</title>
-      <link>https://perhapzz.github.io/posts/interview/</link>
-      <pubDate>Sat, 18 Feb 2023 20:59:17 +0800</pubDate>
-      
-      <guid>https://perhapzz.github.io/posts/interview/</guid>
-      <description>记录一下自己的面试经历</description>
     </item>
     
     <item>
@@ -71,7 +86,7 @@ Redis 持久化 Redis 如何实现数据不丢失？ Redis 共有三种数据持
       
       <guid>https://perhapzz.github.io/posts/computernetwork/</guid>
       <description>计算机网络 基础篇 1. TCP/IP 网络模型有哪几层？ 应用层 我们电脑或手机使用的应用软件都是在应用层实现。那么，当两个不同设备的应用需要通信的时候，应用就把应用数据传给下一层，也就是传输层。
-应用层只需要专注于为用户提供应用功能，比如 HTTP、FTP、Telnet、DNS、SMTP等（什么东东..）。
+应用层只需要专注于为用户提供应用功能，比如 HTTP、FTP、Telnet、DNS、SMTP 等（什么东东..）。
 传输层 给应用层提供网络支持的。
 有两个传输协议，分别是 TCP 和 UDP。
 TCP 的全称叫传输控制协议（Transmission Control Protocol），大部分应用使用的正是 TCP 传输层协议，比如 HTTP 应用层协议。TCP 相比 UDP 多了很多特性，比如流量控制、超时重传、拥塞控制等，这些都是为了保证数据包能可靠地传输给对方。
