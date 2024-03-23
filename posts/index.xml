@@ -6,7 +6,24 @@
     <description>Recent content in Posts on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Apr 2023 00:02:18 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Apr 2023 00:05:47 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Qualified Coder学习</title>
+      <link>https://perhapzz.github.io/posts/qualifiedcoder/</link>
+      <pubDate>Sun, 02 Apr 2023 00:05:47 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/qualifiedcoder/</guid>
+      <description>Linux 学习 Linux 版本 Linux 分为内核版本和发行版本
+（1）内核版本 内核版本分为三个部分：主版本号、次版本号、末版本号（次版本号是奇数为开发版，偶数为稳定版）
+（2）发行版本 常见的发行版本有5种：
+RedHat Enterprise：软件经过专业测试，非常稳定，技术支持需要付费
+Fedora：通过组建社区提供支持，没有专业测试
+CentOS：基于 RedHat 源码进行编译，去掉标识，可免费使用
+Debian 和 Ubuntu：定制了界面
+Linux 优势 安全、开源、性能高
+常见目录    目录名 目录作用     /bin 存放系统命令的目录，普通用户和root用户都可以执行，且单用户模式也可以执行   /usr/bin 存放系统命令的，是在后期安装的软件的运行脚本，普通用户和root用户都可以执行，这些命令与系统启动无关，无法在单用户模式下执行   /usr/sbin 存放根根文件系统无需的命令。例如多数服务程序，只有root用户可以使用   /boot 系统启动目录，保存系统启动相关的文件，如内核文件和启动引导文件   /dev 设备文件存放目录。在linux中，设备也是以文件的形式存在   /etc 配置文件存放目录。所有采用默认安装（rpm安装）的服务的配置文件都会存放在这个目录   /home 普通用户的宿主目录，每个普通用户都要有一个默认的登录位置，如用户user1的宿主目录就是/home/user1   /root root用户的宿主目录   /lib 系统调用的函数库保存位置   /opt 第三方安装的软件保存位置。但更多是放置到/usr/local目录当中   /media 挂载目录。建议用来挂载媒体设备。如软盘，光盘   /mnt 挂载目录。建议挂载额外设备，如U盘、移动硬盘等   /misc 挂载目录。建议挂载NFS服务的共享目录。   /proc 虚拟文件系统，是保存在内存中的。主要保存系统的内核，进程和外部设备状态和网络状态等。   /sys 虚拟文件系统，保存在内存中。主要保存内核相关信息。   /srv 服务数据目录。一些系统服务启动之后，可以在这个目录中保存所需要的数据   /tmp 系统存放临时文件的目录。建议不要保存重要数据且在每次开机都清空。   /var 动态数据保存位置。主要保存缓存、日志等。    Linux 命令 基本命令  ArrowUp：可以低成本复制之前的指令 history：可以看到过去所有指令 [指令] --help：可以看到指令对应的帮助  磁盘管理 基本操作   目录信息查看：</description>
+    </item>
+    
     <item>
       <title>golang编码规范</title>
       <link>https://perhapzz.github.io/posts/golangstandards/</link>
