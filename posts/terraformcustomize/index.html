@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Terraform: custom provider run on mac | perhapzz</title>
+<meta name="keywords" content="Terraform">
+<meta name="description" content="Prerequisites  Go 1.19&#43; Terraform Docker and Docker Compose (maybe)  Set up development environment # clone the custom provider git clone git@github.com:hashicorp/terraform-provider-vsphere.git  # change into the cloned repository cd terraform-provider-vsphere  # install all the provider&#39;s dependencies go mod tidy Verify the initial provider Manually run the provider
+go run main.go # This binary is a plugin. These are not meant to be executed directly. # Please execute the program that consumes these plugins, which will # load any plugins automatically # exit status 1 Prepare Terraform for local provider install Terraform allows you to use local provider builds by setting a dev_overrides block in a configuration file called .">
+<meta name="author" content="">
+<link rel="canonical" href="https://perhapzz.github.io/posts/terraformcustomize/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2c5d624023ca4f39285dc8ad242509c565a0c0e820fc61724b2a58620dfdafbe.css" integrity="sha256-LF1iQCPKTzkoXcitJCUJxWWgwOgg/GFySypYYg39r74=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://perhapzz.github.io/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://perhapzz.github.io/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://perhapzz.github.io/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://perhapzz.github.io/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://perhapzz.github.io/favicon/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Terraform: custom provider run on mac" />
+<meta property="og:description" content="Prerequisites  Go 1.19&#43; Terraform Docker and Docker Compose (maybe)  Set up development environment # clone the custom provider git clone git@github.com:hashicorp/terraform-provider-vsphere.git  # change into the cloned repository cd terraform-provider-vsphere  # install all the provider&#39;s dependencies go mod tidy Verify the initial provider Manually run the provider
+go run main.go # This binary is a plugin. These are not meant to be executed directly. # Please execute the program that consumes these plugins, which will # load any plugins automatically # exit status 1 Prepare Terraform for local provider install Terraform allows you to use local provider builds by setting a dev_overrides block in a configuration file called ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://perhapzz.github.io/posts/terraformcustomize/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-30T00:05:47+08:00" />
+<meta property="article:modified_time" content="2023-08-30T00:05:47+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Terraform: custom provider run on mac"/>
+<meta name="twitter:description" content="Prerequisites  Go 1.19&#43; Terraform Docker and Docker Compose (maybe)  Set up development environment # clone the custom provider git clone git@github.com:hashicorp/terraform-provider-vsphere.git  # change into the cloned repository cd terraform-provider-vsphere  # install all the provider&#39;s dependencies go mod tidy Verify the initial provider Manually run the provider
+go run main.go # This binary is a plugin. These are not meant to be executed directly. # Please execute the program that consumes these plugins, which will # load any plugins automatically # exit status 1 Prepare Terraform for local provider install Terraform allows you to use local provider builds by setting a dev_overrides block in a configuration file called ."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://perhapzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Terraform: custom provider run on mac",
+      "item": "https://perhapzz.github.io/posts/terraformcustomize/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Terraform: custom provider run on mac",
+  "name": "Terraform: custom provider run on mac",
+  "description": "Prerequisites  Go 1.19+ Terraform Docker and Docker Compose (maybe)  Set up development environment # clone the custom provider git clone git@github.com:hashicorp/terraform-provider-vsphere.git  # change into the cloned repository cd terraform-provider-vsphere  # install all the provider\u0026#39;s dependencies go mod tidy Verify the initial provider Manually run the provider\ngo run main.go # This binary is a plugin. These are not meant to be executed directly. # Please execute the program that consumes these plugins, which will # load any plugins automatically # exit status 1 Prepare Terraform for local provider install Terraform allows you to use local provider builds by setting a dev_overrides block in a configuration file called .",
+  "keywords": [
+    "Terraform"
+  ],
+  "articleBody": "Prerequisites  Go 1.19+ Terraform Docker and Docker Compose (maybe)  Set up development environment # clone the custom provider git clone git@github.com:hashicorp/terraform-provider-vsphere.git  # change into the cloned repository cd terraform-provider-vsphere  # install all the provider's dependencies go mod tidy Verify the initial provider Manually run the provider\ngo run main.go # This binary is a plugin. These are not meant to be executed directly. # Please execute the program that consumes these plugins, which will # load any plugins automatically # exit status 1 Prepare Terraform for local provider install Terraform allows you to use local provider builds by setting a dev_overrides block in a configuration file called .terraformrc. This block overrides all other configured installation methods.\nFirst, find the GOBIN path where Go installs your binaries. Your path may vary depending on how your Go environment variables are configured, especially GOPATH.\ngo env GOBIN # /Users//go/bin If the GOBIN go environment variable is not set, set it with the following.\nexport GOBIN=$(go env GOROOT)/bin Create a new file called .terraformrc in your home directory (~), then add the dev_overrides block below. Change the  to the value returned from the go env GOBIN command above.\nprovider_installation {   dev_overrides {  \"hashicorp/vsphere\" = \"\"  }   # For all other providers, install them directly from their origin provider  # registries as normal. If you omit this, Terraform will _only_ use  # the dev_overrides block, and so no other providers will be available.  direct {} } Locally install provider and verify with Terraform Your Terraform CLI is now ready to use the locally installed provider in the GOBIN path. Use the go install command from the example repository’s root directory to compile the provider into a binary and install it in your GOBIN path.\ngo install . Create an examples/provider-install-verification directory, which will contain a terraform configuration to verify local provider installation, and navigate to it.\nmkdir examples/provider-install-verification \u0026\u0026 cd \"$_\" Create a main.tf file with the following.\nterraform {  required_providers {  vsphere = {  source = \"hashicorp/vsphere\"  }  } }  provider \"vsphere\" {}  data \"vsphere_coffees\" \"example\" {} The main.tf Terraform configuration file in this directory uses a “hashicups_coffees” data source that the provider does not yet support. You will implement this data source in a future tutorial.\nRunning a Terraform plan will report the provider override, as well as an error about the missing data source. Even though there was an error, this verifies that Terraform was able to successfully start the locally installed provider and interact with it in your development environment.\nRun a Terraform plan with the non-existent data source. Terraform will respond with the missing data source error.\nterraform plan # ╷ # │ Warning: Provider development overrides are in effect # │ # │ The following provider development overrides are set in the CLI # │ configuration: # │ - hashicorp.com/edu/hashicups-pf in /Users//go/bin # │ # │ The behavior may therefore not match any released version of the provider and # │ applying changes may cause the state to become incompatible with published # │ releases. # ╵ # ╷ # │ Error: Invalid data source # │ # │ on main.tf line 11, in data \"hashicups_coffees\" \"example\": # │ 11: data \"hashicups_coffees\" \"example\" {} # │ # │ The provider hashicorp.com/edu/hashicups-pf does not support data source # │ \"hashicups_coffees\". # ╵ Reference Install | Terraform | HashiCorp Developer\nImplement a Provider with the Terraform Plugin Framework | Terraform | HashiCorp Developer\n",
+  "wordCount" : "573",
+  "inLanguage": "en",
+  "datePublished": "2023-08-30T00:05:47+08:00",
+  "dateModified": "2023-08-30T00:05:47+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://perhapzz.github.io/posts/terraformcustomize/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "perhapzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://perhapzz.github.io/favicon/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://perhapzz.github.io" accesskey="h" title="perhapzz (Alt + H)">perhapzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://perhapzz.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://perhapzz.github.io/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://perhapzz.github.io">Home</a>&nbsp;»&nbsp;<a href="https://perhapzz.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Terraform: custom provider run on mac
+    </h1>
+    <div class="post-meta"><span title='2023-08-30 00:05:47 +0800 CST'>August 30, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="prerequisites">Prerequisites<a hidden class="anchor" aria-hidden="true" href="#prerequisites">#</a></h2>
+<ul>
+<li>Go 1.19+</li>
+<li>Terraform</li>
+<li>Docker and Docker Compose (maybe)</li>
+</ul>
+<h2 id="set-up-development-environment">Set up development environment<a hidden class="anchor" aria-hidden="true" href="#set-up-development-environment">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># clone the custom provider</span>
+</span></span><span style="display:flex;"><span>git clone git@github.com:hashicorp/terraform-provider-vsphere.git
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># change into the cloned repository</span>
+</span></span><span style="display:flex;"><span>cd terraform-provider-vsphere
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># install all the provider&#39;s dependencies</span>
+</span></span><span style="display:flex;"><span>go mod tidy
+</span></span></code></pre></div><h2 id="verify-the-initial-provider">Verify the initial provider<a hidden class="anchor" aria-hidden="true" href="#verify-the-initial-provider">#</a></h2>
+<p>Manually run the provider</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go run main.go
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This binary is a plugin. These are not meant to be executed directly.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Please execute the program that consumes these plugins, which will</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># load any plugins automatically</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># exit status 1</span>
+</span></span></code></pre></div><h2 id="prepare-terraform-for-local-provider-install">Prepare Terraform for local provider install<a hidden class="anchor" aria-hidden="true" href="#prepare-terraform-for-local-provider-install">#</a></h2>
+<p>Terraform allows you to use local provider builds by setting a <code>dev_overrides</code> block in a configuration file called <code>.terraformrc</code>. This block overrides all other configured installation methods.</p>
+<p>First, find the <code>GOBIN</code> path where Go installs your binaries. Your path may vary depending on how your Go environment variables are configured, especially <code>GOPATH</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go env GOBIN
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /Users/&lt;Username&gt;/go/bin</span>
+</span></span></code></pre></div><p>If the <code>GOBIN</code> go environment variable is not set, set it with the following.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>export GOBIN<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>go env GOROOT<span style="color:#66d9ef">)</span>/bin
+</span></span></code></pre></div><p>Create a new file called <code>.terraformrc</code> in your home directory (~), then add the <code>dev_overrides</code> block below. Change the <code>&lt;PATH&gt;</code> to the value returned from the <code>go env GOBIN</code> command above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>provider_installation {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  dev_overrides {
+</span></span><span style="display:flex;"><span>      &#34;hashicorp/vsphere&#34; = &#34;&lt;PATH&gt;&#34;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  # For all other providers, install them directly from their origin provider
+</span></span><span style="display:flex;"><span>  # registries as normal. If you omit this, Terraform will _only_ use
+</span></span><span style="display:flex;"><span>  # the dev_overrides block, and so no other providers will be available.
+</span></span><span style="display:flex;"><span>  direct {}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="locally-install-provider-and-verify-with-terraform">Locally install provider and verify with Terraform<a hidden class="anchor" aria-hidden="true" href="#locally-install-provider-and-verify-with-terraform">#</a></h2>
+<p>Your Terraform CLI is now ready to use the locally installed provider in the <code>GOBIN</code> path. Use the <code>go install</code> command from the example repository&rsquo;s root directory to compile the provider into a binary and install it in your <code>GOBIN</code> path.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go install .
+</span></span></code></pre></div><p>Create an <code>examples/provider-install-verification</code> directory, which will contain a terraform configuration to verify local provider installation, and navigate to it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir examples/provider-install-verification <span style="color:#f92672">&amp;&amp;</span> cd <span style="color:#e6db74">&#34;</span>$_<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>Create a main.tf file with the following.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>terraform <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  required_providers <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    vsphere <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      source <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hashicorp/vsphere&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>provider <span style="color:#e6db74">&#34;vsphere&#34;</span> <span style="color:#f92672">{}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#e6db74">&#34;vsphere_coffees&#34;</span> <span style="color:#e6db74">&#34;example&#34;</span> <span style="color:#f92672">{}</span>
+</span></span></code></pre></div><p>The main.tf Terraform configuration file in this directory uses a &ldquo;hashicups_coffees&rdquo; data source that the provider does not yet support. You will implement this data source in a future tutorial.</p>
+<p>Running a Terraform plan will report the provider override, as well as an error about the missing data source. Even though there was an error, this verifies that Terraform was able to successfully start the locally installed provider and interact with it in your development environment.</p>
+<p>Run a Terraform plan with the non-existent data source. Terraform will respond with the missing data source error.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>terraform plan
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ╷</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ Warning: Provider development overrides are in effect</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ The following provider development overrides are set in the CLI</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ configuration:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │  - hashicorp.com/edu/hashicups-pf in /Users/&lt;Username&gt;/go/bin</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ The behavior may therefore not match any released version of the provider and</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ applying changes may cause the state to become incompatible with published</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ releases.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ╵</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ╷</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ Error: Invalid data source</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │   on main.tf line 11, in data &#34;hashicups_coffees&#34; &#34;example&#34;:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │   11: data &#34;hashicups_coffees&#34; &#34;example&#34; {}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ The provider hashicorp.com/edu/hashicups-pf does not support data source</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># │ &#34;hashicups_coffees&#34;.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ╵</span>
+</span></span></code></pre></div><h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<p><a href="https://developer.hashicorp.com/terraform/downloads?product_intent=terraform">Install | Terraform | HashiCorp Developer</a></p>
+<p><a href="https://developer.hashicorp.com/terraform/tutorials/providers-plugin-framework/providers-plugin-framework-provider#prepare-terraform-for-local-provider-install">Implement a Provider with the Terraform Plugin Framework | Terraform | HashiCorp Developer</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://perhapzz.github.io/tags/terraform/">Terraform</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://perhapzz.github.io">perhapzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
