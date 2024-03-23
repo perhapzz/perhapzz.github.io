@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>golang编码规范 | perhapzz</title>
+<meta name="keywords" content="golang">
+<meta name="description" content="编码规范 Go 文件 Layout  General Documentation： 对整个模块和功能的完整描述注释，写在文件头部。 package：当前package定义 imports：包含的头文件 Constants：常量 Typedefs： 类型定义 Globals：全局变量定义 functions：函数实现  /* Copyright 2015 Baidu Inc. All Rights Reserved. */ /* bfe_server.go - the main structure of bfe-server */ /* modification history -------------------- 2014/6/5, by Zhang San, create */ /* DESCRIPTION This file contains the most important struct &#39;BfeServer&#39; of go-bfe and new/init method of the struct. */  package bfe_server  // imports import (  &#34;fmt&#34;  &#34;time&#34; )  import (  &#34;code.">
+<meta name="author" content="">
+<link rel="canonical" href="https://perhapzz.github.io/posts/golangstandards/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2c5d624023ca4f39285dc8ad242509c565a0c0e820fc61724b2a58620dfdafbe.css" integrity="sha256-LF1iQCPKTzkoXcitJCUJxWWgwOgg/GFySypYYg39r74=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://perhapzz.github.io/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://perhapzz.github.io/favicon/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://perhapzz.github.io/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://perhapzz.github.io/favicon/apple-touch-icon.png">
+<link rel="mask-icon" href="https://perhapzz.github.io/favicon/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="golang编码规范" />
+<meta property="og:description" content="编码规范 Go 文件 Layout  General Documentation： 对整个模块和功能的完整描述注释，写在文件头部。 package：当前package定义 imports：包含的头文件 Constants：常量 Typedefs： 类型定义 Globals：全局变量定义 functions：函数实现  /* Copyright 2015 Baidu Inc. All Rights Reserved. */ /* bfe_server.go - the main structure of bfe-server */ /* modification history -------------------- 2014/6/5, by Zhang San, create */ /* DESCRIPTION This file contains the most important struct &#39;BfeServer&#39; of go-bfe and new/init method of the struct. */  package bfe_server  // imports import (  &#34;fmt&#34;  &#34;time&#34; )  import (  &#34;code." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://perhapzz.github.io/posts/golangstandards/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-01T00:02:18+08:00" />
+<meta property="article:modified_time" content="2023-04-01T00:02:18+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="golang编码规范"/>
+<meta name="twitter:description" content="编码规范 Go 文件 Layout  General Documentation： 对整个模块和功能的完整描述注释，写在文件头部。 package：当前package定义 imports：包含的头文件 Constants：常量 Typedefs： 类型定义 Globals：全局变量定义 functions：函数实现  /* Copyright 2015 Baidu Inc. All Rights Reserved. */ /* bfe_server.go - the main structure of bfe-server */ /* modification history -------------------- 2014/6/5, by Zhang San, create */ /* DESCRIPTION This file contains the most important struct &#39;BfeServer&#39; of go-bfe and new/init method of the struct. */  package bfe_server  // imports import (  &#34;fmt&#34;  &#34;time&#34; )  import (  &#34;code."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://perhapzz.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "golang编码规范",
+      "item": "https://perhapzz.github.io/posts/golangstandards/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "golang编码规范",
+  "name": "golang编码规范",
+  "description": "编码规范 Go 文件 Layout  General Documentation： 对整个模块和功能的完整描述注释，写在文件头部。 package：当前package定义 imports：包含的头文件 Constants：常量 Typedefs： 类型定义 Globals：全局变量定义 functions：函数实现  /* Copyright 2015 Baidu Inc. All Rights Reserved. */ /* bfe_server.go - the main structure of bfe-server */ /* modification history -------------------- 2014/6/5, by Zhang San, create */ /* DESCRIPTION This file contains the most important struct \u0026#39;BfeServer\u0026#39; of go-bfe and new/init method of the struct. */  package bfe_server  // imports import (  \u0026#34;fmt\u0026#34;  \u0026#34;time\u0026#34; )  import (  \u0026#34;code.",
+  "keywords": [
+    "golang"
+  ],
+  "articleBody": "编码规范 Go 文件 Layout  General Documentation： 对整个模块和功能的完整描述注释，写在文件头部。 package：当前package定义 imports：包含的头文件 Constants：常量 Typedefs： 类型定义 Globals：全局变量定义 functions：函数实现  /* Copyright 2015 Baidu Inc. All Rights Reserved. */ /* bfe_server.go - the main structure of bfe-server */ /* modification history -------------------- 2014/6/5, by Zhang San, create */ /* DESCRIPTION This file contains the most important struct 'BfeServer' of go-bfe and new/init method of the struct. */  package bfe_server  // imports import (  \"fmt\"  \"time\" )  import (  \"code.google.com/p/log4go\"  \"icode.baidu.com/baidu/searchbox/golib\" )  import (  \"bfe_config/bfe_conf\"  \"bfe_module\" )  const (  version = \"1.0.0.0\" )  // typedefs type BfeModule interface {  Init(cfg bfe_conf.BfeConfig, cbs *BfeCallbacks) error }  type BfeModules struct {  modules map[string]BfeModule }  // vars var errTooLarge = errors.New(\"http: request too large\")  //functions func foo() {  //... }   对于以上的各个部分，采用单个空行分割，同时：\n   多个类型定义采用单个空行分割  多个函数采用单个空行分割      函数内不同的业务逻辑处理建议采用单个空行分割\n  常量或者变量如果较多，建议按照业务进行分组，组间用单个空行分割\n  General Documentation Layout  建议每个文件开头部分包括文件copyright说明（copyright） 建议每个文件开头部分包括文件标题（Title） 建议每个文件开头部分包括修改记录（Modification History） 建议每个文件开头部分包括文件描述（Description）  解释\n  Title 中包括文件的名称和文件的简单说明\n   Title 应该在一行内完成    Modification History 记录文件的修改过程，并且只记录最主要的修改\n   当书写新的函数模块时，只需要使用形如 “Add func1()” 这样的说明  如果后面有对函数中的算法进行了修改，需要指出修改的具体位置和修改方法 Modification History 的具体格式为：, ,       Description 详细描述文件的功能和作用\n  Go 函数 Layout 函数的注释  Description：对函数的完整描述，主要包括函数功能和使用方法 Params：对参数的说明 Returns：对返回值的说明  函数参数和返回值   对于“逻辑判断型”的函数，返回值的意义代表“真”或“假”，返回值类型定义为bool\n  对于“操作型”的函数，返回值的意义代表“成功”或“失败”，返回值类型定义为error\n   如果成功，则返回nil  如果失败，则返回对应的error值      对于“获取数据型”的函数，返回值的意义代表“有数据”或“无数据/获取数据失败”，返回值类型定义为（data, error）\n   正常情况下，返回为：（data, nil）  异常情况下，返回为：（data, error）      函数返回值小于等于3个，大于3个时必须通过struct进行包装\n  函数参数不建议超过3个，大于3个时建议通过struct进行包装\n  程序规模  每行代码不超过100个字符。 每行注释不超过100个字符。 函数不超过100行。 文件不超过2000行。  命名规范 文件名  文件名都使用小写字母，如果需要，可以使用下划线分割 文件名的后缀使用小写字母  函数名/变量名  采用驼峰方式命名，禁止使用下划线命名。首字母是否大写，根据是否需要外部访问来决定  常量  尽量不要在程序中直接写数字，特殊字符串，全部用常量替代  缩写词   缩写词要保持命名的一致性。\n  同一变量字母大小写的一致性\n  不同变量间的一致性\n  缩进  使用tab进行缩进。 跨行的缩进使用gofmt的缩进方式。 设置tabstop=4  空格  圆括号、方括号、花括号内侧都不加空格 逗号、冒号（slice中冒号除外）前不加空格，后边加一个空格 所有二元运算符前后各加一个空格**（作为函数参数时除外）**  括号  除非用于明确算术表达式优先级，否则尽量避免冗余的括号  注释  单行注释，采取\"//“或者”/…/“的注释方式。 多行注释，采取每行开头“//“或者用”/* … /“包括起来的注释（”/“和”*/“作为独立的行） 紧跟在代码之后的注释，使用”//”  解释\n 大多数情况下，使用”//“更方便  编程实践 error string  error string尽量使用小写字母，并且结尾不带标点符号  Do not panic  除非出现不可恢复的程序错误，不要使用panic，用多返回值和error。  lock 的保护  如果临界区内的逻辑较复杂、无法完全避免 panic 的发生，则要求适用 defer 来调用 Unlock，即使在临界区过程中发生了 panic，也会在函数退出时调用 Unlock 释放锁  解释\n  go 提供了 recover，可以对 panic 进行捕获，但如果 panic 发生在临界区内，则可能导致对锁的使用没有释放\n   这种情况下，即使 panic 不会导致整个程序的奔溃，也会由于”锁不释放“的问题而使临界区无法被后续的调用访问    // GOOD： func doDemo() {  lock.Lock()  defer lock.Unlock()   // 访问临界区 }  // BAD: func doDemo() {  lock.Lock()   // 访问临近区   lock.Unlock() }  上述操作如果造成临界区扩大后，需要建立单独的一个函数访问临界区。  func doDemo() {  func() {  lock.Lock()  defer lock.Unlock()   // step1: 临界区内的操作操作   }()   // step2: 临界区外的操作 } 日志处理  建议使用公司golang-lib中的log库，log库地址：http://icode.baidu.com/repos/baidu/go-lib/log。  unsafe package  最好不用  Good Coder 考试 - 设计一个 mini_spider 设计思路   命令行参数处理：通过 os.Args 获取命令行参数，并用 https://github.com/urfave/cli 来处理。\n  配置文件读取：https://github.com/go-gcfg/gcfg，记得做配置文件格式检查。\n  网页抓取：使用 https://go.googlesource.com/net/ 来做 http 请求获取数据，考虑重试、超时等场景。\n  报错处理：使用 http://icode.baidu.com/repos/baidu/go-lib/log 再日志中记录配置文件读取失败、网页抓取或者解析失败等错误，并做好错误处理。\n  抓取流程\n   因为抓取网页的顺序没有限制，不同网页使用多 routine 并行抓取。 对于抓取到的内容，使用 os 库保存到本地，使用 defer 安全关闭文件，使用 Sync 刷盘。 使用 https://github.com/jackdanger/collectlinks 获取网页中的所有超链接，创建 join 函数，处理获取到的相对链接。以层序遍历的思想进行深度抓取，使用 map 记录已经访问过的网页防止重复爬取。 注意爬取的时间间隔，可以考虑提供命令行参数来设置。    编码格式：获取抓到的网页编码格式，使用 https://github.com/axgle/mahonia 或其他工具进行编码格式转换。\n  ",
+  "wordCount" : "326",
+  "inLanguage": "en",
+  "datePublished": "2023-04-01T00:02:18+08:00",
+  "dateModified": "2023-04-01T00:02:18+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://perhapzz.github.io/posts/golangstandards/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "perhapzz",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://perhapzz.github.io/favicon/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://perhapzz.github.io" accesskey="h" title="perhapzz (Alt + H)">perhapzz</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://perhapzz.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://perhapzz.github.io/archives/" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://perhapzz.github.io">Home</a>&nbsp;»&nbsp;<a href="https://perhapzz.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      golang编码规范
+    </h1>
+    <div class="post-meta"><span title='2023-04-01 00:02:18 +0800 CST'>April 1, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="编码规范">编码规范<a hidden class="anchor" aria-hidden="true" href="#编码规范">#</a></h1>
+<h2 id="go-文件-layout">Go 文件 Layout<a hidden class="anchor" aria-hidden="true" href="#go-文件-layout">#</a></h2>
+<ul>
+<li>General Documentation： 对整个模块和功能的完整描述注释，写在文件头部。</li>
+<li>package：当前package定义</li>
+<li>imports：包含的头文件</li>
+<li>Constants：常量</li>
+<li>Typedefs： 类型定义</li>
+<li>Globals：全局变量定义</li>
+<li>functions：函数实现</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">/* Copyright 2015 Baidu Inc. All Rights Reserved. */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* bfe_server.go - the main structure of bfe-server  */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">modification history
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">--------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">2014/6/5, by Zhang San, create
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">DESCRIPTION
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">This file contains the most important struct &#39;BfeServer&#39; of go-bfe and new/init method of the struct.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">bfe_server</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// imports
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;code.google.com/p/log4go&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;icode.baidu.com/baidu/searchbox/golib&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bfe_config/bfe_conf&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bfe_module&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;1.0.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// typedefs
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">BfeModule</span> <span style="color:#66d9ef">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Init</span>(<span style="color:#a6e22e">cfg</span> <span style="color:#a6e22e">bfe_conf</span>.<span style="color:#a6e22e">BfeConfig</span>, <span style="color:#a6e22e">cbs</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BfeCallbacks</span>) <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">BfeModules</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">modules</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#a6e22e">BfeModule</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// vars
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">errTooLarge</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;http: request too large&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//functions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">foo</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>对于以上的各个部分，采用单个空行分割，同时：</p>
+</li>
+<li>
+<ul>
+<li>多个类型定义采用单个空行分割
+<ul>
+<li>多个函数采用单个空行分割</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>函数内不同的业务逻辑处理建议采用单个空行分割</p>
+</li>
+<li>
+<p>常量或者变量如果较多，建议按照业务进行分组，组间用单个空行分割</p>
+</li>
+</ul>
+<h3 id="general-documentation-layout">General Documentation Layout<a hidden class="anchor" aria-hidden="true" href="#general-documentation-layout">#</a></h3>
+<ul>
+<li>建议每个文件开头部分包括<strong>文件copyright说明</strong>（copyright）</li>
+<li>建议每个文件开头部分包括<strong>文件标题</strong>（Title）</li>
+<li>建议每个文件开头部分包括<strong>修改记录</strong>（Modification History）</li>
+<li>建议每个文件开头部分包括<strong>文件描述</strong>（Description）</li>
+</ul>
+<p>解释</p>
+<ul>
+<li>
+<p>Title 中包括文件的名称和文件的简单说明</p>
+</li>
+<li>
+<ul>
+<li>Title 应该在一行内完成</li>
+</ul>
+</li>
+<li>
+<p>Modification History 记录文件的修改过程，并且只记录最主要的修改</p>
+</li>
+<li>
+<ul>
+<li>当书写新的函数模块时，只需要使用形如 &ldquo;Add func1()&rdquo; 这样的说明
+<ul>
+<li>如果后面有对函数中的算法进行了修改，需要指出修改的具体位置和修改方法</li>
+<li>Modification History 的具体格式为：&lt;修改时间&gt;, &lt;修改人&gt;, &lt;修改动作 &gt;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Description 详细描述文件的功能和作用</p>
+</li>
+</ul>
+<h3 id="go-函数-layout">Go 函数 Layout<a hidden class="anchor" aria-hidden="true" href="#go-函数-layout">#</a></h3>
+<h4 id="函数的注释">函数的注释<a hidden class="anchor" aria-hidden="true" href="#函数的注释">#</a></h4>
+<ul>
+<li>Description：对函数的完整描述，主要包括函数功能和使用方法</li>
+<li>Params：对参数的说明</li>
+<li>Returns：对返回值的说明</li>
+</ul>
+<h4 id="函数参数和返回值">函数参数和返回值<a hidden class="anchor" aria-hidden="true" href="#函数参数和返回值">#</a></h4>
+<ul>
+<li>
+<p>对于“逻辑判断型”的函数，返回值的意义代表“真”或“假”，返回值类型定义为bool</p>
+</li>
+<li>
+<p>对于“操作型”的函数，返回值的意义代表“成功”或“失败”，返回值类型定义为error</p>
+</li>
+<li>
+<ul>
+<li>如果成功，则返回nil
+<ul>
+<li>如果失败，则返回对应的error值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>对于“获取数据型”的函数，返回值的意义代表“有数据”或“无数据/获取数据失败”，返回值类型定义为（data, error）</p>
+</li>
+<li>
+<ul>
+<li>正常情况下，返回为：（data, nil）
+<ul>
+<li>异常情况下，返回为：（data, error）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>函数返回值小于等于3个，大于3个时必须通过struct进行包装</p>
+</li>
+<li>
+<p>函数参数不建议超过3个，大于3个时建议通过struct进行包装</p>
+</li>
+</ul>
+<h3 id="程序规模">程序规模<a hidden class="anchor" aria-hidden="true" href="#程序规模">#</a></h3>
+<ul>
+<li>每行代码不超过100个字符。</li>
+<li>每行注释不超过100个字符。</li>
+<li>函数不超过100行。</li>
+<li>文件不超过2000行。</li>
+</ul>
+<h3 id="命名规范">命名规范<a hidden class="anchor" aria-hidden="true" href="#命名规范">#</a></h3>
+<h4 id="文件名">文件名<a hidden class="anchor" aria-hidden="true" href="#文件名">#</a></h4>
+<ul>
+<li>文件名都使用小写字母，如果需要，可以使用下划线分割</li>
+<li>文件名的后缀使用小写字母</li>
+</ul>
+<h4 id="函数名变量名">函数名/变量名<a hidden class="anchor" aria-hidden="true" href="#函数名变量名">#</a></h4>
+<ul>
+<li>采用驼峰方式命名，禁止使用下划线命名。首字母是否大写，根据是否需要外部访问来决定</li>
+</ul>
+<h4 id="常量">常量<a hidden class="anchor" aria-hidden="true" href="#常量">#</a></h4>
+<ul>
+<li>尽量不要在程序中直接写数字，特殊字符串，全部用常量替代</li>
+</ul>
+<h4 id="缩写词">缩写词<a hidden class="anchor" aria-hidden="true" href="#缩写词">#</a></h4>
+<ul>
+<li>
+<p>缩写词要保持命名的一致性。</p>
+</li>
+<li>
+<p>同一变量字母大小写的一致性</p>
+</li>
+<li>
+<p>不同变量间的一致性</p>
+</li>
+</ul>
+<h4 id="缩进">缩进<a hidden class="anchor" aria-hidden="true" href="#缩进">#</a></h4>
+<ul>
+<li>使用tab进行缩进。</li>
+<li>跨行的缩进使用gofmt的缩进方式。</li>
+<li>设置tabstop=4</li>
+</ul>
+<h4 id="空格">空格<a hidden class="anchor" aria-hidden="true" href="#空格">#</a></h4>
+<ul>
+<li>圆括号、方括号、花括号内侧都不加空格</li>
+<li>逗号、冒号（slice中冒号除外）前不加空格，后边加一个空格</li>
+<li>所有二元运算符前后各加一个空格**（作为函数参数时除外）**</li>
+</ul>
+<h4 id="括号">括号<a hidden class="anchor" aria-hidden="true" href="#括号">#</a></h4>
+<ul>
+<li>除非用于明确算术表达式优先级，否则尽量避免冗余的括号</li>
+</ul>
+<h4 id="注释">注释<a hidden class="anchor" aria-hidden="true" href="#注释">#</a></h4>
+<ul>
+<li>单行注释，采取&quot;//&ldquo;或者&rdquo;/<em>&hellip;</em>/&ldquo;的注释方式。</li>
+<li>多行注释，采取每行开头“//&ldquo;或者用&rdquo;/* &hellip; <em>/&ldquo;包括起来的注释（&rdquo;/</em>&ldquo;和&rdquo;*/&ldquo;作为独立的行）</li>
+<li>紧跟在代码之后的注释，使用&rdquo;//&rdquo;</li>
+</ul>
+<p>解释</p>
+<ul>
+<li>大多数情况下，使用”//&ldquo;更方便</li>
+</ul>
+<h2 id="编程实践">编程实践<a hidden class="anchor" aria-hidden="true" href="#编程实践">#</a></h2>
+<h3 id="error-string">error string<a hidden class="anchor" aria-hidden="true" href="#error-string">#</a></h3>
+<ul>
+<li>error string尽量使用小写字母，并且结尾不带标点符号</li>
+</ul>
+<h3 id="do-not-panic">Do not panic<a hidden class="anchor" aria-hidden="true" href="#do-not-panic">#</a></h3>
+<ul>
+<li>除非出现不可恢复的程序错误，不要使用panic，用多返回值和error。</li>
+</ul>
+<h3 id="lock-的保护">lock 的保护<a hidden class="anchor" aria-hidden="true" href="#lock-的保护">#</a></h3>
+<ul>
+<li>如果临界区内的逻辑较复杂、无法完全避免 panic 的发生，则要求适用 defer 来调用 Unlock，即使在临界区过程中发生了 panic，也会在函数退出时调用 Unlock 释放锁</li>
+</ul>
+<p>解释</p>
+<ul>
+<li>
+<p>go 提供了 recover，可以对 panic 进行捕获，但如果 panic 发生在临界区内，则可能导致对锁的使用没有释放</p>
+</li>
+<li>
+<ul>
+<li>这种情况下，即使 panic 不会导致整个程序的奔溃，也会由于”锁不释放“的问题而使临界区无法被后续的调用访问</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// GOOD：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">doDemo</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Lock</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Unlock</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 访问临界区
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// BAD:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">doDemo</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Lock</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 访问临近区
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Unlock</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>上述操作如果造成临界区扩大后，需要建立单独的一个函数访问临界区。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">doDemo</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Lock</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Unlock</span>()
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// step1: 临界区内的操作操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span>    }()
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// step2: 临界区外的操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="日志处理">日志处理<a hidden class="anchor" aria-hidden="true" href="#日志处理">#</a></h3>
+<ul>
+<li>建议使用公司golang-lib中的log库，log库地址：http://icode.baidu.com/repos/baidu/go-lib/log。</li>
+</ul>
+<h3 id="unsafe-package">unsafe package<a hidden class="anchor" aria-hidden="true" href="#unsafe-package">#</a></h3>
+<ul>
+<li>最好不用</li>
+</ul>
+<h1 id="good-coder-考试---设计一个-mini_spider">Good Coder 考试 - 设计一个 mini_spider<a hidden class="anchor" aria-hidden="true" href="#good-coder-考试---设计一个-mini_spider">#</a></h1>
+<h2 id="设计思路">设计思路<a hidden class="anchor" aria-hidden="true" href="#设计思路">#</a></h2>
+<ol>
+<li>
+<p>命令行参数处理：通过 os.Args 获取命令行参数，并用 <a href="https://github.com/urfave/cli">https://github.com/urfave/cli</a> 来处理。</p>
+</li>
+<li>
+<p>配置文件读取：https://github.com/go-gcfg/gcfg，记得做配置文件格式检查。</p>
+</li>
+<li>
+<p>网页抓取：使用 <a href="https://go.googlesource.com/net/">https://go.googlesource.com/net/</a> 来做 http 请求获取数据，考虑重试、超时等场景。</p>
+</li>
+<li>
+<p>报错处理：使用 <a href="http://icode.baidu.com/repos/baidu/go-lib/log">http://icode.baidu.com/repos/baidu/go-lib/log</a> 再日志中记录配置文件读取失败、网页抓取或者解析失败等错误，并做好错误处理。</p>
+</li>
+<li>
+<p>抓取流程</p>
+</li>
+<li>
+<ol>
+<li>因为抓取网页的顺序没有限制，不同网页使用多 routine 并行抓取。</li>
+<li>对于抓取到的内容，使用 os 库保存到本地，使用 defer 安全关闭文件，使用 Sync 刷盘。</li>
+<li>使用 <a href="https://github.com/jackdanger/collectlinks">https://github.com/jackdanger/collectlinks</a> 获取网页中的所有超链接，创建 join 函数，处理获取到的相对链接。以层序遍历的思想进行深度抓取，使用 map 记录已经访问过的网页防止重复爬取。</li>
+<li>注意爬取的时间间隔，可以考虑提供命令行参数来设置。</li>
+</ol>
+</li>
+<li>
+<p>编码格式：获取抓到的网页编码格式，使用 <a href="https://github.com/axgle/mahonia">https://github.com/axgle/mahonia</a> 或其他工具进行编码格式转换。</p>
+</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://perhapzz.github.io/tags/golang/">golang</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://perhapzz.github.io">perhapzz</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

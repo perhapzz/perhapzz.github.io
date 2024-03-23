@@ -6,7 +6,16 @@
     <description>Recent content in Posts on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Mar 2023 21:19:02 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 01 Apr 2023 00:02:18 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>golang编码规范</title>
+      <link>https://perhapzz.github.io/posts/golangstandards/</link>
+      <pubDate>Sat, 01 Apr 2023 00:02:18 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/golangstandards/</guid>
+      <description>编码规范 Go 文件 Layout  General Documentation： 对整个模块和功能的完整描述注释，写在文件头部。 package：当前package定义 imports：包含的头文件 Constants：常量 Typedefs： 类型定义 Globals：全局变量定义 functions：函数实现  /* Copyright 2015 Baidu Inc. All Rights Reserved. */ /* bfe_server.go - the main structure of bfe-server */ /* modification history -------------------- 2014/6/5, by Zhang San, create */ /* DESCRIPTION This file contains the most important struct &amp;#39;BfeServer&amp;#39; of go-bfe and new/init method of the struct. */  package bfe_server  // imports import (  &amp;#34;fmt&amp;#34;  &amp;#34;time&amp;#34; )  import (  &amp;#34;code.</description>
+    </item>
+    
     <item>
       <title>医疗影像网络架构学习</title>
       <link>https://perhapzz.github.io/posts/medicalimage/</link>
