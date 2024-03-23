@@ -43,5 +43,14 @@
       <description>记Go语言远程过程调用RPC学习过程</description>
     </item>
     
+    <item>
+      <title>golang学习笔记</title>
+      <link>https://perhapzz.github.io/posts/golang/</link>
+      <pubDate>Mon, 17 Jan 2022 10:04:52 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/golang/</guid>
+      <description>Git学习笔记</description>
+    </item>
+    
   </channel>
 </rss>

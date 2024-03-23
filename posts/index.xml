@@ -16,7 +16,7 @@
       <description>ViT Title: An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale Paper: arXiv:2010.11929
  把最重要的说在最前面，ViT原论文中最核心的结论是，当拥有足够多的数据进行预训练的时候，ViT的表现就会超过CNN，突破transformer缺少归纳偏置的限制，可以在下游任务中获得较好的迁移效果。
 ViT 结构 按照上面的流程图，一个 ViT block 可以分为以下几个步骤:
- patch embedding：例如输入图片大小为 224x224，将图片分为固定大小的 patch，patch 大小为 16x16，则每张图像会生成 224x224/16x16=196 个 patch，即输入序列长度为 196，每个patch维度 16x16x3=768，线性投射层的维度为 768xN (N=768)，因此输入通过线性投射层之后的维度依然为 196x768，即一共有 196 个 token，每个 token 的维度是 768。这里还需要加上一个特殊字符 cls（类似 BERT），因此最终的维度是 197x768。到目前为止，已经通过 patch embedding 将一个视觉问题转化为了一个 seq2seq 问题。 positional encoding（standard learnable 1D position embeddings）：ViT 同样需要加入位置编码，位置编码可以理解为一张表，表一共有 N 行，N 的大小和输入序列长度相同，每一行代表一个向量，向量的维度和输入序列 embedding 的维度相同（768）。注意位置编码的操作是 sum，而不是 concat。加入位置编码信息之后，维度依然是 197x768。 LN/multi-head attention/LN：LN输出维度依然是 197x768。多头自注意力时，先将输入映射到 q，k，v，如果只有一个头，qkv 的维度都是197x768，如果有 12 个头（768/12=64），则 qkv 的维度是 197x64，一共有 12 组 qkv，最后再将 12 组 qkv 的输出拼接起来，输出维度是 197x768，然后在过一层 LN，维度依然是197x768。 MLP：将维度放大再缩小回去，197x768 放大为 197x3072，再缩小变为 197x768。  一个 block 之后维度依然和输入相同，都是 197x768，因此可以堆叠多个 block。最后会将特殊字符 cls 对应的输出 $Z_L^0$ 作为 encoder 的最终输出 ，代表最终的 image presentation（另一种做法是不加cls字符，对所有的tokens的输出做一个平均），如下公式(4)，后面接一个MLP进行图片分类： $$ \begin{aligned} \mathbf{z}{0} &amp;amp; =\left[\mathbf{x}{\text {class }} ; \mathbf{x}{p}^{1} \mathbf{E} ; \mathbf{x}{p}^{2} \mathbf{E} ; \cdots ; \mathbf{x}{p}^{N} \mathbf{E}\right]+\mathbf{E}{\text {pos }}, &amp;amp; &amp;amp; \mathbf{E} \in \mathbb{R}^{\left(P^{2} \cdot C\right) \times D}, \mathbf{E}{\text {pos }} \in \mathbb{R}^{(N+1) \times D} \ \mathbf{z}{\ell}^{\prime} &amp;amp; =\operatorname{MSA}\left(\mathrm{LN}\left(\mathbf{z}{\ell-1}\right)\right)+\mathbf{z}{\ell-1}, &amp;amp; &amp;amp; \ell=1 \ldots L \ \mathbf{z}{\ell} &amp;amp; =\operatorname{MLP}\left(\mathrm{LN}\left(\mathbf{z}{\ell}^{\prime}\right)\right)+\mathbf{z}{\ell}^{\prime}, &amp;amp; &amp;amp; \ell=1 \ldots L \ \mathbf{y} &amp;amp; =\operatorname{LN}\left(\mathbf{z}{L}^{0}\right) &amp;amp; &amp;amp; \end{aligned} $$ 其中输入 image $\mathbf{x} \in \mathbb{R}^{H \times W \times C}$ ，2D patches $\mathbf{x}_{p} \in \mathbb{R}^{N \times\left(P^{2} \cdot C\right)}$ ， $C$ 是通道数，$P$ 是 patch 大小，一共有 $N$ 个 patches，$N = HW/P^2$ 。</description>
+ patch embedding：例如输入图片大小为 224x224，将图片分为固定大小的 patch，patch 大小为 16x16，则每张图像会生成 224x224/16x16=196 个 patch，即输入序列长度为 196，每个patch维度 16x16x3=768，线性投射层的维度为 768xN (N=768)，因此输入通过线性投射层之后的维度依然为 196x768，即一共有 196 个 token，每个 token 的维度是 768。这里还需要加上一个特殊字符 cls（类似 BERT），因此最终的维度是 197x768。到目前为止，已经通过 patch embedding 将一个视觉问题转化为了一个 seq2seq 问题。 positional encoding（standard learnable 1D position embeddings）：ViT 同样需要加入位置编码，位置编码可以理解为一张表，表一共有 N 行，N 的大小和输入序列长度相同，每一行代表一个向量，向量的维度和输入序列 embedding 的维度相同（768）。注意位置编码的操作是 sum，而不是 concat。加入位置编码信息之后，维度依然是 197x768。 LN/multi-head attention/LN：LN输出维度依然是 197x768。多头自注意力时，先将输入映射到 q，k，v，如果只有一个头，qkv 的维度都是197x768，如果有 12 个头（768/12=64），则 qkv 的维度是 197x64，一共有 12 组 qkv，最后再将 12 组 qkv 的输出拼接起来，输出维度是 197x768，然后在过一层 LN，维度依然是197x768。 MLP：将维度放大再缩小回去，197x768 放大为 197x3072，再缩小变为 197x768。  一个 block 之后维度依然和输入相同，都是 197x768，因此可以堆叠多个 block。最后会将特殊字符 cls 对应的输出 $Z_L^0$ 作为 encoder 的最终输出 ，代表最终的 image presentation（另一种做法是不加cls字符，对所有的tokens的输出做一个平均），如下公式(4)，后面接一个MLP进行图片分类：</description>
     </item>
     
     <item>
@@ -176,6 +176,15 @@ UDP 相对来说就很简单，简单到只负责发送数据包，不保证数�
       
       <guid>https://perhapzz.github.io/posts/personalblogsetupnote/</guid>
       <description>记用hugo搭建个人博客的全过程</description>
+    </item>
+    
+    <item>
+      <title>golang学习笔记</title>
+      <link>https://perhapzz.github.io/posts/golang/</link>
+      <pubDate>Mon, 17 Jan 2022 10:04:52 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/golang/</guid>
+      <description>Git学习笔记</description>
     </item>
     
   </channel>
