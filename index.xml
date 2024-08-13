@@ -6,7 +6,18 @@
     <description>Recent content on perhapzz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 30 Aug 2023 00:05:47 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Aug 2024 23:25:32 +0800</lastBuildDate><atom:link href="https://perhapzz.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI 绘画工具：ComfyUI 和 WebUI</title>
+      <link>https://perhapzz.github.io/posts/aidesign/</link>
+      <pubDate>Tue, 13 Aug 2024 23:25:32 +0800</pubDate>
+      
+      <guid>https://perhapzz.github.io/posts/aidesign/</guid>
+      <description>ComfyUI 与 WebUI ComfyUI 提供了极高的自由度和灵活性，支持高度的定制化和工作流复用，同时对系统配置的要求较低，并且能够加快原始图像的生成速度。然而，由于它拥有众多的插件节点，以及较为复杂的操作流程，学习起来相对困难。
+另一方面，WebUI 特点是拥有固定的操作界面，使得其易于学习和快速上手。经过一年多的发展，它已经建立了一个成熟且稳定的开源生态系统。但相比 ComfyUI，在性能方面可能稍逊一筹，且在工作流程复制方面存在局限性，用户需在每次操作时手动进行设置。
+Reference ComfyUI万字教程</description>
+    </item>
+    
     <item>
       <title>Terraform: custom provider run on mac</title>
       <link>https://perhapzz.github.io/posts/terraformcustomize/</link>
